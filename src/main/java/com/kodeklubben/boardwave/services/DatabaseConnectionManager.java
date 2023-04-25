@@ -1,4 +1,4 @@
-package com.kodeklubben.miniprojekt.services;
+package com.kodeklubben.boardwave.services;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
