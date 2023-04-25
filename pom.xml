@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.kodeklubben</groupId>
-    <artifactId>miniProjekt</artifactId>
+    <artifactId>boardwave</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>miniProjekt</name>
-    <description>miniProjekt</description>
+    <name>boardwave</name>
+    <description>boardwave</description>
     <properties>
         <java.version>17</java.version>
     </properties>
