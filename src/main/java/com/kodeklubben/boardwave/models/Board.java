@@ -3,14 +3,16 @@ package com.kodeklubben.boardwave.models;
 import java.util.ArrayList;
 
 public class Board {
+    private int id;
     private String title;
     private ArrayList<String> whiteList;
     private ArrayList<Column> columns;
 
-    public Board(String title, ArrayList<String> whiteList, ArrayList<Column> columns) {
+    public Board(String title, ArrayList<String> whiteList, ArrayList<Column> columns, int id) {
         this.title = title;
         this.whiteList = whiteList;
         this.columns = columns;
+        this.id = id;
     }
 
     public String getTitle() {

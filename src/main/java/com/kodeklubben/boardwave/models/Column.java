@@ -3,12 +3,14 @@ package com.kodeklubben.boardwave.models;
 import java.util.ArrayList;
 
 public class Column {
+    private int id;
     private String title;
     private ArrayList<Card> cards;
 
-    public Column(String title, ArrayList<Card> cards) {
+    public Column(String title, ArrayList<Card> cards, int id) {
         this.title = title;
         this.cards = cards;
+        this.id = id;
     }
 
     public String getTitle() {

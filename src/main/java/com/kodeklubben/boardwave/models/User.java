@@ -1,15 +1,17 @@
 package com.kodeklubben.boardwave.models;
 
 public class User {
+    private int id;
     private String name;
     private String password;
     private String email;
 
 
-    public User(String name, String password, String email) {
+    public User(String name, String password, String email, int id) {
         this.name = name;
         this.password = password;
         this.email = email;
+        this.id = id;
     }
 
     public String getName() {
