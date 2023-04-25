@@ -5,4 +5,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class Controller {
 
+    //Landing page
+    @GetMapping("/")
+    public String landingPage(){
+        return "index";
+    }
+
+
 }
