@@ -4,10 +4,13 @@ public class Card {
     private String title;
     private String description;
     private int minutesEstimated;
+    private double hourlyRate;
 
-    public Card(String title, String description) {
+    public Card(String title, String description, int minutesEstimated, double hourlyRate) {
         this.title = title;
         this.description = description;
+        this.minutesEstimated = minutesEstimated;
+        this.hourlyRate = hourlyRate;
     }
 
     public String getTitle() {
@@ -32,5 +35,13 @@ public class Card {
 
     public void setMinutesEstimated(int minutesEstimated) {
         this.minutesEstimated = minutesEstimated;
+    }
+
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setHourlyRate(double hourlyRate) {
+        this.hourlyRate = hourlyRate;
     }
 }
