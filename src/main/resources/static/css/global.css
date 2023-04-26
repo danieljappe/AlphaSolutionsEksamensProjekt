@@ -12,6 +12,14 @@ body {
     top: 0;
 }
 
+.page-content {
+    width: 50vw;
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
+
 .container {
     min-height: 100vw;
     margin-right: 8vw;
@@ -54,15 +62,8 @@ body {
     padding-right: 24px;
 }
 
-.page-content {
-    width: 50vw;
-    text-align: center;
-    margin: 0 auto;
-    border: 0;
-    outline: 0;
-}
 
-
+/* buttons */
 .buttons {
     display: flex;
     justify-content: center;
@@ -80,4 +81,19 @@ body {
 
 .button:hover {
     background-color: #0055cc; /* Replace with desired hover button color */
+}
+
+/* form for sign in and registration */
+#form {
+    width: 250px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 30px;
+    margin: auto;
+    padding-bottom: 20px;
+    background-color: rgb(13,0,87,0.3);
 }
