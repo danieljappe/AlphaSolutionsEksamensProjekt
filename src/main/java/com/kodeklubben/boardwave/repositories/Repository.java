@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 @org.springframework.stereotype.Repository
 public class Repository {
-    private final DatabaseConnectionManager dcm = new DatabaseConnectionManager("eu-west.connect.psdb.cloud", "djsijyrbrtyyhx4a7cq3", "pscale_pw_vc2Kj1cyvQ4hGHXMMSdr8jYMcBpXTyGxoAKpJwgRF2E");
+    private final DatabaseConnectionManager dcm = new DatabaseConnectionManager("eu-west.connect.psdb.cloud", "x2mww1nix1o73pxcb98c", "pscale_pw_4sPH0oXrUgqz61ws7Cacjbk27pw1IN7bJfKxcX8Uyxb");
 
     private static final String GET_USER = "SELECT id, name, email, password FROM users WHERE id=?";
 

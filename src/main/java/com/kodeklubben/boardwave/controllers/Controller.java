@@ -50,7 +50,6 @@ public class Controller {
         return "errorPage";
     }
 
-    @RequestMapping
     @GetMapping("/error")
     public String error() {
         return errorPage();
