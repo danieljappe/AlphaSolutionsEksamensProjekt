@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 @org.springframework.stereotype.Controller
 @RequestMapping("/")
 public class Controller {
+    private User userLoggedIn;
+
 
     // Landing page
     @GetMapping("/")
@@ -16,7 +18,7 @@ public class Controller {
     // Login
     @GetMapping("/login-page")
     public String loginPage(Model model) {
-        User userTemplate = new User("", "", "");
+        User userTemplate = new User("", "", "", -1);
         model.addAttribute("userTemplate", userTemplate);
         return "loginPage";
     }
@@ -24,7 +26,7 @@ public class Controller {
     // Register
     @GetMapping("/register-page")
     public String registerPage(Model model) {
-        User userTemplate = new User("", "", "");
+        User userTemplate = new User("", "", "", -1);
         model.addAttribute("userTemplate", userTemplate);
         return "registerPage";
     }
