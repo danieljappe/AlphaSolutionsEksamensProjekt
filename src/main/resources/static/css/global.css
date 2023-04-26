@@ -72,7 +72,7 @@ body {
 
 .button {
     background-color: #0077ff; /* Replace with desired button color */
-    border-radius: 10px;
+    border-radius: 11px;
     color: #fff; /* Replace with desired text color */
     padding: 3%;
     transition: background-color 0.2s ease-in-out;
