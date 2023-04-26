@@ -53,3 +53,11 @@ body {
     padding-left: 24px;
     padding-right: 24px;
 }
+
+.page-content {
+    width: 50vw;
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
