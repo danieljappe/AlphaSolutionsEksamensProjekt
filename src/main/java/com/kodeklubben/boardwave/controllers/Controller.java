@@ -1,5 +1,6 @@
 package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.User;
+import com.kodeklubben.boardwave.repositories.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -7,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/")
 public class Controller {
     private User userLoggedIn;
+    private final Repository repository = new Repository();
 
 
     // Landing page
