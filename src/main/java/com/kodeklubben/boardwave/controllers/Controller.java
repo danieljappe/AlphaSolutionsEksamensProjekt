@@ -45,5 +45,9 @@ public class Controller {
         return "aboutPage";
     }
 
+    @GetMapping("/error-page")
+    public String errorPage() {
+        return "errorPage";
+    }
 
 }
