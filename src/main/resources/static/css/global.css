@@ -61,3 +61,23 @@ body {
     border: 0;
     outline: 0;
 }
+
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50vw;
+}
+
+.button {
+    background-color: #0077ff; /* Replace with desired button color */
+    border-radius: 10px;
+    color: #fff; /* Replace with desired text color */
+    padding: 3%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-color: #0055cc; /* Replace with desired hover button color */
+}
