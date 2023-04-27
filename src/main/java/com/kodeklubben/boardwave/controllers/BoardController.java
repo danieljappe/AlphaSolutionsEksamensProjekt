@@ -51,12 +51,12 @@ public class BoardController {
     @PostMapping("/register-page")
     public String createUser(@ModelAttribute("user") User user, Model model){
         repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
-        submitLogin(user.getEmail() + ";" + user.getPassword(), model);
+        //submitLogin(user.getEmail() + ";" + user.getPassword(), model);
         return "";
     }
 
     //login with email and password
-    @GetMapping("/credentials")
+    /*@GetMapping("/credentials")
     public String submitLogin(@RequestParam String id, Model model, boolean isLogin) {
         //http://localhost:8080/credentials?id=frederikbehrens90@gmail.com;123
         String email = id.split(";")[0];
@@ -77,7 +77,7 @@ public class BoardController {
                 return "register";
             }
         }
-    }
+    }*/
 
     // Contact
     @GetMapping("/contact-page")
