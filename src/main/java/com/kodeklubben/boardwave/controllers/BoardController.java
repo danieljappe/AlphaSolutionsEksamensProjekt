@@ -33,6 +33,7 @@ public class BoardController {
     public String login(Model model) {
 
         //TODO valider email og password
+
         return "userHomePage";
     }
 

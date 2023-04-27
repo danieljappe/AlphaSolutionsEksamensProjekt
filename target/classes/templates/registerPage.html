@@ -25,7 +25,32 @@
   </div>
 
   <!--Page Content-->
-
+  <div id="form">
+    <div style="margin-right: 30px">
+      <h1 style="display:inline-block; margin-right: 6px">Sign in</h1>
+    </div>
+    <form action="#" th:action="@{/register-page}" th:object="${userTemplate}" method="post">
+      <div class="form-item">
+        <b>Name</b>
+        <input style="width: 200px; margin-top: 5px; text-align:center;" type="text" th:field="${userTemplate.name}"/>
+      </div>
+      <div class="form-item">
+        <b>Email</b>
+        <input style="width: 200px; margin-top: 5px; text-align:center;" type="email" th:field="${userTemplate.email}"/>
+      </div>
+      <div class="form-item">
+        <b>Password</b>
+        <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
+      </div>
+      <div>
+        <button type="submit" class="button">
+          <div class="login3">Sign Up</div>
+        </button>
+      </div>
+      <a href="/login-page">Already have an account?
+        <br>Click here to login</a>
+    </form>
+  </div>
 
 </div>
 </body>
