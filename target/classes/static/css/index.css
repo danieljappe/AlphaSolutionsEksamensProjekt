@@ -21,13 +21,13 @@ section {
 }
 
 section:nth-of-type(even) {
-    color: white;
-    background: black;
+    color: #E7E7E7;
+    background: #333333;
 }
 
 section:nth-of-type(odd) {
-    color: black;
-    background: white;
+    color: #333333;
+    background: #E7E7E7;
 }
 
 body {
@@ -40,7 +40,7 @@ body {
 .nav-bar {
     position: fixed;
     background-color: white;
-    margin-top: 5px;
+    margin-top: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
     border-radius: 50px;
