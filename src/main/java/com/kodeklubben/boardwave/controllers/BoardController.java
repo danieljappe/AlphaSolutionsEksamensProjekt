@@ -41,7 +41,7 @@ public class BoardController {
             //user exists and found
             return "userHomePage";
         } else {
-            return "loginPage";
+            return loginPage(model);
         }
     }
 
@@ -56,14 +56,19 @@ public class BoardController {
     @PostMapping("/register-page")
     public String createUser(@ModelAttribute("user") User user, Model model){
         System.out.println(user.toString());
-        repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
-        user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
-        System.out.println(user);
-        if (user.getId() != -1) {
-            //user exists and found
-            return "userHomePage";
+        boolean emailExists = repository.emailExists(user.getEmail());
+        if (!emailExists) {
+            repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
+            user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
+            System.out.println(user);
+            if (user.getId() != -1) {
+                //user exists and found
+                return "userHomePage";
+            } else {
+                return errorPage();
+            }
         } else {
-            return errorPage();
+            return registerPage(model);
         }
     }
 

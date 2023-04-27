@@ -14,10 +14,11 @@ public class Repository {
 
     private static final String GET_USER = "SELECT id, name, email, password FROM users WHERE email=? && password=?";
 
+
     private static final String GET_LATEST_USERID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password) VALUES (?, ?, ?, ?)";
 
-    private static final String GET_ID_FROM_LOGIN = "SELECT id FROM users WHERE email=? AND password=?";
+    private static final String GET_USER_ID = "SELECT id FROM users WHERE email=?";
 
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
@@ -34,6 +35,22 @@ public class Repository {
                 user = new User("", "", "", -1);
             }
             return user;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean emailExists(String email) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_ID)) {
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            int id = -1;
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+            return id != -1;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
