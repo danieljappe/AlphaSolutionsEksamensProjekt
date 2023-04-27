@@ -7,12 +7,13 @@ CREATE TABLE users(
                       id INT PRIMARY KEY AUTO_INCREMENT,
                       name VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(255) NOT NULL,
-                      email VARCHAR(255) NOT NULL
+                      email VARCHAR(255) NOT NULL,
+                      boards VARCHAR(255) NOT NULL
 );
 
 
 
-CREATE TABLE board(
+CREATE TABLE boards(
                       id int PRIMARY KEY AUTO_INCREMENT,
                       name VARCHAR(255) not null UNIQUE,
                       password VARCHAR(255) NOT NULL
@@ -20,16 +21,19 @@ CREATE TABLE board(
 
 
 
-CREATE TABLE ColumnBoard(
-                            id int PRIMARY KEY AUTO_INCREMENT,
-                            columnname VARCHAR(255) not null UNIQUE
+CREATE TABLE columns(
+                        id int PRIMARY KEY AUTO_INCREMENT,
+                        Name VARCHAR(255) not null UNIQUE,
+                        boardId int
 );
 
 
 
-CREATE TABLE Card(
+CREATE TABLE cards(
                      id int PRIMARY KEY AUTO_INCREMENT,
                      title VARCHAR(255) NOT NULL UNIQUE,
                      minutesEstimated INT,
-                     hourlyRate int
+                     hourlyRate int,
+                     boardId int,
+                     columnId int
 );
