@@ -4,17 +4,17 @@ use AlphaSolutionsDB;
 
 
 CREATE TABLE users(
-                      id INT PRIMARY KEY AUTO_INCREMENT,
+                      id INT,
                       name VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(255) NOT NULL,
                       email VARCHAR(255) NOT NULL,
-                      boards VARCHAR(255) NOT NULL
+                      boards VARCHAR(255)
 );
 
 
 
 CREATE TABLE boards(
-                      id int PRIMARY KEY AUTO_INCREMENT,
+                      id int,
                       name VARCHAR(255) not null UNIQUE,
                       password VARCHAR(255) NOT NULL
 );
@@ -22,7 +22,7 @@ CREATE TABLE boards(
 
 
 CREATE TABLE columns(
-                        id int PRIMARY KEY AUTO_INCREMENT,
+                        id int,
                         Name VARCHAR(255) not null UNIQUE,
                         boardId int
 );
@@ -30,7 +30,7 @@ CREATE TABLE columns(
 
 
 CREATE TABLE cards(
-                     id int PRIMARY KEY AUTO_INCREMENT,
+                     id int,
                      title VARCHAR(255) NOT NULL UNIQUE,
                      minutesEstimated INT,
                      hourlyRate int,
