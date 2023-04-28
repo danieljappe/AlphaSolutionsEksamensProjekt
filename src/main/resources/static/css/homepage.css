@@ -5,7 +5,8 @@ b, h1, h2, h3, a, th, td, p{
 }
 
 body {
-    background-color: #e7e7e7;
+    background: rgb(169,205,243);
+    background: radial-gradient(circle, rgba(169,205,243,1) 25%, rgba(140,184,239,1) 50%, rgba(111,164,236,1) 75%, rgba(82,144,233,1) 100%);
     margin: 0;
     border: 0;
     outline: 0;
@@ -13,7 +14,6 @@ body {
 }
 
 .page-content {
-    width: 50vw;
     text-align: center;
     margin: 0 auto;
     border: 0;
@@ -105,4 +105,34 @@ body {
     background-color: rgb(13,0,87,0.3);
 }
 
+/* Homepage grid*/
 
+li {
+    text-align: left;
+    font-size: 22px;
+    padding: 5px;
+}
+
+.page-content {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 50px;
+}
+
+.left-box {
+    background: rgb(140,184,239);
+    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    color: white;
+    padding: 25px;
+    border-radius: 40px;
+}
+
+.right-box {
+    background: rgb(140,184,239);
+    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    border-radius: 40px;
+    background-color: white;
+    color: #333;
+    padding: 20px;
+}
