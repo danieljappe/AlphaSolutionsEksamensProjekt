@@ -1,0 +1,102 @@
+b, a{
+    color: black;
+    font-family: "Helvetica", serif;
+    text-decoration: none;
+}
+
+html, body, section {
+    block-size: 100%;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+}
+
+section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+section:nth-of-type(even) {
+    color: white;
+    background: black;
+}
+
+section:nth-of-type(odd) {
+    color: black;
+    background: white;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 4rem;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    position: fixed;
+    background-color: white;
+    margin-top: 5px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 50px;
+    width: 84vw;
+    font-size: 24px;
+    display: inline-block;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.nav-bar-right {
+    padding-top: 6px;
+    float: right;
+    display: inline-flex;
+}
+
+.nav-bar-item {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.nav-bar-center {
+    display: inline-flex;
+    text-align: center;
+    margin: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50vw;
+}
+
+.button {
+    background-color: #0077ff; /* Replace with desired button color */
+    border-radius: 11px;
+    color: #fff; /* Replace with desired text color */
+    padding: 3%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-color: #0055cc; /* Replace with desired hover button color */
+}
+
+.page-content {
+    height: 100vh;
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
