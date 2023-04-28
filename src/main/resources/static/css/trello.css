@@ -2,7 +2,7 @@
 * {
     box-sizing: border-box;
 }
-/*
+
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
@@ -10,7 +10,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-*/
 
 .todo-container {
     width: 1000px;
