@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <meta name="viewport" content="initial-scale=1, width=device-width"/>
-    <link rel="stylesheet" href="css/global.css" type="text/css"/>
+    <link rel="stylesheet" href="css/homepage.css" type="text/css"/>
 </head>
 <body>
 <div class="container">
@@ -13,21 +13,37 @@
     <div class="nav-bar">
         <div class="nav-bar-item">
             <a href="./">
-                <b style="font-size: 32px">Board Wave</b>
+                <img src="../images/boardwavelogo.png" alt="logo" style="height: auto; width: 185px; margin-bottom: -12px">
             </a>
         </div>
         <div class="nav-bar-right">
-            <div><a class="nav-bar-item">About</a></div>
-            <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
+            <div><a class="nav-bar-item" href="/about-page" style="color: #5290e9">About</a></div>
+            <div><a class="nav-bar-item" href="/contact-page" style="color: #6fa4ec">Contact</a></div>
             <div><a class="nav-bar-item" href="/trello-page">Trello</a></div>
         </div>
     </div>
 
     <!--Page Content-->
     <div class="page-content">
-        <h1>User home page</h1>
-        <p>You are logged in!!</p>
+        <div class="left-box">
+            <h2>Your Boards</h2>
+            <li>
+                <button>Board 1</button>
+            </li>
+            <li>
+                <button>Board 2</button>
+            </li>
+            <li>
+                <button>Board 3</button>
+            </li>
+        </div>
+        <div class="right-box">
+            <h2>Welcome back!</h2>
+            <p>This is your personal homepage, where you currently only can see your boards on the left. More to come!</p>
+        </div>
     </div>
+
+
 </div>
 </body>
 </html>

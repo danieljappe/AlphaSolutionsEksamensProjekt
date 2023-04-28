@@ -5,43 +5,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="css/trello.css" />
-    <link rel="stylesheet" href="css/global.css" />
-    <script src="js/drag&TodoTrello.js" defer></script>
-
+    <script src="js/drag.js" defer></script>
+    <script src="js/todo.js" defer></script>
 </head>
 
-
 <body>
-<div class="modal" id="todo_form">
-    <div class="header">
-        <div class="title">Add Todo</div>
-        <button class="btn close-modal">&times;</button>
-    </div>
-    <div class="body">
-        <input type="text" id="todo_input" />
-        <input type="submit" value="Add Todo" id="todo_submit" />
+<div class="board">
+    <form id="todo-form">
+        <input type="text" placeholder="New TODO..." id="todo-input" />
+        <button type="submit">Add +</button>
+    </form>
+
+    <div class="lanes">
+        <div class="swim-lane" id="todo-lane">
+            <h3 class="heading">TODO</h3>
+
+        </div>
+
+        <div class="swim-lane">
+            <h3 class="heading">Doing</h3>
+
+        </div>
+
+        <div class="swim-lane">
+            <h3 class="heading">Unhold</h3>
+
+        </div>
+        <div class = "swin-lane">
+            <h3 class = "heading">Done</h3>
+
+        </div>
     </div>
 </div>
-<!-- todo -->
-<div class="todo-container">
-    <div class="status" id="no_status">
-        <h1>Todo</h1>
-        <button id="add_btn" data-target-modal="#todo_form">+ Add Todo</button>
-    </div>
-    <div class="status">
-        <h1>Doing</h1>
-    </div>
-    <div class="status">
-        <h1>Unhold</h1>
-    </div>
-    <div class="status">
-        <h1>Done</h1>
-    </div>
-</div>
-
-<div id="overlay"></div>
-
-<script src="script.js"></script>
 
 </body>
 </html>
