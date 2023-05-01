@@ -43,6 +43,12 @@
           <b>Password</b>
           <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
         </div>
+        <div th:if="${EmailError}">
+          <p style="color: red;">Email is already in use. Please use another email or <a href="/login-page" style="color: red; font-weight: bold">login</a>.</p>
+        </div>
+        <div th:if="${error}">
+          <p style="color: red">Wrong password or email. Please try again.</p>
+        </div>
         <div>
           <button type="submit" class="button">
             <div class="login3">Sign Up</div>
@@ -53,6 +59,8 @@
       </form>
     </div>
   </div>
+
+
 
 </div>
 </body>
