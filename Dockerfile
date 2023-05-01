@@ -4,7 +4,7 @@ ENV PORT=${PORT:-8080}
 COPY src /src
 COPY pom.xml /pom.xml
 COPY mvnw /mvnw
-# COPY .mvn /.mvn
+COPY .mvn /.mvn
 RUN set -ex; \
      ./mvnw -f /pom.xml -Dspring.profiles.active=${PROFILE} clean package; \
      mkdir /app || true; \
@@ -13,7 +13,7 @@ RUN set -ex; \
      rm -rf /src; \
      rm -rf /pom.xml; \
      rm -rf /mvnw; \
-     # rm -rf /.mvn;
+     rm -rf /.mvn;
 
 EXPOSE ${PORT}
 
