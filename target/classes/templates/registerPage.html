@@ -24,7 +24,6 @@
     </div>
   </div>
 
-  <!--Page Content-->
   <div id="form">
     <div style="margin-right: 30px">
       <h1 style="display:inline-block; margin-right: 6px">Sign Up</h1>
@@ -42,6 +41,12 @@
         <b>Password</b>
         <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
       </div>
+      <div th:if="${EmailError}">
+        <p style="color: red;">Email is already in use. Please use another email or <a href="/login-page" style="color: red; font-weight: bold">login</a>.</p>
+      </div>
+      <div th:if="${error}">
+        <p style="color: red">Wrong password or email. Please try again.</p>
+      </div>
       <div>
         <button type="submit" class="button">
           <div class="login3">Sign Up</div>
@@ -51,6 +56,8 @@
         <br>Click here to login</a>
     </form>
   </div>
+
+
 
 </div>
 </body>
