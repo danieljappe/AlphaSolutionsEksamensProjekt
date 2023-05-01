@@ -2,6 +2,7 @@ b, h1, h2, h3, a, th, td, p{
     color: black;
     font-family: "Helvetica", serif;
     text-decoration: none;
+    text-align: center;
 }
 
 body {
@@ -102,7 +103,7 @@ body {
     border-radius: 30px;
     margin: auto;
     padding-bottom: 20px;
-    background-color: rgb(13,0,87,0.3);
+    background-color: rgba(0, 83, 255, 0.1);
 }
 
 

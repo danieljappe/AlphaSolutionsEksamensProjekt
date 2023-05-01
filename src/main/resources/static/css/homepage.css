@@ -5,8 +5,7 @@ b, h1, h2, h3, a, th, td, p{
 }
 
 body {
-    background: rgb(169,205,243);
-    background: radial-gradient(circle, rgba(169,205,243,1) 25%, rgba(140,184,239,1) 50%, rgba(111,164,236,1) 75%, rgba(82,144,233,1) 100%);
+    background: rgb(231, 231, 231);
     margin: 0;
     border: 0;
     outline: 0;

@@ -17,44 +17,47 @@
       </a>
     </div>
     <div class="nav-bar-right">
-      <div><a class="nav-bar-item" href="/about-page" style="color: #5290e9">About</a></div>
-      <div><a class="nav-bar-item" href="/contact-page" style="color: #6fa4ec">Contact</a></div>
-      <div><a class="nav-bar-item" style="color: #8cb8ef">Sign Up</a></div>
-      <div><a class="nav-bar-item" href="/login-page" style="color: #a9cdf3">Log in</a></div>
+      <div><a class="nav-bar-item" href="/about-page">About</a></div>
+      <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
+      <div><a class="nav-bar-item" style="color: #5290e9">Sign Up</a></div>
+      <div><a class="nav-bar-item" href="/login-page">Log in</a></div>
     </div>
   </div>
 
-  <div id="form">
-    <div style="margin-right: 30px">
-      <h1 style="display:inline-block; margin-right: 6px">Sign Up</h1>
+  <!--Page Content-->
+  <div style="padding-top: 50px">
+    <div id="form">
+      <div style="margin-right: 30px">
+        <h1 style="display:inline-block; margin-right: 6px">Sign Up</h1>
+      </div>
+      <form action="#" th:action="@{/register-page}" th:object="${userTemplate}" method="post">
+        <div class="form-item">
+          <b>Name</b>
+          <input style="width: 200px; margin-top: 5px; text-align:center;" type="text" th:field="${userTemplate.name}"/>
+        </div>
+        <div class="form-item">
+          <b>Email</b>
+          <input style="width: 200px; margin-top: 5px; text-align:center;" type="email" th:field="${userTemplate.email}"/>
+        </div>
+        <div class="form-item">
+          <b>Password</b>
+          <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
+        </div>
+        <div th:if="${EmailError}">
+          <p style="color: red;">Email is already in use. Please use another email or <a href="/login-page" style="color: red; font-weight: bold">login</a>.</p>
+        </div>
+        <div th:if="${error}">
+          <p style="color: red">Wrong password or email. Please try again.</p>
+        </div>
+        <div>
+          <button type="submit" class="button">
+            <div class="login3">Sign Up</div>
+          </button>
+        </div>
+        <a href="/login-page">Already have an account?
+          <br>Click here to login</a>
+      </form>
     </div>
-    <form action="#" th:action="@{/register-page}" th:object="${userTemplate}" method="post">
-      <div class="form-item">
-        <b>Name</b>
-        <input style="width: 200px; margin-top: 5px; text-align:center;" type="text" th:field="${userTemplate.name}"/>
-      </div>
-      <div class="form-item">
-        <b>Email</b>
-        <input style="width: 200px; margin-top: 5px; text-align:center;" type="email" th:field="${userTemplate.email}"/>
-      </div>
-      <div class="form-item">
-        <b>Password</b>
-        <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
-      </div>
-      <div th:if="${EmailError}">
-        <p style="color: red;">Email is already in use. Please use another email or <a href="/login-page" style="color: red; font-weight: bold">login</a>.</p>
-      </div>
-      <div th:if="${error}">
-        <p style="color: red">Wrong password or email. Please try again.</p>
-      </div>
-      <div>
-        <button type="submit" class="button">
-          <div class="login3">Sign Up</div>
-        </button>
-      </div>
-      <a href="/login-page">Already have an account?
-        <br>Click here to login</a>
-    </form>
   </div>
 
 
