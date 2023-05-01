@@ -1,0 +1,134 @@
+b, h1, h2, h3, a, th, td, p{
+    color: black;
+    font-family: "Helvetica", serif;
+    text-decoration: none;
+}
+
+body {
+    background: rgb(231, 231, 231);
+    margin: 0;
+    border: 0;
+    outline: 0;
+    top: 0;
+}
+
+.page-content {
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
+
+.container {
+    min-height: 100vw;
+    margin-right: 8vw;
+    margin-left: 8vw;
+    padding: 24px 25px 24px 0px;
+    align-content: center;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    background-color: white;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 50px;
+    width: 84vw;
+    font-size: 24px;
+    display: inline-block;
+    text-align: center;
+    left: 50%;
+}
+
+
+.nav-bar-right {
+    padding-top: 6px;
+    float: right;
+    display: inline-flex;
+}
+
+.nav-bar-item {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.nav-bar-center {
+    display: inline-flex;
+    text-align: center;
+    margin: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+
+/* buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50vw;
+}
+
+.button {
+    background-color: #0077ff; /* Replace with desired button color */
+    border-radius: 11px;
+    color: #fff; /* Replace with desired text color */
+    padding: 3%;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover {
+    background-color: #0055cc; /* Replace with desired hover button color */
+}
+
+/* form for sign in and registration */
+#form {
+    width: 250px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 30px;
+    margin: auto;
+    padding-bottom: 20px;
+    background-color: rgb(13,0,87,0.3);
+}
+
+/* Homepage grid*/
+
+li {
+    text-align: left;
+    font-size: 22px;
+    padding: 5px;
+}
+
+.page-content {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 50px;
+}
+
+.left-box {
+    background: rgb(255, 255, 255);
+    color: white;
+    padding: 25px;
+    border-radius: 40px;
+}
+
+.right-box {
+    background: rgb(255, 255, 255);
+    border-radius: 40px;
+    color: #333;
+    padding: 20px;
+}

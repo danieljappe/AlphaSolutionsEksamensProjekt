@@ -120,18 +120,15 @@ li {
 }
 
 .left-box {
-    background: rgb(140,184,239);
-    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    background: rgb(255, 255, 255);
     color: white;
     padding: 25px;
     border-radius: 40px;
 }
 
 .right-box {
-    background: rgb(140,184,239);
-    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    background: rgb(255, 255, 255);
     border-radius: 40px;
-    background-color: white;
     color: #333;
     padding: 20px;
 }
