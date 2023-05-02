@@ -41,6 +41,7 @@ public class BoardController {
             //user exists and found
             return "userHomePage";
         } else {
+            model.addAttribute("error", true);
             return loginPage(model);
         }
     }
@@ -65,12 +66,15 @@ public class BoardController {
                 //user exists and found
                 return "userHomePage";
             } else {
-                return errorPage();
+                model.addAttribute("error", true);
+                return registerPage(model);
             }
         } else {
+            model.addAttribute("EmailError", true);
             return registerPage(model);
         }
     }
+
 
     // Contact
     @GetMapping("/contact-page")

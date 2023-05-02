@@ -39,6 +39,9 @@
           <b>Password</b>
           <input style="width: 200px; margin-top: 5px; text-align:center;" type="password" th:field="${userTemplate.password}"/>
         </div>
+        <div th:if="${error}">
+          <p style="color: red;">Incorrect username or password. Please try again.</p>
+        </div>
         <div>
           <button type="submit" class="button">
             <div class="login3">Login</div>

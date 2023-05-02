@@ -120,18 +120,45 @@ li {
 }
 
 .left-box {
-    background: rgb(140,184,239);
-    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    background: rgb(255, 255, 255);
     color: white;
     padding: 25px;
     border-radius: 40px;
 }
 
 .right-box {
-    background: rgb(140,184,239);
-    background: radial-gradient(circle, rgba(140,184,239,1) 32%, rgba(111,164,236,1) 65%, rgba(82,144,233,1) 100%);
+    background: rgb(255, 255, 255);
     border-radius: 40px;
-    background-color: white;
     color: #333;
     padding: 20px;
+}
+
+.board-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+}
+
+
+span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.board-box-dropdown {
+    display: none;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    width: 18vw;
+    height: 40vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.board-box:hover .board-box-dropdown {
+    display: block;
 }

@@ -1,7 +1,8 @@
-com/kodeklubben/boardwave/controllers/Controller.class
-com/kodeklubben/boardwave/BoardWaveApplication.class
-com/kodeklubben/boardwave/models/Column.class
-com/kodeklubben/boardwave/services/DatabaseConnectionManager.class
 com/kodeklubben/boardwave/models/Board.class
+com/kodeklubben/boardwave/models/Column.class
 com/kodeklubben/boardwave/models/Card.class
+com/kodeklubben/boardwave/controllers/BoardController.class
+com/kodeklubben/boardwave/BoardWaveApplication.class
+com/kodeklubben/boardwave/services/DatabaseConnectionManager.class
+com/kodeklubben/boardwave/models/User.class
 com/kodeklubben/boardwave/repositories/Repository.class
