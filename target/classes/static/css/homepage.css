@@ -136,3 +136,32 @@ li {
     padding: 20px;
 }
 
+.board-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 10px;
+}
+
+
+span {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.board-box-dropdown {
+    display: none;
+    background-color: white;
+    border: 1px solid black;
+    padding: 10px;
+    width: 18vw;
+    height: 40vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.board-box:hover .board-box-dropdown {
+    display: block;
+}
