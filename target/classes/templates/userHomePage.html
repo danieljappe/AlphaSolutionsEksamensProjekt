@@ -26,9 +26,30 @@
 
     <!--Page Content-->
     <div class="page-content">
+
+        <!--
+        Kode til Thymeleaf implementering
+
+        <div class="left-box">
+        <h2>Your Boards</h2>
+        <div th:each="board : ${boards}">
+            <button type="button" class="collapsible" th:text="${board.name}"></button>
+            <div class="board-box">
+                <div class="board-box-content">
+                    <div>
+                        <h3 th:text="${board.name}"></h3>
+                    </div>
+                    <button>View</button>
+                    <button>Edit</button>
+                    <button>Delete</button>
+                    <<button>Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+        -->
         <div class="left-box">
             <h2>Your Boards</h2>
-
             <div>
                 <button type="button" class="collapsible">Board 1</button>
                 <div class="board-box">
@@ -43,7 +64,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <button type="button" class="collapsible">Board 2</button>
                 <div class="board-box">
@@ -58,7 +78,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <button type="button" class="collapsible">Board 3</button>
                 <div class="board-box">
@@ -73,12 +92,24 @@
                     </div>
                 </div>
             </div>
-
         </div>
         <div class="right-box">
-            <h2>Welcome back!</h2>
-            <p>This is your personal homepage, where you currently only can see your boards on the left. More to
-                come!</p>
+            <div class="top-row">
+                <h2>Welcome back!</h2>
+                <p>This is your personal homepage, where you currently only can see your boards on the left. More to
+                    come!</p>
+            </div>
+
+            <!-- TODO -->
+            <div class="bottom-left">
+                <form id="create-board-form" th:action="@{/boards}" method="post">
+                    <button class="button-59" type="submit">Create A New Board</button>
+                </form>
+            </div>
+
+            <div class="bottom-right">
+                <button class="button-59" type="submit">Knap til at gøre et eller andet</button>
+            </div>
         </div>
     </div>
 </div>

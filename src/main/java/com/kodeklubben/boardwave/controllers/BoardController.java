@@ -102,4 +102,11 @@ public class BoardController {
     public String error() {
         return errorPage();
     }
+
+    @PostMapping("/boards")
+    public String createBoard() {
+
+        return "redirect:/userHomePage";
+    }
 }
+

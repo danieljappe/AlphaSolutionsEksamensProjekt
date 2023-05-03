@@ -131,6 +131,39 @@ li {
     border-radius: 40px;
     color: #333;
     padding: 20px;
+    display: grid;
+    grid-template:
+    "top-row top-row top-row" auto
+    "bottom-left gap bottom-right" auto / 1fr 10px 1fr;
+}
+
+.top-row {
+    grid-area: top-row;
+    text-align: center;
+}
+
+.bottom-left {
+    grid-area: bottom-left;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgb(51,51,51,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-right {
+    grid-area: bottom-right;
+    border-style: solid;
+    border-width: thin;
+    border-color: rgb(51,51,51,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gap {
+    grid-area: gap;
 }
 
 span {
@@ -160,6 +193,7 @@ span {
 .active, .collapsible:active {
     border-top-left-radius: 20px 20px;
     border-top-right-radius: 20px 20px;
+    margin-top: 5px;
 }
 
 .collapsible:after {
@@ -187,4 +221,47 @@ span {
 
 .board-box-content {
     margin-bottom: 10px;
+}
+
+.button-59 {
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid #000;
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #000;
+    font-family: Inter,sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    height: 48px;
+    justify-content: center;
+    letter-spacing: -.8px;
+    line-height: 24px;
+    min-width: 140px;
+    outline: 0;
+    padding: 0 17px;
+    text-align: center;
+    text-decoration: none;
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-59:focus {
+    color: #171e29;
+}
+
+.button-59:hover {
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
+}
+
+.button-59:active {
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
 }
