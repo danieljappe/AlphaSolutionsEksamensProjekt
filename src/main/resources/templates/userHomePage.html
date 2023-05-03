@@ -13,7 +13,8 @@
     <div class="nav-bar">
         <div class="nav-bar-item">
             <a href="./">
-                <img src="../images/boardwavelogo.png" alt="logo" style="height: auto; width: 185px; margin-bottom: -12px">
+                <img src="../images/boardwavelogo.png" alt="logo"
+                     style="height: auto; width: 185px; margin-bottom: -12px">
             </a>
         </div>
         <div class="nav-bar-right">
@@ -28,53 +29,75 @@
         <div class="left-box">
             <h2>Your Boards</h2>
 
-            <div class="board-box">
-                <span>Board 1</span>
-                <div class="board-box-dropdown">
-                    <div>
-                        <h3>Board 1</h3>
+            <div>
+                <button type="button" class="collapsible">Board 1</button>
+                <div class="board-box">
+                    <div class="board-box-content">
+                        <div>
+                            <h3>Board 1</h3>
+                        </div>
+                        <button>View</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Share</button>
                     </div>
-                    <button>View</button>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                    <button>Share</button>
                 </div>
             </div>
 
-            <div class="board-box">
-                <span>Board 2</span>
-                <div class="board-box-dropdown">
-                    <div>
-                        <h3>Board 2</h3>
+            <div>
+                <button type="button" class="collapsible">Board 2</button>
+                <div class="board-box">
+                    <div class="board-box-content">
+                        <div>
+                            <h3>Board 2</h3>
+                        </div>
+                        <button>View</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Share</button>
                     </div>
-                    <button>View</button>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                    <button>Share</button>
                 </div>
             </div>
 
-            <div class="board-box">
-                <span>Board 3</span>
-                <div class="board-box-dropdown">
-                    <div>
-                        <h3>Board 3</h3>
+            <div>
+                <button type="button" class="collapsible">Board 3</button>
+                <div class="board-box">
+                    <div class="board-box-content">
+                        <div>
+                            <h3>Board 3</h3>
+                        </div>
+                        <button>View</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Share</button>
                     </div>
-                    <button>View</button>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                    <button>Share</button>
                 </div>
             </div>
 
         </div>
         <div class="right-box">
             <h2>Welcome back!</h2>
-            <p>This is your personal homepage, where you currently only can see your boards on the left. More to come!</p>
+            <p>This is your personal homepage, where you currently only can see your boards on the left. More to
+                come!</p>
         </div>
     </div>
-
-
 </div>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
 </body>
 </html>

@@ -133,32 +133,58 @@ li {
     padding: 20px;
 }
 
-.board-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding: 10px;
-}
-
-
 span {
     font-size: 18px;
     font-weight: bold;
+    color: black;
 }
 
-.board-box-dropdown {
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    outline: none;
+    font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+
+.active, .collapsible:active {
+    border-top-left-radius: 20px 20px;
+    border-top-right-radius: 20px 20px;
+}
+
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.board-box {
+    padding: 0 18px;
     display: none;
-    background-color: white;
-    border: 1px solid black;
-    padding: 10px;
-    width: 18vw;
-    height: 40vh;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    overflow: hidden;
+    background-color: #d9d9d9;
+    border-bottom-left-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
+    margin-bottom: 10px;
 }
 
-.board-box:hover .board-box-dropdown {
-    display: block;
+.board-box-content {
+    margin-bottom: 10px;
 }
