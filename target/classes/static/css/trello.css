@@ -104,7 +104,7 @@ body {
 }
 
 .modal.active {
-    top: 15%;
+    top: 30%;
 }
 
 .modal .header {
@@ -150,7 +150,7 @@ body {
     font-size: 1.25rem;
     border: none;
 }
-
+/*
 #h1{
     font-size: 36px;
     font-family: Arial, sans-serif;
@@ -160,3 +160,4 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
 }
+*/

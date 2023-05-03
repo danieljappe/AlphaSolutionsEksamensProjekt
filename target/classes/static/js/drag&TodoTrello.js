@@ -86,7 +86,7 @@ todo_submit.addEventListener("click", createTodo);
 
 function createTodo() {
     const todo_div = document.createElement("div");
-    const input_val = document.getElementById("todo_input").value;
+    const input_val = document.getElementById("todo_title").value;
     const txt = document.createTextNode(input_val);
 
     todo_div.appendChild(txt);
@@ -111,7 +111,7 @@ function createTodo() {
     todo_div.addEventListener("dragstart", dragStart);
     todo_div.addEventListener("dragend", dragEnd);
 
-    document.getElementById("todo_input").value = "";
+    document.getElementById("todo_title").value = "";
     todo_form.classList.remove("active");
     overlay.classList.remove("active");
 }
