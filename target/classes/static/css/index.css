@@ -95,6 +95,7 @@ body {
     justify-content: center;
     text-align: center;
     width: 50vw;
+    margin-bottom: -25vh;
 }
 
 .button {
