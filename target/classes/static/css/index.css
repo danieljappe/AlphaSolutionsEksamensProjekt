@@ -66,6 +66,21 @@ body {
     padding-right: 24px;
 }
 
+.nav-bar-logo {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.logo1 {
+    height: auto; width: 185px; margin-bottom: -12px;
+}
+
+.logo2 {
+    height: auto; width: 500px; margin-top: 50px; margin-bottom: -50px;
+}
+
 .nav-bar-center {
     display: inline-flex;
     text-align: center;
@@ -100,4 +115,52 @@ body {
     margin: 0 auto;
     border: 0;
     outline: 0;
+}
+
+@media only screen and (max-width: 700px) {
+    body {
+        font-size: 1.3rem;
+        width: 100%;
+    }
+
+    .nav-bar {
+        font-size: 12px;
+        width: 90vw;
+    }
+
+    .nav-bar-item {
+        border-style: solid;
+        border-width: thin;
+        border-color: rgb(51,51,51,0.2);
+        text-align: center;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 25px;
+    }
+
+    .nav-bar-right {
+        float: none;
+    }
+
+    .buttons {
+        width: 80vw;
+    }
+
+    .button {
+        padding: 5%;
+    }
+
+    .logo1 {
+        height: auto;
+    }
+
+    .logo2 {
+        height: auto;
+        width: 375px;
+        margin-top: 30px;
+        margin-bottom: -10px
+    }
+    .nav-bar-logo {
+        display: none;
+    }
 }
