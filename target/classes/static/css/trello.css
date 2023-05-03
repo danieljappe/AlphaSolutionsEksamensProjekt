@@ -134,7 +134,10 @@ body {
     display: block;
 }
 
-#todo_input,
+#todo_title,
+#todo_description,
+#todo_minutesEstimated,
+#todo_hourlyRate,
 #todo_submit {
     padding: 0.5rem 1rem;
     width: 100%;
@@ -146,4 +149,14 @@ body {
     color: #f3f3f3;
     font-size: 1.25rem;
     border: none;
+}
+
+#h1{
+    font-size: 36px;
+    font-family: Arial, sans-serif;
+    color: red;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
