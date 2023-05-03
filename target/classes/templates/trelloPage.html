@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang = "en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Trello Board</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="css/trello.css" />
     <link rel="stylesheet" href="css/global.css" />
-    <script src="js/drag&TodoTrello.js" defer></script>
+    <script src="js/dragTodoTrello.js" defer></script>
 </head>
 
 <body>
@@ -16,22 +16,23 @@
         <div class="title">Add Todo</div>
         <button class="btn close-modal">&times;</button>
     </div>
-    <div class="body">
+    <form th:action="@{/trello-page-add-new-card}" th:object="${card}"method="post">
+        <div class="body">
             <label for="todo_title">title:</label><br>
-            <input type="text"; id="todo_title" />
+            <input type="text" id="todo_title" th:field="*{title}" />
 
             <label for="todo_description">description:</label><br>
-            <input type="text"; id="todo_description" />
+            <input type="text" id="todo_description" th:field="*{description}" />
 
             <label for="todo_minutesEstimated">minutesEstimated:</label><br>
-            <input type="number"; id="todo_minutesEstimated" />
+            <input type="number" id="todo_minutesEstimated" th:field="*{minutesEstimated}" />
 
             <label for="todo_hourlyRate">hourlyRate:</label><br>
-            <input type="number"; id="todo_hourlyRate" />
+            <input type="number" id="todo_hourlyRate" th:field="*{hourlyRate}" />
 
             <input type="submit" value="Add Todo" id="todo_submit" />
         </div>
-
+    </form>
     </div>
 </div>
 <!-- todo -->
@@ -39,6 +40,15 @@
     <div class="status" id="no_status">
         <h1>Todo</h1>
         <button id="add_btn" data-target-modal="#todo_form">+ Add Todo</button>
+        <div th:each="card: ${cards}">
+            <div class="todo" draggable="true">
+                <span th:utext="${card.title}"></span>
+                <span class="close">x</span>
+            </div>
+            <!--<div class="todo" draggable="true" th:text="${card.title}">
+                <span class="close">x</span>
+            </div>-->
+        </div>
     </div>
     <div class="status">
         <h1>Doing</h1>
@@ -50,7 +60,5 @@
         <h1>Done</h1>
     </div>
 </div>
-
-
 </body>
 </html>

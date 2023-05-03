@@ -1,11 +1,15 @@
 package com.kodeklubben.boardwave.models;
 
 public class Card {
+
     private int id;
     private String title;
     private String description;
     private int minutesEstimated;
     private double hourlyRate;
+
+    public Card() {
+    }
 
     public Card(String title, String description, int minutesEstimated, double hourlyRate, int id) {
         this.title = title;
