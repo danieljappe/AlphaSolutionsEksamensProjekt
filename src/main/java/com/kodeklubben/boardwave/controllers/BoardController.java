@@ -104,5 +104,10 @@ public class BoardController {
 
         return "redirect:/userHomePage";
     }
+
+    @GetMapping("/dontPress")
+    public String dontPress(){
+        return "dontPress";
+    }
 }
 
