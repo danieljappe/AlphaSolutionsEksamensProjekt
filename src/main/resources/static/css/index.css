@@ -42,8 +42,8 @@ body {
     position: fixed;
     background-color: white;
     margin-top: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 1.68vh;
+    padding-bottom: 1.2vh;
     border-radius: 50px;
     width: 84vw;
     font-size: 24px;
@@ -52,7 +52,10 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
-
+.darkModeToggle {
+    background-color: #1a1a1a;
+    color: #fff;
+}
 .nav-bar-right {
     padding-top: 6px;
     float: right;
@@ -62,8 +65,7 @@ body {
 .nav-bar-item {
     display: inline-flex;
     float: left;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-right: 3vw;
 }
 
 .nav-bar-logo {

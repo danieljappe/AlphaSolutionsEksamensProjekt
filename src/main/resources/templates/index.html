@@ -4,8 +4,24 @@
   <title>Board Wave</title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="initial-scale=1, width=device-width"/>
-  <link rel="stylesheet" href="css/index.css" type="text/css"/>
+  <link rel="stylesheet" href="../css/index.css" type="text/css" id="dark-mode-stylesheet"/>
   <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+  <script>
+    function darkModeToggle() {
+      var element = document.body;
+      element.classList.toggle("darkModeToggle");
+      var img = document.getElementById("mode-icon");
+      var link = document.getElementById("dark-mode-stylesheet");
+
+      if (img.src.endsWith("lightbulb.png")) {
+        img.src = "../images/darkbulb.png";
+        link.href = "../css/index-darkmode.css";
+      } else {
+        img.src = "../images/lightbulb.png";
+        link.href = "../css/index.css";
+      }
+    }
+  </script>
 </head>
 <body>
 <div class="container">
@@ -16,6 +32,10 @@
       <a href="./">
         <img src="../images/boardwavelogo.png" alt="logo" class="logo1">
       </a>
+    </div>
+    <div class="nav-bar-item">
+      <img id="mode-icon" src="../images/lightbulb.png" alt="logo" style="height: auto; width: 2.8vw; margin-top: -0.5vh;"
+           onclick="darkModeToggle()">
     </div>
     <div class="nav-bar-right">
       <div><a class="nav-bar-item" href="/about-page">About</a></div>

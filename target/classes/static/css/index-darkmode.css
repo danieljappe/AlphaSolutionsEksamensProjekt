@@ -1,5 +1,5 @@
 b, a{
-    color: black;
+    color: white;
     font-family: "Helvetica", serif;
     text-decoration: none;
 }
@@ -22,13 +22,13 @@ section {
 }
 
 section:nth-of-type(even) {
-    color: #E7E7E7;
-    background: #333333;
+    color: #333333;
+    background: #e7e7e7;
 }
 
 section:nth-of-type(odd) {
-    color: #333333;
-    background: #E7E7E7;
+    color: #e7e7e7;
+    background: #333333;
 }
 
 body {
@@ -40,7 +40,7 @@ body {
 /* Navigation Bar */
 .nav-bar {
     position: fixed;
-    background-color: white;
+    background-color: #222222;
     margin-top: 15px;
     padding-top: 1.68vh;
     padding-bottom: 1.2vh;
