@@ -6,6 +6,8 @@
     <meta name="viewport" content="initial-scale=1, width=device-width" />
     <link rel="stylesheet" href="css/trello.css" />
     <link rel="stylesheet" href="css/global.css" />
+    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+    <script src="js/drag&TodoTrello.js" defer></script>
     <script src="js/dragTodoTrello.js" defer></script>
 </head>
 
@@ -45,9 +47,6 @@
                 <span th:utext="${card.title}"></span>
                 <span class="close">x</span>
             </div>
-            <!--<div class="todo" draggable="true" th:text="${card.title}">
-                <span class="close">x</span>
-            </div>-->
         </div>
     </div>
     <div class="status">

@@ -102,10 +102,33 @@
             </div>
 
             <!-- TODO -->
+
+            <div class="popup center">
+                <div class="icon">
+                    <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
+                </div>
+                <div class="title">
+                    Create a new board
+                </div>
+                <div class="description">
+                    <form action="">
+                        <label>Board name:</label><br>
+                        <input type="text"><br>
+                        <div class="dismiss-btn">
+                            <button id="submit-popup-btn" type="submit" value="Submit">
+                                Create
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="dismiss-btn">
+                    <button id="dismiss-popup-btn">
+                        Dismiss
+                    </button>
+                </div>
+            </div>
             <div class="bottom-left">
-                <form id="create-board-form" th:action="@{/boards}" method="post">
-                    <button class="button-59" type="submit">Create A New Board</button>
-                </form>
+                    <button class="button-59" id="open-popup-btn" type="submit">Create A New Board</button>
             </div>
 
             <div class="bottom-right">
@@ -130,6 +153,16 @@
             }
         });
     }
+
+    document.getElementById("open-popup-btn").addEventListener("click",function(){
+        document.getElementById("open-popup-btn").style.display = "none";
+        document.getElementsByClassName("popup")[0].classList.add("active");
+    });
+
+    document.getElementById("dismiss-popup-btn").addEventListener("click",function(){
+        document.getElementById("open-popup-btn").style.display = "block";
+        document.getElementsByClassName("popup")[0].classList.remove("active");
+    });
 </script>
 </body>
 </html>
