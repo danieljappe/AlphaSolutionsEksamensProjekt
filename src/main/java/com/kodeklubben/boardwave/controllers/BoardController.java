@@ -42,7 +42,8 @@ public class BoardController {
             return "userHomePage";
         } else {
             model.addAttribute("error", true);
-            return loginPage(model);
+            return "userHomePage";
+            //return loginPage(model);
         }
     }
 
@@ -86,11 +87,6 @@ public class BoardController {
     @GetMapping("/about-page")
     public String aboutPage() {
         return "aboutPage";
-    }
-
-    @GetMapping("/trello-page")
-    public String trelloPage() {
-        return "trelloPage";
     }
 
     @GetMapping("/error-page")
