@@ -21,6 +21,16 @@ section {
     flex-direction: column;
 }
 
+#wave-background {
+    background-image: url("../images/wave.svg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+}
+
 section:nth-of-type(even) {
     color: #333333;
     background: #e7e7e7;
@@ -39,6 +49,7 @@ body {
 
 /* Navigation Bar */
 .nav-bar {
+    z-index: 1;
     position: fixed;
     background: rgb(34, 34, 34);
     background: linear-gradient(175deg, rgba(34, 34, 34, 1) 0%, rgba(51, 51, 51, 1) 100%);
@@ -88,7 +99,7 @@ body {
 }
 
 .logo1 {
-    height: auto; width: 185px; margin-bottom: -12px;
+    height: auto; width: 4vw;
 }
 
 .logo2 {
@@ -96,7 +107,7 @@ body {
 }
 
 .logo1:hover {
-    height: auto; width: 185px; margin-bottom: -12px; transform: scale(1.1);
+    height: auto; width: 185px; margin-bottom: -12px; transform: scale(1.01);
 }
 
 .logo2:hover {

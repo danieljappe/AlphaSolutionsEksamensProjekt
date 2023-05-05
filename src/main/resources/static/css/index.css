@@ -37,8 +37,19 @@ body {
     font-size: 4rem;
 }
 
+#wave-background {
+    background-image: url("../images/wave.svg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+}
+
 /* Navigation Bar */
 .nav-bar {
+    z-index: 1;
     position: fixed;
     background-color: white;
     margin-top: 15px;
@@ -80,7 +91,7 @@ body {
 }
 
 .logo1 {
-    height: auto; width: 185px; margin-bottom: -12px;
+    height: auto; width: 4vw;
 }
 
 .logo2 {
