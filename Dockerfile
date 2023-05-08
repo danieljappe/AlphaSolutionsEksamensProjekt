@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-jdk-jammy
+FROM 
 ENV PROFILE=${PROFILE:-docker-compose}
 ENV PORT=${PORT:-8080}
 COPY src /src
