@@ -21,7 +21,7 @@ public class BoardController {
     private Repository repository;
 
 
-    //TODO mangler userTemplate object
+    //TODO userTemplate object
 
     // Landing page
     @GetMapping("/")
@@ -37,17 +37,32 @@ public class BoardController {
         return "loginPage";
     }
 
+    @GetMapping("/credentials")
+    public Boolean submitLogin(@RequestParam String id, Model model){
+        String email = id.split(";")[0];
+        String password = id.split(";")[1];
+        int userID = repository.getIDFromAuthentication(email, password);
+        if (userID != -1){
+            user = repository.getUser(userID);
+            //add users board to model
+            model.addAttribute("user", user);
+            System.out.println(user.toString());
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, Model model) {
-        user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
-        System.out.println(user);
-        if (user.getId() != -1) {
+        boolean success = submitLogin(user.getEmail() + ";" + user.getPassword(), model);
+        if (success) {
             //user exists and found
+            //add users boards to model
+            //ArrayList<Board> boards = repository.getBoards(user.getId());
             return "userHomePage";
         } else {
             model.addAttribute("error", true);
-            return "userHomePage";
-            //return loginPage(model);
+            return loginPage(model);
         }
     }
 

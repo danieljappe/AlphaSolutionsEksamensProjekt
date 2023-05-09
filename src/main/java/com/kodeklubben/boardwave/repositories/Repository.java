@@ -25,18 +25,49 @@ public class Repository {
     this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
 
-
-    
-
     private static final String GET_USER = "SELECT id, name, email, password FROM users WHERE email=? && password=?";
-
+    private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
 
     private static final String GET_LATEST_USERID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password) VALUES (?, ?, ?, ?)";
 
-    private static final String GET_USER_ID = "SELECT id FROM users WHERE email=?";
+    private static final String GET_USER_ID = "SELECT id, name, email, password FROM users WHERE id=?";
+
+    private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
+
+    public int getIDFromAuthentication(String email, String password) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_LOGIN)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            int id = -1;
+            if (resultSet.next()) {
+                id = resultSet.getInt("id");
+            }
+            return id;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public User getUser(int id) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_ID)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                User user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"));
+                return user;
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
     public User loginWithEmailAndPassword(String email, String password) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER)) {
@@ -96,5 +127,21 @@ public class Repository {
         }
         return lastUserId;
     }
+
+    /*public ArrayList<Board> getBoards(int userId) {
+        ArrayList<Board> boards = new ArrayList<>();
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARDS)) {
+            preparedStatement.setInt(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                boards.add(new Board(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("userId")));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return boards;
+    }*/
 
 }
