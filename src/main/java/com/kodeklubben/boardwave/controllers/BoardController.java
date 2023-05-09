@@ -46,7 +46,7 @@ public class BoardController {
             user = repository.getUser(userID);
             //add users board to model
             model.addAttribute("user", user);
-            System.out.println(user.toString());
+            System.out.println(user.toString()); //works
             return true;
         }
         return false;
