@@ -2,6 +2,8 @@ package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +17,9 @@ public class BoardController {
     private User userLoggedIn;
     User user = new User();
 
-    private final Repository repository = new Repository();
+    @Autowired
+    private Repository repository;
+
 
     //TODO mangler userTemplate object
 

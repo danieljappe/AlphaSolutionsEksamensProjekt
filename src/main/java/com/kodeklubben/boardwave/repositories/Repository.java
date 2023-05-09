@@ -2,6 +2,8 @@ package com.kodeklubben.boardwave.repositories;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
+import org.springframework.beans.factory.annotation.Value;
+
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +12,21 @@ import java.util.ArrayList;
 
 @org.springframework.stereotype.Repository
 public class Repository {
-    private final DatabaseConnectionManager dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", "8d0utw7evvzk45xh5rsz", "pscale_pw_rZU3nYQ2yfB3KNhq9xLTJdjeTs5m1qb4B5U9xCtREqv");
+
+    @Value("${PSCALE_USER}")
+    private String pscaleUser;
+
+    @Value("${PSCALE_USER_PASSWORD}")
+    private String pscaleUserPassword;
+
+    private final DatabaseConnectionManager dcm;
+
+    public Repository(@Value("${PSCALE_USER}") String pscaleUser, @Value("${PSCALE_USER_PASSWORD}") String pscaleUserPassword) {
+    this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
+    }
+
+
+    
 
     private static final String GET_USER = "SELECT id, name, email, password FROM users WHERE email=? && password=?";
 
