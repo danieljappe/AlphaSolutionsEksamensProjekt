@@ -4,35 +4,36 @@ use AlphaSolutionsDB;
 
 
 CREATE TABLE users(
-                      id INT,
-                      name VARCHAR(255) NOT NULL,
-                      password VARCHAR(255) NOT NULL,
-                      email VARCHAR(255) NOT NULL,
-                      boards VARCHAR(255)
+id INT,
+name VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL UNIQUE,
+boards VARCHAR(255)
 );
 
 
 
 CREATE TABLE boards(
-                      id int,
-                      name VARCHAR(255) not null,
+id int,
+name VARCHAR(255) not null
 );
 
 
 
 CREATE TABLE columns(
-                        id int,
-                        Name VARCHAR(255) not null UNIQUE,
-                        boardId int
+id int,
+Name VARCHAR(255) not null,
+boardId int
 );
 
 
 
 CREATE TABLE cards(
-                     id int,
-                     title VARCHAR(255) NOT NULL UNIQUE,
-                     minutesEstimated INT,
-                     hourlyRate int,
-                     boardId int,
-                     columnId int
+id int,
+title VARCHAR(255) NOT NULL,
+description VARCHAR(255),
+minutesEstimated INT,
+hourlyRate float,
+boardId int,
+columnId int
 );
