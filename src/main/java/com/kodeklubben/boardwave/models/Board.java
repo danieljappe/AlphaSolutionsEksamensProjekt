@@ -8,13 +8,11 @@ public class Board {
     private ArrayList<String> whiteList;
     private ArrayList<Column> columns;
 
-    public Board(String title, ArrayList<String> whiteList, ArrayList<Column> columns, int id) {
+    public Board(String title, ArrayList<Column> columns, int id) {
         this.title = title;
-        this.whiteList = whiteList;
         this.columns = columns;
         this.id = id;
     }
-
 
     public int getId() {
         return id;

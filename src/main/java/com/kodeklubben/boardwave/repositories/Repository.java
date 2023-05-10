@@ -29,7 +29,10 @@ public class Repository {
 
     private static final String GET_USER_ID = "SELECT id, name, email, password FROM users WHERE id=?";
 
-    private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
+    //TODO: Check if boards are correct
+    private static final String GET_BOARDS = "SELECT id, name, userId  FROM boards WHERE userId=?";
+    private static final String GET_LATEST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1"; 
+    private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name, userId) VALUES (?, ?, ?)";
 
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
@@ -124,13 +127,37 @@ public class Repository {
         return lastUserId;
     }
 
-    /*public ArrayList<Board> getBoards(int userId) {
-        ArrayList<Board> boards = new ArrayList<>();
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARDS)) {
-            preparedStatement.setInt(1, userId);
+    public int insertNewBoard(String name, int userId) {
+        int lastBoardId = 0;
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                boards.add(new Board(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("userId")));
+                lastBoardId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_BOARD)) {
+            userInsertionStatement.setInt(1, lastBoardId + 1);
+            userInsertionStatement.setString(2, name);
+            userInsertionStatement.setInt(3, userId);
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return lastBoardId;
+    }
+
+    public ArrayList<Board> getBoards(int userId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARDS)) {
+            preparedStatement.setLong(1, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Board> boards = new ArrayList<>();
+            while (resultSet.next()) {
+                boards.add(new Board(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getInt("userId")));
 
             }
         } catch (SQLException e) {
@@ -138,6 +165,6 @@ public class Repository {
             throw new RuntimeException(e);
         }
         return boards;
-    }*/
+    }
 
 }
