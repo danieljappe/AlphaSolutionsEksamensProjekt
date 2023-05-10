@@ -5,13 +5,15 @@ public class User {
     private String name;
     private String password;
     private String email;
+    private String boards;
 
 
-    public User(String name, String password, String email, int id) {
+    public User(String name, String password, String email, int id, String boards) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.id = id;
+        this.boards = boards;
     }
 
     public User() {
@@ -23,6 +25,14 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getBoards() {
+        return this.boards;
+    }
+
+    public void setBoards(String boards) {
+        this.boards = boards;
     }
 
     public String getName() {
@@ -56,6 +66,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", boards='" + boards + '\'' +
                 '}';
     }
 }
