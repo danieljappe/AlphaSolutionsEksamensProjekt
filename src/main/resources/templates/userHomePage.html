@@ -51,7 +51,11 @@
         -->
         <div class="left-box">
             <h2>Your Boards</h2>
-            <tr th:each=""></tr>
+            <tr th:each="board: ${boards}">
+                <td th:text="${board.getName()}">
+                    //todo: sidste gang her
+                </td>
+            </tr>
             
             
             
