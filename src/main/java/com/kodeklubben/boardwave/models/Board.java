@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Board {
     private int id;
     private String title;
-    private ArrayList<String> whiteList;
     private ArrayList<Column> columns;
 
     public Board(String title, ArrayList<Column> columns, int id) {
@@ -28,14 +27,6 @@ public class Board {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ArrayList<String> getWhiteList() {
-        return whiteList;
-    }
-
-    public void setWhiteList(ArrayList<String> whiteList) {
-        this.whiteList = whiteList;
     }
 
     public ArrayList<Column> getColumns() {
