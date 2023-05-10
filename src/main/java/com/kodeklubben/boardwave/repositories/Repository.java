@@ -1,10 +1,14 @@
 package com.kodeklubben.boardwave.repositories;
+import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
+
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 @org.springframework.stereotype.Repository
 public class Repository {
@@ -30,9 +34,12 @@ public class Repository {
     private static final String GET_USER_ID = "SELECT id, name, email, password FROM users WHERE id=?";
 
     //TODO: Check if boards are correct
-    private static final String GET_BOARDS = "SELECT id, name, userId  FROM boards WHERE userId=?";
+    private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
     private static final String GET_LATEST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1"; 
     private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name, userId) VALUES (?, ?, ?)";
+
+    private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
+    private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
 
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
@@ -151,7 +158,71 @@ public class Repository {
         return lastBoardId;
     }
 
-    public ArrayList<Board> getBoards(int userId) {
+    public ArrayList<Card> getCards(int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_CARDS)) {
+            //running query
+            preparedStatement.setInt(1, boardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //getting cards from query
+            ArrayList<Card> cards = new ArrayList<Card>();
+            while (resultSet.next()) {
+                cards.add(new Card(resultSet.getString("title"), resultSet.getString("description"), resultSet.getInt("minutesEstimated"), resultSet.getFloat("hourlyRate"),  resultSet.getInt("id")));
+            }
+            return cards;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+            return new ArrayList<Card>();
+        }
+    }
+
+
+     public ArrayList<Column> getColumns(int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_COLUMNS)) {
+            preparedStatement.setLong(1, boardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            ArrayList<Column> columns = new ArrayList<Column>();
+            while (resultSet.next()) {
+                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getString("id"))); 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+
+        }
+        return columns;
+    }
+
+    public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
+        //result list - what we return at the end
+        ArrayList<Board> result = new ArrayList<Board>();
+
+        //looping all ids in parameter list
+        for (int id: ids) {
+            //Getting 1 board from id
+            try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                //getting columns from boardId
+                ArrayList<Column> columns = getColumns(id);
+
+                //adding board to result list
+                while (resultSet.next()) {
+                    result.add(resultSet.getString("name"), columns, id);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+            preparedStatement.setInt(1, ids);
+        }
+        return result;
+    }
+
+    public ArrayList<Board> getBoardsOld(int userId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARDS)) {
             preparedStatement.setLong(1, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
