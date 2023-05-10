@@ -2,7 +2,6 @@ package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,9 +20,6 @@ public class BoardController {
     @Autowired
     private Repository repository;
 
-
-    //TODO userTemplate object
-
     // Landing page
     @GetMapping("/")
     public String landingPage(){
@@ -33,7 +29,7 @@ public class BoardController {
     // Login
     @GetMapping("/login-page")
     public String loginPage(Model model) {
-        User userTemplate = new User("", "", "", -1);
+        User userTemplate = new User("", "", "", -1, "");
         model.addAttribute("userTemplate", userTemplate);
         return "loginPage";
     }
@@ -45,6 +41,7 @@ public class BoardController {
         int userID = repository.getIDFromAuthentication(email, password);
         if (userID != -1){
             user = repository.getUser(userID);
+            userLoggedIn = user;
             //add users board to model
             model.addAttribute("user", user);
             System.out.println(user.toString()); //works
@@ -59,7 +56,17 @@ public class BoardController {
         if (success) {
             //user exists and found
             //add users boards to model
-            //ArrayList<Board> boards = repository.getBoards(user.getId());
+
+            ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            System.out.println("user:");
+            System.out.println(userLoggedIn);
+            String[] ids = userLoggedIn.getBoards().split(";");
+            for (int i = 0; i < ids.length; i++) {
+                boardIds.add(Integer.parseInt(ids[i]));
+            }
+        
+            ArrayList<Board> boards = repository.getBoards(boardIds);
+            model.addAttribute("boards", boards);
             return "userHomePage";
         } else {
             model.addAttribute("error", true);
@@ -70,7 +77,7 @@ public class BoardController {
     // Register
     @GetMapping("/register-page")
     public String registerPage(Model model) {
-        User userTemplate = new User("", "", "", -1);
+        User userTemplate = new User("", "", "", -1, "");
         model.addAttribute("userTemplate", userTemplate);
         return "registerPage";
     }
@@ -100,7 +107,13 @@ public class BoardController {
     public String submitCreateBoard(@ModelAttribute("board") Board board, Model model){
         int userID = repository.getIDFromAuthentication(user.getEmail(), user.getPassword());
         repository.insertNewBoard(board.getTitle(), userID);
-        ArrayList<Board> boards = repository.getBoards(userID);
+        ArrayList<Integer> boardIds = new ArrayList<Integer>();
+        String[] ids = user.getBoards().split(";");
+        for (int i = 0; i < ids.length; i++) {
+            boardIds.add(Integer.parseInt(ids[i]));
+        }
+        ArrayList<Board> boards = repository.getBoards(boardIds);
+        model.addAttribute("boards", boards);
         return "userHomePage";
     }
 
