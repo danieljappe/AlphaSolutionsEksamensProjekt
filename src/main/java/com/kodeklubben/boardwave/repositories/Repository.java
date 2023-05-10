@@ -1,6 +1,8 @@
 package com.kodeklubben.boardwave.repositories;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
+import com.kodeklubben.boardwave.models.Column;
+import com.kodeklubben.boardwave.models.Card;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -25,15 +27,14 @@ public class Repository {
     this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
 
-    private static final String GET_USER = "SELECT id, name, email, password FROM users WHERE email=? && password=?";
+    private static final String GET_USER = "SELECT id, name, email, password, boards FROM users WHERE email=? && password=?";
     private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
 
     private static final String GET_LATEST_USERID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password) VALUES (?, ?, ?, ?)";
 
-    private static final String GET_USER_ID = "SELECT id, name, email, password FROM users WHERE id=?";
+    private static final String GET_USER_ID = "SELECT id, name, email, password, boards FROM users WHERE id=?";
 
-    //TODO: Check if boards are correct
     private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
     private static final String GET_LATEST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1"; 
     private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name, userId) VALUES (?, ?, ?)";
@@ -65,7 +66,8 @@ public class Repository {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                User user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"));
+                User user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"), resultSet.getString("boards"));
+                
                 return user;
             }
             return null;
@@ -83,9 +85,9 @@ public class Repository {
             User user;
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"));
+                user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"), resultSet.getString("boards"));
             } else {
-                user = new User("", "", "", -1);
+                user = new User("", "", "", -1, "");
             }
             return user;
         } catch (SQLException e) {
@@ -173,7 +175,6 @@ public class Repository {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-            return new ArrayList<Card>();
         }
     }
 
@@ -184,14 +185,14 @@ public class Repository {
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Column> columns = new ArrayList<Column>();
             while (resultSet.next()) {
-                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getString("id"))); 
+                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getInt("id"))); 
             }
+            return columns;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
 
         }
-        return columns;
     }
 
     public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
@@ -210,32 +211,14 @@ public class Repository {
 
                 //adding board to result list
                 while (resultSet.next()) {
-                    result.add(resultSet.getString("name"), columns, id);
+                    result.add(new Board(resultSet.getString("name"), columns, id));
                 }
-
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-            preparedStatement.setInt(1, ids);
         }
         return result;
-    }
-
-    public ArrayList<Board> getBoardsOld(int userId) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARDS)) {
-            preparedStatement.setLong(1, userId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            ArrayList<Board> boards = new ArrayList<>();
-            while (resultSet.next()) {
-                boards.add(new Board(resultSet.getString("name"), resultSet.getInt("id"), resultSet.getInt("userId")));
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return boards;
     }
 
 }
