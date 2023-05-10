@@ -1,14 +1,10 @@
 package com.kodeklubben.boardwave.repositories;
-import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 @org.springframework.stereotype.Repository
 public class Repository {
