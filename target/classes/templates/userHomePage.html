@@ -51,6 +51,10 @@
         -->
         <div class="left-box">
             <h2>Your Boards</h2>
+            <tr th:each=""></tr>
+            
+            
+            
             <div>
                 <button type="button" class="collapsible">Board 1</button>
                 <div class="board-box">
@@ -96,7 +100,7 @@
         </div>
         <div class="right-box">
             <div class="top-row">
-                <h2>Welcome back!</h2>
+                <h2 th:text="'Welcome Back ' + ${user.getName()}"></h2>
                 <p>This is your personal homepage, where you currently only can see your boards on the left. More to
                     come!</p>
             </div>

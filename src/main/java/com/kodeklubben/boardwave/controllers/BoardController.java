@@ -2,6 +2,7 @@ package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
+import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -93,6 +94,14 @@ public class BoardController {
             model.addAttribute("EmailError", true);
             return registerPage(model);
         }
+    }
+
+    @PostMapping("/userHomePage")
+    public String submitCreateBoard(@ModelAttribute("board") Board board, Model model){
+        int userID = repository.getIDFromAuthentication(user.getEmail(), user.getPassword());
+        repository.insertNewBoard(board.getTitle(), userID);
+        ArrayList<Board> boards = repository.getBoards(userID);
+        return "userHomePage";
     }
 
 
