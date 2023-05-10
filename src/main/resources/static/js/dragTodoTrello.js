@@ -32,7 +32,6 @@ all_status.forEach((status) => {
 
 function dragOver(e) {
     e.preventDefault();
-    //   console.log("dragOver");
 }
 
 function dragEnter() {

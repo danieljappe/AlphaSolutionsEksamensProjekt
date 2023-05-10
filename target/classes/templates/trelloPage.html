@@ -4,22 +4,36 @@
     <title>Trello Board</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
     <link rel="stylesheet" href="css/trello.css" />
     <link rel="stylesheet" href="css/global.css" />
-    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
-    <script src="js/drag&TodoTrello.js" defer></script>
     <script src="js/dragTodoTrello.js" defer></script>
 </head>
 
 <body>
 
+<div class="nav-bar" id="top">
+    <div class="nav-bar-item">
+        <a href="./">
+            <img src="/images/boardwavelogo.png" alt="logo"
+                 style="height: auto; width: 185px; margin-bottom: -12px">
+        </a>
+    </div>
+    <div class="nav-bar-right">
+        <div><a class="nav-bar-item" href="/about-page">About</a></div>
+        <div><a class="nav-bar-item" href="/contact-page" >Contact</a></div>
+
+    </div>
+</div>
+
 <div class="modal" id="todo_form">
     <div class="header">
-        <div class="title">Add Todo</div>
+        <div class="title" id="add_Title">Add Todo</div>
         <button class="btn close-modal">&times;</button>
     </div>
     <form th:action="@{/trello-page-add-new-card}" th:object="${card}"method="post">
         <div class="body">
+
             <label for="todo_title">title:</label><br>
             <input type="text" id="todo_title" th:field="*{title}" />
 
@@ -35,7 +49,7 @@
             <input type="submit" value="Add Todo" id="todo_submit" />
         </div>
     </form>
-    </div>
+</div>
 </div>
 <!-- todo -->
 <div class="todo-container">

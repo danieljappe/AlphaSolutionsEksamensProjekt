@@ -37,13 +37,24 @@ body {
     font-size: 4rem;
 }
 
+#wave-background {
+    background-image: url("../images/wave.svg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+}
+
 /* Navigation Bar */
 .nav-bar {
+    z-index: 1;
     position: fixed;
     background-color: white;
     margin-top: 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding-top: 1.68vh;
+    padding-bottom: 1.2vh;
     border-radius: 50px;
     width: 84vw;
     font-size: 24px;
@@ -62,8 +73,14 @@ body {
 .nav-bar-item {
     display: inline-flex;
     float: left;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-right: 3vw;
+}
+
+.nav-bar-item:hover {
+    display: inline-flex;
+    float: left;
+    padding-right: 3vw;
+    transform: scale(1.05);
 }
 
 .nav-bar-logo {
@@ -74,7 +91,7 @@ body {
 }
 
 .logo1 {
-    height: auto; width: 185px; margin-bottom: -12px;
+    height: auto; width: 4vw;
 }
 
 .logo2 {
@@ -99,15 +116,46 @@ body {
 }
 
 .button {
-    background-color: #0077ff; /* Replace with desired button color */
-    border-radius: 11px;
-    color: #fff; /* Replace with desired text color */
-    padding: 3%;
-    transition: background-color 0.2s ease-in-out;
+    align-items: center;
+    background-color: #fff;
+    border: 2px solid #282828;
+    box-sizing: border-box;
+    color: #282828;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #282828;
+    font-family: Inter,sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    height: 12vh;
+    justify-content: center;
+    letter-spacing: -.8px;
+    line-height: 24px;
+    min-width: 16vw;
+    outline: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button:focus {
+    color: #171e29;
 }
 
 .button:hover {
-    background-color: #0055cc; /* Replace with desired hover button color */
+    transform: scale(1.2);
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
+}
+
+.button:active {
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
 }
 
 .page-content {

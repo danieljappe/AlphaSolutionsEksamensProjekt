@@ -2,6 +2,8 @@ package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.Board;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,9 +17,11 @@ public class BoardController {
     private User userLoggedIn;
     User user = new User();
 
-    private final Repository repository = new Repository();
+    @Autowired
+    private Repository repository;
 
-    //TODO mangler userTemplate object
+
+    //TODO userTemplate object
 
     // Landing page
     @GetMapping("/")
@@ -33,17 +37,32 @@ public class BoardController {
         return "loginPage";
     }
 
+    @GetMapping("/credentials")
+    public Boolean submitLogin(@RequestParam String id, Model model){
+        String email = id.split(";")[0];
+        String password = id.split(";")[1];
+        int userID = repository.getIDFromAuthentication(email, password);
+        if (userID != -1){
+            user = repository.getUser(userID);
+            //add users board to model
+            model.addAttribute("user", user);
+            System.out.println(user.toString()); //works
+            return true;
+        }
+        return false;
+    }
+
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, Model model) {
-        user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
-        System.out.println(user);
-        if (user.getId() != -1) {
+        boolean success = submitLogin(user.getEmail() + ";" + user.getPassword(), model);
+        if (success) {
             //user exists and found
+            //add users boards to model
+            //ArrayList<Board> boards = repository.getBoards(user.getId());
             return "userHomePage";
         } else {
             model.addAttribute("error", true);
-            return "userHomePage";
-            //return loginPage(model);
+            return loginPage(model);
         }
     }
 
@@ -103,6 +122,11 @@ public class BoardController {
     public String createBoard() {
 
         return "redirect:/userHomePage";
+    }
+
+    @GetMapping("/dontPress")
+    public String dontPress(){
+        return "dontPress";
     }
 }
 

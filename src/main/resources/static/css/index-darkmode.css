@@ -1,0 +1,231 @@
+b, a{
+    color: white;
+    font-family: "Helvetica", serif;
+    text-decoration: none;
+}
+
+html, body, section {
+    block-size: 100%;
+}
+
+html {
+    scroll-snap-type: y mandatory;
+}
+
+section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#wave-background {
+    background-image: url("../images/wave.svg");
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: translateY(0);
+    transition: transform 0.3s ease-out;
+}
+
+section:nth-of-type(even) {
+    color: #333333;
+    background: #e7e7e7;
+}
+
+section:nth-of-type(odd) {
+    color: #e7e7e7;
+    background: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    font-size: 4rem;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    z-index: 1;
+    position: fixed;
+    background: rgb(34, 34, 34);
+    background: linear-gradient(175deg, rgba(34, 34, 34, 1) 0%, rgba(51, 51, 51, 1) 100%);
+    margin-top: 15px;
+    padding-top: 1.68vh;
+    padding-bottom: 1.2vh;
+    border-radius: 50px;
+    width: 84vw;
+    font-size: 24px;
+    display: inline-block;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.nav-bar-right {
+    padding-top: 6px;
+    float: right;
+    display: inline-flex;
+}
+
+.nav-bar-item {
+    display: inline-flex;
+    float: left;
+    padding-right: 3vw;
+}
+
+.nav-bar-item:hover {
+    display: inline-flex;
+    float: left;
+    padding-right: 3vw;
+    transform: scale(1.05);
+    text-shadow: -1px 0 #06f, 0 1px #06f, 1px 0 #06f, 0 -1px #06f;
+}
+
+.nav-bar-logo {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+.nav-bar-logo {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+    transform: scale(1.1);
+}
+
+.logo1 {
+    height: auto; width: 4vw;
+}
+
+.logo2 {
+    height: auto; width: 500px; margin-top: 50px; margin-bottom: -50px;
+}
+
+.logo1:hover {
+    height: auto; width: 185px; margin-bottom: -12px; transform: scale(1.01);
+}
+
+.logo2:hover {
+    height: auto; width: 500px; margin-top: 50px; margin-bottom: -50px; transform: scale(1.1);
+}
+
+.nav-bar-center {
+    display: inline-flex;
+    text-align: center;
+    margin: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 50vw;
+    margin-bottom: -25vh;
+}
+
+.button {
+    align-items: center;
+    background-color: #282828;
+    border: 2px solid #fff;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    fill: #fff;
+    font-family: Inter,sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    height: 12vh;
+    justify-content: center;
+    letter-spacing: -.8px;
+    line-height: 24px;
+    min-width: 16vw;
+    outline: 0;
+    text-align: center;
+    text-decoration: none;
+    transition: all .3s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button:focus {
+    color: #171e29;
+}
+
+.button:hover {
+    transform: scale(1.2);
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
+}
+
+.button:active {
+    border-color: #06f;
+    color: #06f;
+    fill: #06f;
+}
+
+.page-content {
+    height: 100vh;
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
+
+@media only screen and (max-width: 700px) {
+    body {
+        font-size: 1.3rem;
+        width: 100%;
+    }
+
+    .nav-bar {
+        font-size: 12px;
+        width: 90vw;
+    }
+
+    .nav-bar-item {
+        border-style: solid;
+        border-width: thin;
+        border-color: rgb(51,51,51,0.2);
+        text-align: center;
+        margin: 1vw;
+        padding: 14px;
+        border-radius: 25px;
+    }
+
+    .nav-bar-right {
+        float: none;
+    }
+
+    .buttons {
+        width: 80vw;
+    }
+
+    .button {
+        padding: 5%;
+    }
+
+    .logo1 {
+        height: auto;
+    }
+
+    .logo2 {
+        height: auto;
+        width: 100vw;
+        margin-top: 30px;
+        margin-bottom: -10px
+    }
+    .nav-bar-logo {
+        display: none;
+    }
+}

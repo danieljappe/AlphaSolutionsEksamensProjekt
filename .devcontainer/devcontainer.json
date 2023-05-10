@@ -1,0 +1,14 @@
+{
+	"image": "eclipse-temurin:17-jdk-jammy",
+	"features": {
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"vscjava.vscode-java-pack"
+			]
+		}
+	}
+
+}

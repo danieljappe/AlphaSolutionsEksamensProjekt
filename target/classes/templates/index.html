@@ -1,55 +1,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Board Wave</title>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="initial-scale=1, width=device-width"/>
-  <link rel="stylesheet" href="css/index.css" type="text/css"/>
-  <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+    <title>Board Wave</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="initial-scale=1, width=device-width"/>
+    <link rel="stylesheet" href="../css/index.css" type="text/css" id="dark-mode-stylesheet"/>
+    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+    <script>
+        function darkModeToggle() {
+            var element = document.body;
+            element.classList.toggle("darkModeToggle");
+            var img = document.getElementById("mode-icon");
+            var img2 = document.getElementById("mode-icon2");
+            var img3 = document.getElementById("mode-icon3");
+            var img4 = document.getElementById("mode-icon4");
+            var link = document.getElementById("dark-mode-stylesheet");
+
+            if (img.src.endsWith("lightbulb.png")) {
+                img.src = "../images/darkbulb.png";
+                link.href = "../css/index-darkmode.css";
+            } else {
+                img.src = "../images/lightbulb.png";
+                link.href = "../css/index.css";
+            }
+
+            if (img2.src.endsWith("Icon_Light_mode.png")) {
+                img2.src = "../images/Icon_Dark_mode.png";
+            } else {
+                img2.src = "../images/Icon_Light_mode.png";
+            }
+
+            if (img3.src.endsWith("Light_mode.png")) {
+                img3.src = "../images/Dark_mode.png";
+            } else {
+                img3.src = "../images/Light_mode.png";
+            }
+
+            if (img4.src.endsWith("Dark_mode.png")) {
+                img4.src = "../images/Light_mode.png";
+            } else {
+                img4.src = "../images/Dark_mode.png";
+            }
+        }
+    </script>
 </head>
 <body>
 <div class="container">
-
-  <!--Navigation bar-->
-  <div class="nav-bar">
-    <div class="nav-bar-logo">
-      <a href="./">
-        <img src="../images/boardwavelogo.png" alt="logo" class="logo1">
-      </a>
+    <!--Navigation bar-->
+    <div class="nav-bar">
+        <div class="nav-bar-logo">
+            <a href="./">
+                <img id="mode-icon2" src="../images/Icon_Light_mode.png" alt="logo" class="logo1">
+            </a>
+        </div>
+        <div class="nav-bar-item">
+            <img id="mode-icon" src="../images/lightbulb.png" alt="logo"
+                 style="height: auto; width: 2.8vw; margin-top: -0.5vh;"
+                 onclick="darkModeToggle()">
+        </div>
+        <div class="nav-bar-right">
+            <div><a class="nav-bar-item" href="/about-page">About</a></div>
+            <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
+            <div><a class="nav-bar-item" href="/register-page">Sign Up</a></div>
+            <div><a class="nav-bar-item" href="/login-page">Log in</a></div>
+        </div>
     </div>
-    <div class="nav-bar-right">
-      <div><a class="nav-bar-item" href="/about-page">About</a></div>
-      <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
-      <div><a class="nav-bar-item" href="/register-page">Sign Up</a></div>
-      <div><a class="nav-bar-item" href="/login-page">Log in</a></div>
+
+    <!--Page Content-->
+    <div class="page-content">
+
+        <section id="wave-background">
+            <img id="mode-icon3" src="../images/Light_mode.png" alt="logo" class="logo2">
+            <h1>The Ultimate Project<br>Management Tool</h1>
+        </section>
+
+        <section>
+            <p>Streamline your projects<br> and stay on top of your tasks with <img id="mode-icon4" src="../images/Dark_mode.png" alt="logo" style="height: auto;margin-bottom: -3vh;margin-top: -20vh;width: 25vw;">
+            </p>
+        </section>
+
+        <section>
+            <p>The sleek and intuitive project management tool designed for teams of all sizes.</p>
+        </section>
+
+        <section>
+            <div style="margin-top: 30vh; padding: 5vh">
+                <div class="buttons">
+                    <a href="/login-page" class="button" style="margin-bottom:-2vh">Login</a>
+                </div>
+                <div class="buttons">
+                    <a href="/register-page" class="button">Sign Up Now</a>
+                </div>
+            </div>
+            <a href="https://github.com/danieljappe/AlphaSolutionsEksamensProjekt" target="_blank"
+               style="display: inline-block; margin-top: 10vh;">
+                <img onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"
+                     src="../images/github-icon.png" alt="github-icon"
+                     style="height: auto; width: 10vw; transform: scale(1.1);">
+            </a>
+        </section>
     </div>
-  </div>
-
-  <!--Page Content-->
-  <div class="page-content">
-
-    <section>
-      <img src="../images/boardwavelogo.png" alt="logo" class="logo2">
-      <h1>The Ultimate Project<br>Management Tool</h1>
-    </section>
-
-    <section>
-      <p>Streamline your projects<br> and stay on top of your tasks with <img src="../images/boardwavelogo.png" alt="logo" style="height: auto; width: 325px; margin-bottom: -7px"></p>
-    </section>
-
-    <section>
-      <p>The sleek and intuitive project management tool designed for teams of all sizes.</p>
-    </section>
-
-    <section>
-      <div class="buttons">
-        <a href="/register-page" class="button">Sign Up Now</a>
-      </div>
-      <a href="https://github.com/danieljappe/AlphaSolutionsEksamensProjekt" target="_blank">
-      <img src="../images/github-icon.png" alt="github-icon" style="height: auto; width: 15vw; margin-top: 30vh;">
-      </a>
-    </section>
-  </div>
 </div>
 </body>
 </html>
