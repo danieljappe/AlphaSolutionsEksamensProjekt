@@ -3,9 +3,9 @@ package com.kodeklubben.boardwave.models;
 import java.util.ArrayList;
 
 public class Board {
-    private int id;
-    private String title;
-    private ArrayList<Column> columns;
+    int id;
+    String title;
+    ArrayList<Column> columns;
 
     public Board(String title, ArrayList<Column> columns, int id) {
         this.title = title;

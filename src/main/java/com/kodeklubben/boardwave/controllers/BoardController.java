@@ -60,13 +60,17 @@ public class BoardController {
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
             System.out.println("user:");
             System.out.println(userLoggedIn);
-            String[] ids = userLoggedIn.getBoards().split(";");
-            for (int i = 0; i < ids.length; i++) {
-                boardIds.add(Integer.parseInt(ids[i]));
+            if (!userLoggedIn.getBoards().isEmpty()){
+                String[] ids = userLoggedIn.getBoards().split(";");
+                for (int i = 0; i < ids.length; i++) {
+                    boardIds.add(Integer.parseInt(ids[i]));
+                }
+                ArrayList<Board> boards = repository.getBoards(boardIds);
+                model.addAttribute("boards", boards);
+            } else {
+                model.addAttribute("boards", new ArrayList<Board>());
             }
-        
-            ArrayList<Board> boards = repository.getBoards(boardIds);
-            model.addAttribute("boards", boards);
+            model.addAttribute("board", new Board("", new ArrayList<>(), -1));
             return "userHomePage";
         } else {
             model.addAttribute("error", true);
@@ -89,9 +93,22 @@ public class BoardController {
         if (!emailExists) {
             repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
             user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
+            userLoggedIn = user;
             System.out.println(user);
             if (user.getId() != -1) {
                 //user exists and found
+                if (!userLoggedIn.getBoards().isEmpty()){
+                    ArrayList<Integer> boardIds = new ArrayList<Integer>();
+                    String[] ids = userLoggedIn.getBoards().split(";");
+                    for (int i = 0; i < ids.length; i++) {
+                        boardIds.add(Integer.parseInt(ids[i]));
+                    }
+                    ArrayList<Board> boards = repository.getBoards(boardIds);
+                    model.addAttribute("boards", boards);
+                } else {
+                    model.addAttribute("boards", new ArrayList<Board>());
+                }
+                model.addAttribute("board", new Board("", new ArrayList<>(), -1));
                 return "userHomePage";
             } else {
                 model.addAttribute("error", true);
@@ -114,6 +131,27 @@ public class BoardController {
         }
         ArrayList<Board> boards = repository.getBoards(boardIds);
         model.addAttribute("boards", boards);
+        return "userHomePage";
+    }
+
+    @RequestMapping("/userHomePage")
+    public String userHomePage(@ModelAttribute Board board, Model model){
+        if (!userLoggedIn.getBoards().isEmpty()){
+            ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            String[] ids = userLoggedIn.getBoards().split(";");
+            for (int i = 0; i < ids.length; i++) {
+                boardIds.add(Integer.parseInt(ids[i]));
+            }
+            ArrayList<Board> boards = repository.getBoards(boardIds);
+
+            model.addAttribute("boards", boards);
+        } else {
+            model.addAttribute("boards", new ArrayList<Board>());
+        }
+
+        model.addAttribute("userModel", user);
+        System.out.println(user.getName());
+        model.addAttribute("board", board);
         return "userHomePage";
     }
 

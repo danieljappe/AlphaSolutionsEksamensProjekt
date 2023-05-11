@@ -28,6 +28,9 @@ public class User {
     }
 
     public String getBoards() {
+        if (this.boards == null) {
+            return "";
+        }
         return this.boards;
     }
 

@@ -29,15 +29,19 @@ public class Repository {
 
     private static final String GET_USER = "SELECT id, name, email, password, boards FROM users WHERE email=? && password=?";
     private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
+    private static final String GET_USER_FROM_ID = "SELECT id, name, password, email, boards FROM users WHERE id=?";
+
+    private static final String UPDATE_USER_BOARDS = "UPDATE users SET boards=? WHERE id=?";
+
 
     private static final String GET_LATEST_USERID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
-    private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password) VALUES (?, ?, ?, ?)";
+    private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password, boards) VALUES (?, ?, ?, ?, ?)";
 
     private static final String GET_USER_ID = "SELECT id, name, email, password, boards FROM users WHERE id=?";
 
     private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
     private static final String GET_LATEST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1"; 
-    private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name, userId) VALUES (?, ?, ?)";
+    private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name) VALUES (?, ?)";
 
     private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
     private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
@@ -128,6 +132,7 @@ public class Repository {
             userInsertionStatement.setString(2, name);
             userInsertionStatement.setString(3, email);
             userInsertionStatement.setString(4, password);
+            userInsertionStatement.setString(5, "");
             userInsertionStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -150,9 +155,29 @@ public class Repository {
         try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_BOARD)) {
             userInsertionStatement.setInt(1, lastBoardId + 1);
             userInsertionStatement.setString(2, name);
-            userInsertionStatement.setInt(3, userId);
             userInsertionStatement.execute();
             System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        String boards = "";
+        try (PreparedStatement userStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_ID)) {
+            userStatement.setInt(1, userId);
+            ResultSet resultSet = userStatement.executeQuery();
+            while (resultSet.next()) {
+                if (resultSet.getString("boards") != null) {
+                    boards = resultSet.getString("boards");
+                }
+            }
+            boards = boards + (lastBoardId + 1) + ";";
+            boards = boards.substring(0, boards.length() - 1);
+            
+            PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);
+            updateStatement.setString(1, boards);
+            updateStatement.setInt(2, userId);
+            updateStatement.execute();
+            
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

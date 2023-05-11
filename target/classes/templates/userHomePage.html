@@ -51,7 +51,11 @@
         -->
         <div class="left-box">
             <h2>Your Boards</h2>
-            <tr th:each=""></tr>
+            <tr th:each="board: ${boards}">
+                <td th:text="${board.getName()}">
+                    //todo: sidste gang her
+                </td>
+            </tr>
             
             
             
@@ -115,9 +119,9 @@
                     Create a new board
                 </div>
                 <div class="description">
-                    <form action="">
+                    <form action="#" th:action="@{/userHomePage}" th:object="${board}" method="post">
                         <label>Board name:</label><br>
-                        <input type="text"><br>
+                        <input type="text" th:field="${board.title}"><br>
                         <div class="dismiss-btn">
                             <button id="submit-popup-btn" type="submit" value="Submit">
                                 Create
