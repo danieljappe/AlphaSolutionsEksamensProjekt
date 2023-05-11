@@ -123,14 +123,21 @@ public class BoardController {
     @PostMapping("/userHomePage")
     public String submitCreateBoard(@ModelAttribute("board") Board board, Model model){
         int userID = repository.getIDFromAuthentication(user.getEmail(), user.getPassword());
+        System.out.println("userID: " + userID);
+        System.out.println("board: " + board.getTitle());
         repository.insertNewBoard(board.getTitle(), userID);
-        ArrayList<Integer> boardIds = new ArrayList<Integer>();
-        String[] ids = user.getBoards().split(";");
-        for (int i = 0; i < ids.length; i++) {
-            boardIds.add(Integer.parseInt(ids[i]));
+        if (!userLoggedIn.getBoards().isEmpty()||!userLoggedIn.getBoards().equals("null")){
+            ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            String[] ids = user.getBoards().split(";");
+            for (int i = 0; i < ids.length; i++) {
+                boardIds.add(Integer.parseInt(ids[i]));
+            }
+            ArrayList<Board> boards = repository.getBoards(boardIds);
+            model.addAttribute("boards", boards);
+        } else {
+            model.addAttribute("boards", new ArrayList<Board>());
         }
-        ArrayList<Board> boards = repository.getBoards(boardIds);
-        model.addAttribute("boards", boards);
+        
         return "userHomePage";
     }
 

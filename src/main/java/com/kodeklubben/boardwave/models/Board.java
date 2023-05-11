@@ -7,11 +7,20 @@ public class Board {
     String title;
     ArrayList<Column> columns;
 
+    public Board(){
+        
+    }
+
     public Board(String title, ArrayList<Column> columns, int id) {
         this.title = title;
         this.columns = columns;
-        this.id = id;
+        try {
+            this.id = id;
+        } catch (Exception e) {
+            this.id = -1;
+        }
     }
+
 
     public int getId() {
         return id;
