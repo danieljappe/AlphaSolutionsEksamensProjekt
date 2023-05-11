@@ -44,7 +44,7 @@ public class BoardController {
             userLoggedIn = user;
             //add users board to model
             model.addAttribute("user", user);
-            System.out.println(user.toString()); //works
+            System.out.println("i /credentitals: " + user.toString()); //works
             return true;
         }
         return false;
@@ -55,8 +55,6 @@ public class BoardController {
         boolean success = submitLogin(user.getEmail() + ";" + user.getPassword(), model);
         if (success) {
             //user exists and found
-            //add users boards to model
-
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
             System.out.println("user:");
             System.out.println(userLoggedIn);
@@ -88,7 +86,6 @@ public class BoardController {
 
     @PostMapping("/register-page")
     public String createUser(@ModelAttribute("user") User user, Model model){
-        System.out.println(user.toString());
         boolean emailExists = repository.emailExists(user.getEmail());
         if (!emailExists) {
             repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
@@ -121,14 +118,13 @@ public class BoardController {
     }
 
     @PostMapping("/userHomePage")
-    public String submitCreateBoard(@ModelAttribute("board") Board board, Model model){
+    public String submitCreateBoard(@ModelAttribute("board") Board board, Model model) {
         int userID = repository.getIDFromAuthentication(user.getEmail(), user.getPassword());
-        System.out.println("userID: " + userID);
-        System.out.println("board: " + board.getTitle());
         repository.insertNewBoard(board.getTitle(), userID);
-        if (!userLoggedIn.getBoards().isEmpty()||!userLoggedIn.getBoards().equals("null")){
+        userLoggedIn = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
+        if (!userLoggedIn.getBoards().isEmpty() || !userLoggedIn.getBoards().equals("null")) {
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
-            String[] ids = user.getBoards().split(";");
+            String[] ids = userLoggedIn.getBoards().split(";");
             for (int i = 0; i < ids.length; i++) {
                 boardIds.add(Integer.parseInt(ids[i]));
             }
@@ -137,9 +133,9 @@ public class BoardController {
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
         }
-        
+        model.addAttribute("user", userLoggedIn);
         return "userHomePage";
-    }
+}
 
     @RequestMapping("/userHomePage")
     public String userHomePage(@ModelAttribute Board board, Model model){
@@ -155,9 +151,8 @@ public class BoardController {
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
         }
-
+        
         model.addAttribute("userModel", user);
-        System.out.println(user.getName());
         model.addAttribute("board", board);
         return "userHomePage";
     }

@@ -51,56 +51,23 @@
         -->
         <div class="left-box">
             <h2>Your Boards</h2>
-            <tr th:each="board: ${boards}">
-                <td th:text="${board.getName()}">
-                    //todo: sidste gang her
-                </td>
-            </tr>
             
-            
-            
-            <div>
-                <button type="button" class="collapsible">Board 1</button>
-                <div class="board-box">
-                    <div class="board-box-content">
-                        <div>
-                            <h3>Board 1</h3>
+                <tr th:each="board : ${boards}">
+                    <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
+                    <div class="board-box">
+                        <div class="board-box-content">
+                            <div>
+                                <td>
+                                <h3 th:text="${board.getTitle()}">Board 1</h3>
+                                </td>
+                            </div>
+                            <button>View</button>
+                            <button>Edit</button>
+                            <button>Delete</button>
+                            <button>Share</button>
                         </div>
-                        <button>View</button>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                        <button>Share</button>
                     </div>
-                </div>
-            </div>
-            <div>
-                <button type="button" class="collapsible">Board 2</button>
-                <div class="board-box">
-                    <div class="board-box-content">
-                        <div>
-                            <h3>Board 2</h3>
-                        </div>
-                        <button>View</button>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                        <button>Share</button>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button type="button" class="collapsible">Board 3</button>
-                <div class="board-box">
-                    <div class="board-box-content">
-                        <div>
-                            <h3>Board 3</h3>
-                        </div>
-                        <button>View</button>
-                        <button>Edit</button>
-                        <button>Delete</button>
-                        <button>Share</button>
-                    </div>
-                </div>
-            </div>
+                </tr>
         </div>
         <div class="right-box">
             <div class="top-row">

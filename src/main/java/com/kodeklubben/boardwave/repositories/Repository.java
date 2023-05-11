@@ -170,14 +170,20 @@ public class Repository {
                     boards = resultSet.getString("boards");
                 }
             }
-            boards = boards + (lastBoardId + 1) + ";";
-            boards = boards.substring(0, boards.length() - 1);
+            boards = boards + ";" + (lastBoardId + 1);
+            if (boards.charAt(0) == ';') {
+                boards = boards.substring(1, boards.length());
+            }
             
-            PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);
+            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);) {    
             updateStatement.setString(1, boards);
             updateStatement.setInt(2, userId);
             updateStatement.execute();
-            
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
