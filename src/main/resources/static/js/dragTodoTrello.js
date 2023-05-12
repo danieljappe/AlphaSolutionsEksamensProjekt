@@ -94,3 +94,20 @@ close_btns.forEach((btn) => {
         btn.parentElement.style.display = "none";
     });
 });
+
+//todo-display information. 
+todos.forEach((todo) => {
+    todo.addEventListener("click", () => {
+        const modal = document.querySelector("#todo_modal");
+        const title = todo.dataset.title;
+        const description = todo.dataset.description;
+        const minutesEstimated = todo.dataset.minutesEstimated;
+        const hourlyRate = todo.dataset.hourlyRate;
+        modal.querySelector("#todo_title").textContent = title;
+        modal.querySelector("#todo_description").textContent = description;
+        modal.querySelector("#todo_minutesEstimated").textContent = minutesEstimated;
+        modal.querySelector("#todo_hourlyRate").textContent = hourlyRate;
+        modal.classList.add("active");
+        overlay.classList.add("active");
+    });
+});
