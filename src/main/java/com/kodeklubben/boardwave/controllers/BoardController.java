@@ -56,7 +56,6 @@ public class BoardController {
         if (success) {
             //user exists and found
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
-            System.out.println("user:");
             System.out.println(userLoggedIn);
             if (!userLoggedIn.getBoards().isEmpty()){
                 String[] ids = userLoggedIn.getBoards().split(";");
@@ -137,6 +136,18 @@ public class BoardController {
         return "userHomePage";
 }
 
+    @PostMapping("/deleteBoard")
+    public String deleteBoard(@RequestParam("id") int id, @ModelAttribute("board") Board board, Model model) {
+        System.out.println("id: " + id);
+        //TODO: fix this
+        repository.deleteBoard(id);
+        userLoggedIn = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
+        model.addAttribute("user", userLoggedIn);
+        return "userHomePage";
+    }
+
+
+
     @RequestMapping("/userHomePage")
     public String userHomePage(@ModelAttribute Board board, Model model){
         if (!userLoggedIn.getBoards().isEmpty()){
@@ -156,6 +167,7 @@ public class BoardController {
         model.addAttribute("board", board);
         return "userHomePage";
     }
+
 
 
     // Contact

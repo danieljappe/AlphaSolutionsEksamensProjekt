@@ -143,6 +143,7 @@ public class Repository {
 
     public int insertNewBoard(String name, int userId) {
         int lastBoardId = 0;
+        //"SELECT id FROM boards ORDER BY id DESC LIMIT 1";
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -250,6 +251,17 @@ public class Repository {
             }
         }
         return result;
+    }
+
+    //delete board
+    public void deleteBoard(int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement("DELETE FROM boards WHERE id=?")) {
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 }
