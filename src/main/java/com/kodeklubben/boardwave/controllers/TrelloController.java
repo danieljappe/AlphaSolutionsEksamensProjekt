@@ -17,6 +17,9 @@ public class TrelloController {
 
     private List<Card> cards = new ArrayList<>();
 
+    @Autowired
+    Repository repository;
+
     @GetMapping("/trello-page")
     public String trelloPage(Model model) {
         model.addAttribute("cards", cards);
@@ -29,9 +32,9 @@ public class TrelloController {
         cards.add(card);
 
         model.addAttribute("cards", cards);
+
+        repository.insertNewCard(card);
+
         return "trelloPage";
     }
 }
-
-
-

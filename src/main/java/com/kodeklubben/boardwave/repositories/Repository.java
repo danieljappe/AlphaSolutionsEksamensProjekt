@@ -227,6 +227,59 @@ public class Repository {
 
         }
     }
+    
+    public int insertNewCard(Card card) {
+        int lastBoardId = 0;
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                lastBoardId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_CARD)) {
+            userInsertionStatement.setInt(1, lastBoardId + 1);
+            userInsertionStatement.setString(2, card.getTitle());
+            userInsertionStatement.setString(3, card.getDescription());
+            
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        String boards = "";
+        try (PreparedStatement userStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_ID)) {
+            userStatement.setInt(1, userId);
+            ResultSet resultSet = userStatement.executeQuery();
+            while (resultSet.next()) {
+                if (resultSet.getString("boards") != null) {
+                    boards = resultSet.getString("boards");
+                }
+            }
+            boards = boards + ";" + (lastBoardId + 1);
+            if (boards.charAt(0) == ';') {
+                boards = boards.substring(1, boards.length());
+            }
+            
+            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);) {    
+            updateStatement.setString(1, boards);
+            updateStatement.setInt(2, userId);
+            updateStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return lastBoardId;
+    }
+
 
     public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
         //result list - what we return at the end
