@@ -46,7 +46,7 @@ public class Repository {
     private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
     private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
 
-    private static final String INSERT_NEW_CARD = "INSERT INTO card(id, title, description, minutesEstimated, hourlyRate, boardId, columnId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+/*     private static final String INSERT_NEW_CARD = "INSERT INTO card(id, title, description, minutesEstimated, hourlyRate, boardId, columnId) VALUES (?, ?, ?, ?, ?, ?, ?)";*/
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
     public int getIDFromAuthentication(String email, String password) {
@@ -227,7 +227,9 @@ public class Repository {
 
         }
     }
-    
+
+//todo card saves 
+/* 
     public int insertNewCard(Card card) {
         int lastBoardId = 0;
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
@@ -280,7 +282,7 @@ public class Repository {
         return lastBoardId;
     }
 
-
+*/
     public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
         //result list - what we return at the end
         ArrayList<Board> result = new ArrayList<Board>();
