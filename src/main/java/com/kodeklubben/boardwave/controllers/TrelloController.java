@@ -1,6 +1,8 @@
 package com.kodeklubben.boardwave.controllers;
 
 import com.kodeklubben.boardwave.models.Card;
+import com.kodeklubben.boardwave.models.Column;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,7 @@ import java.util.List;
 public class TrelloController {
 
     private List<Card> cards = new ArrayList<>();
+    private List<Column> columns = new ArrayList<>();
 
     @GetMapping("/trello-page")
     public String trelloPage(Model model) {

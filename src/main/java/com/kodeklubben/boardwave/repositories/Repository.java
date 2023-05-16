@@ -320,4 +320,29 @@ public class Repository {
         }
     }
 
+    public Board getBoard(int boardId) {
+        //result list - what we return at the end
+        Board result = new Board();
+
+        //looping all ids in parameter list
+        
+            //Getting 1 board from id
+            try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
+                preparedStatement.setInt(1, boardId);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                //getting columns from boardId
+                ArrayList<Column> columns = getColumns(boardId);
+
+                //adding board to result list
+                while (resultSet.next()) {
+                    result = (new Board(resultSet.getString("name"), columns, boardId));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        return result;
+    }
+
 }

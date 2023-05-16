@@ -61,9 +61,11 @@
                                 <h3 th:text="${board.getTitle()}">Board 1</h3>
                                 </td>
                             </div>
-                            <button>View</button>
+                            <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button>View</button></a>
                             <button>Edit</button>
-                            <button>Delete</button>
+                            <form th:action="@{/deleteBoard/{id}(id=${board.getId()})}" method="post">
+                                <button type="submit">Delete</button>
+                            </form>
                             <button>Share</button>
                         </div>
                     </div>

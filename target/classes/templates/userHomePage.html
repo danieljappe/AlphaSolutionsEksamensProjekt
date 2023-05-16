@@ -52,7 +52,7 @@
         <div class="left-box">
             <h2>Your Boards</h2>
             
-                <tr th:each="board, boardStat : ${boards}">
+                <tr th:each="board : ${boards}">
                     <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
                     <div class="board-box">
                         <div class="board-box-content">
@@ -61,12 +61,11 @@
                                 <h3 th:text="${board.getTitle()}">Board 1</h3>
                                 </td>
                             </div>
-                            <button>View</button>
+                            <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button>View</button></a>
                             <button>Edit</button>
-                            <form method="post" th:action="@{/deleteBoard(id=${board.getId})}">
+                            <form th:action="@{/deleteBoard/{id}(id=${board.getId()})}" method="post">
                                 <button type="submit">Delete</button>
-                                <input type="hidden" th:value="${board.getId}" name="id"/>
-                            </form>                            
+                            </form>
                             <button>Share</button>
                         </div>
                     </div>

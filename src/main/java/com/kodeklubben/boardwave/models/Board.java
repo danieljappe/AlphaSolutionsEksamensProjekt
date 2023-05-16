@@ -8,7 +8,6 @@ public class Board {
     ArrayList<Column> columns;
 
     public Board(){
-        
     }
 
     public Board(String title, ArrayList<Column> columns, int id) {
@@ -45,4 +44,5 @@ public class Board {
     public void setColumns(ArrayList<Column> columns) {
         this.columns = columns;
     }
+
 }

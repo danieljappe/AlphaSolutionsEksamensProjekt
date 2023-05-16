@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width"/>
+    <link rel="stylesheet" href="css/homepage.css" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+</head>
+<body>
+<div class="container">
+
+    <!--Navigation bar-->
+    <div class="nav-bar">
+        <div class="nav-bar-item">
+            <a href="./">
+                <img src="../images/boardwavelogo.png" alt="logo"
+                     style="height: auto; width: 185px; margin-bottom: -12px">
+            </a>
+        </div>
+        <div class="nav-bar-right">
+            <div><a class="nav-bar-item" href="/about-page">About</a></div>
+            <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
+            <div><a class="nav-bar-item" href="/trello-page">Trello</a></div>
+        </div>
+    </div>
+
+    <!--Page Content-->
+    <h1>Board Page</h1>
+    
+    <h2>Welcome, <span th:text="${user}"></span>!</h2>
+    
+    <h3>Board Details</h3>
+    <p>Name: <span th:text="${board.getTitle}"></span></p>
+    <p>Columns:</p>
+    <ul>
+        <li th:each="column : ${board.columns}" th:text="${column.name}"></li>
+    </ul>
+</div>
+
+</body>
+</html>
