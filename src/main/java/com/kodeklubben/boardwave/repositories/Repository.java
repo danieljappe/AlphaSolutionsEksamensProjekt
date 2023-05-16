@@ -46,6 +46,7 @@ public class Repository {
     private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
     private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
 
+    private static final String INSERT_NEW_CARD = "INSERT INTO card(id, title, description, minutesEstimated, hourlyRate, boardId, columnId) VALUES (?, ?, ?, ?, ?, ?, ?)";
     //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
 
     public int getIDFromAuthentication(String email, String password) {
