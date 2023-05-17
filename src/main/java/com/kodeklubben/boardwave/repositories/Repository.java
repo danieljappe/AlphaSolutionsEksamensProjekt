@@ -5,8 +5,6 @@ import com.kodeklubben.boardwave.models.Column;
 import com.kodeklubben.boardwave.models.Card;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
-
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +23,7 @@ public class Repository {
     private final DatabaseConnectionManager dcm;
 
     public Repository(@Value("${PSCALE_USER}") String pscaleUser, @Value("${PSCALE_USER_PASSWORD}") String pscaleUserPassword) {
-    this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
+        this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
 
     // Prepared Statements
@@ -33,34 +31,39 @@ public class Repository {
     private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
 
     private static final String GET_USER = "SELECT id, name, email, password, boards FROM users WHERE email=? && password=?";
-    private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
-    private static final String GET_USER_FROM_ID = "SELECT id, name, password, email, boards FROM users WHERE id=?";
-
-    private static final String UPDATE_USER_BOARDS = "UPDATE users SET boards=? WHERE id=?";
-
-
-    private static final String GET_LATEST_USERID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
-    private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password, boards) VALUES (?, ?, ?, ?, ?)";
-
-    private static final String GET_USER_ID = "SELECT id, name, email, password, boards FROM users WHERE id=?";
-
     private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
-    private static final String GET_LATEST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1"; 
-    private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name) VALUES (?, ?)";
-
     private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
     private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
 
-/*     private static final String INSERT_NEW_CARD = "INSERT INTO card(id, title, description, minutesEstimated, hourlyRate, boardId, columnId) VALUES (?, ?, ?, ?, ?, ?, ?)";*/
-    //private static final String GET_BOARDS = "SELECT id, name, userId  FROM board WHERE userId=?";
+    private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
+    private static final String GET_USER_ID_FROM_EMAIL = "SELECT id FROM users WHERE email=?";
+    private static final String GET_USER_FROM_ID = "SELECT id, name, password, email, boards FROM users WHERE id=?";
 
+    private static final String UPDATE_USER_BOARDS = "UPDATE users SET boards=? WHERE id=?";
+    private static final String UPDATE_BOARD = "UPDATE boards SET name=? WHERE id=?";
+    private static final String UPDATE_CARD = "UPDATE title, description, minutesEstimated, hourlyRate, columnId SET title=?, description=?, minutesEstimated=?, hourlyRate=?, columnId? FROM cards WHERE id=?";
+    private static final String UPDATE_COLUMN = "UPDATE Name SET Name=? FROM columns WHERE id=?";
+
+    private static final String DELETE_BOARD = "DELETE FROM boards WHERE id=?";
+    private static final String DELETE_CARD = "DELETE FROM cards WHERE id=?";
+    private static final String DELETE_COLUMN = "DELETE FROM columns WHERE id=?";
+    private static final String DELETE_CARDS_FROM_COLUMN_ID = "DELETE FROM cards WHERE columnId=?";
+    private static final String DELETE_CARDS_FROM_BOARD_ID = "DELETE FROM cards WHERE boardId=?";
+    private static final String DELETE_COLUMNS_FROM_BOARD_ID = "DELETE FROM columns WHERE boardId=?";
+
+    private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password, boards) VALUES (?, ?, ?, ?, ?)";
+    private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name) VALUES (?, ?)";
+
+
+    //user data---------------------------------------------------------------------------------------------------------
     public int getIDFromAuthentication(String email, String password) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_LOGIN)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
-
             ResultSet resultSet = preparedStatement.executeQuery();
+            //-1 = no result
             int id = -1;
+            //check for results
             if (resultSet.next()) {
                 id = resultSet.getInt("id");
             }
@@ -71,15 +74,21 @@ public class Repository {
         }
     }
 
-    public User getUser(int id) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_ID)) {
+    public User getUserFromId(int id) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                User user = new User(resultSet.getString("name"), resultSet.getString("password"), resultSet.getString("email"), resultSet.getInt("id"), resultSet.getString("boards"));
-                
+                User user = new User(
+                        resultSet.getString("name"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getInt("id"),
+                        resultSet.getString("boards")
+                );
                 return user;
             }
+            //if nothing in result set, then null.
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -91,7 +100,6 @@ public class Repository {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER)) {
             preparedStatement.setString(1, email);
             preparedStatement.setString(2, password);
-
             User user;
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -107,10 +115,9 @@ public class Repository {
     }
 
     public boolean emailExists(String email) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_ID)) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_ID_FROM_EMAIL)) {
             preparedStatement.setString(1, email);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             int id = -1;
             if (resultSet.next()) {
                 id = resultSet.getInt("id");
@@ -123,8 +130,8 @@ public class Repository {
     }
 
     public int insertNewUser(String name, String email, String password) {
-        int lastUserId = 0;
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_USERID)) {
+        int lastUserId = -1;
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LAST_USER_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 lastUserId = resultSet.getInt("id");
@@ -133,24 +140,77 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_USER)) {
-            userInsertionStatement.setInt(1, lastUserId + 1);
-            userInsertionStatement.setString(2, name);
-            userInsertionStatement.setString(3, email);
-            userInsertionStatement.setString(4, password);
-            userInsertionStatement.setString(5, "");
-            userInsertionStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+        //-1 = fail to get last used id from 'users'
+        if (lastUserId != -1) {
+            try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_USER)) {
+                userInsertionStatement.setInt(1, lastUserId + 1);
+                userInsertionStatement.setString(2, name);
+                userInsertionStatement.setString(3, email);
+                userInsertionStatement.setString(4, password);
+                userInsertionStatement.setString(5, ""); //list of boards is empty in beginning
+                userInsertionStatement.execute();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
         }
         return lastUserId;
     }
 
-    public int insertNewBoard(String name, int userId) {
-        int lastBoardId = 0;
-        //"SELECT id FROM boards ORDER BY id DESC LIMIT 1";
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
+
+    //board data--------------------------------------------------------------------------------------------------------
+    public Board getBoard(int boardId) {
+        Board result = new Board(); //result list - to be returned at the end
+
+        //Getting 1 board from id
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
+            preparedStatement.setInt(1, boardId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            //getting columns from boardId
+            ArrayList<Column> columns = getColumns(boardId);
+
+            //adding board to result list
+            while (resultSet.next()) {
+                result = (new Board(resultSet.getString("name"), columns, boardId));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return result;
+    }
+
+    public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
+        ArrayList<Board> result = new ArrayList<Board>(); //result list - what we return at the end
+
+        //looping all ids in parameter list
+        for (int id: ids) {
+            //Getting each board from id
+            try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                //getting columns from boardId
+                ArrayList<Column> columns = getColumns(id);
+
+                //adding board to result list
+                while (resultSet.next()) {
+                    result.add(new Board(resultSet.getString("name"), columns, id));
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+        return result;
+    }
+
+    public int insertNewBoard(String name, int userId, String boards) {
+        int lastBoardId = -1;
+
+        //#1 get latest board id, -1 = no result
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LAST_BOARD_ID)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 lastBoardId = resultSet.getInt("id");
@@ -159,6 +219,8 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+
+        //#2 insert new board with a chosen name
         try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_BOARD)) {
             userInsertionStatement.setInt(1, lastBoardId + 1);
             userInsertionStatement.setString(2, name);
@@ -188,9 +250,45 @@ public class Repository {
         return lastBoardId;
     }
 
+    public void editBoard(String name, int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_BOARD)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, boardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteBoard(int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_BOARD)) {
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_COLUMNS_FROM_BOARD_ID)) {
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_CARDS_FROM_BOARD_ID)) {
+            preparedStatement.setInt(1, boardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    //card data---------------------------------------------------------------------------------------------------------
     public ArrayList<Card> getCards(int boardId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_CARDS)) {
-            //running query
+            //running query to get cards for a board id
             preparedStatement.setInt(1, boardId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -206,27 +304,51 @@ public class Repository {
         }
     }
 
+    public void editCard(String title, String description, int minutesEstimated, double hourlyRate, int columnId, int cardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_CARD)) {
+            preparedStatement.setString(1, title);
+            preparedStatement.setString(2, description);
+            preparedStatement.setInt(3, minutesEstimated);
+            preparedStatement.setDouble(4, hourlyRate);
+            preparedStatement.setInt(5, columnId);
+            preparedStatement.setInt(6, cardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
 
-     public ArrayList<Column> getColumns(int boardId) {
+    public void deleteCard(int cardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_CARD)) {
+            preparedStatement.setInt(1, cardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    //column data-------------------------------------------------------------------------------------------------------
+    public ArrayList<Column> getColumns(int boardId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_COLUMNS)) {
             preparedStatement.setLong(1, boardId);
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Column> columns = new ArrayList<Column>();
             while (resultSet.next()) {
-                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getInt("id"))); 
+                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getInt("id")));
             }
             return columns;
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
-
         }
     }
 
-    public void editBoard(String name, int boardId) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_BOARD)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, boardId);
+    public void editColumn(String newName, int cardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_COLUMN)) {
+            preparedStatement.setString(1, newName);
+            preparedStatement.setInt(2, cardId);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -234,40 +356,23 @@ public class Repository {
         }
     }
 
-    //delete board
-    public void deleteBoard(int boardId) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement("DELETE FROM boards WHERE id=?")) {
-            preparedStatement.setInt(1, boardId);
+    public void deleteColumn(int columnId) {
+        // #1 Delete columns
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_COLUMN)) {
+            preparedStatement.setInt(1, columnId);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-    }
-
-    public Board getBoard(int boardId) {
-        //result list - what we return at the end
-        Board result = new Board();
-
-        //looping all ids in parameter list
-        
-            //Getting 1 board from id
-            try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
-                preparedStatement.setInt(1, boardId);
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                //getting columns from boardId
-                ArrayList<Column> columns = getColumns(boardId);
-
-                //adding board to result list
-                while (resultSet.next()) {
-                    result = (new Board(resultSet.getString("name"), columns, boardId));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        return result;
+        // #2 Delete cards in the column
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_CARDS_FROM_COLUMN_ID)) {
+            preparedStatement.setInt(1, columnId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 }
