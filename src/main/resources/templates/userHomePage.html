@@ -51,25 +51,52 @@
         -->
         <div class="left-box">
             <h2>Your Boards</h2>
-            
-                <tr th:each="board : ${boards}">
-                    <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
-                    <div class="board-box">
-                        <div class="board-box-content">
-                            <div>
-                                <td>
-                                <h3 th:text="${board.getTitle()}">Board 1</h3>
-                                </td>
+            <tr th:each="board : ${boards}">
+                <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
+                <div class="board-box">
+                    <div class="board-box-content">
+                        <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button>View</button></a>
+
+                        <!-- edit -->
+                        <div class="popup center">
+                            <div class="icon">
+                                <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
                             </div>
-                            <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button>View</button></a>
-                            <button>Edit</button>
-                            <form th:action="@{/deleteBoard/{id}(id=${board.getId()})}" method="post">
-                                <button type="submit">Delete</button>
-                            </form>
-                            <button>Share</button>
+                            <div class="title">
+                                Edit board
+                            </div>
+                            <div class="description">
+                                <form th:action="@{/editBoard}" method="post">
+                                    <label>Board name:</label><br>
+                                    <input type="text" name="name" th:value="${board.title}"><br>
+                                    <input type="hidden" name="boardId" th:value="${board.id}">
+                                    <div class="dismiss-btn">
+                                        <button class="submit-popup-btn" type="submit" value="Submit">
+                                            Edit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="dismiss-btn">
+                                <button class="dismiss-popup-btn">
+                                    Dismiss
+                                </button>
+                            </div>
                         </div>
+                        <div class="bottom-left">
+                            <button class="button-59 open-popup-btn" type="submit">Edit</button>
+                        </div>
+
+
+
+                        <form th:action="@{/deleteBoard}" method="post">
+                            <input type="hidden" name="boardId" th:value="${board.getId()}"/>
+                            <button type="submit">Delete</button>
+                        </form>
+                        <button>Share</button>
                     </div>
-                </tr>
+                </div>
+            </tr>
         </div>
         <div class="right-box">
             <div class="top-row">

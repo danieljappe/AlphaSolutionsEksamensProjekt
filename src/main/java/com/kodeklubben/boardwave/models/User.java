@@ -34,6 +34,23 @@ public class User {
         return this.boards;
     }
 
+    public void removeBoard(int id) {
+        String[] boards = this.boards.split(";");
+        int index = -1;
+        for (int i = 0; i < boards.length; i++) {
+            if (Integer.parseInt(boards[i]) == id) {
+                index = i;
+                break;
+            }
+        }
+        //eksempel: 28;29;30;31;46;47;58;59
+        if (index == 0) {
+            this.boards.replaceFirst(id + ";", "");
+        } else if (index > -1) {
+            this.boards.replaceFirst(";" + id, "");
+        }
+    }
+
     public void setBoards(String boards) {
         this.boards = boards;
     }

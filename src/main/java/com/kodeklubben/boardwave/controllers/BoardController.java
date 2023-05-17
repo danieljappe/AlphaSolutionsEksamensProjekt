@@ -165,8 +165,6 @@ public class BoardController {
         return "midlertidigBoardPage";
     }
 
-
-
     // Contact
     @GetMapping("/contact-page")
     public String contactPage() {

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 public class Repository {
 
     @Value("${PSCALE_USER}")
+
     private String pscaleUser;
 
     @Value("${PSCALE_USER_PASSWORD}")
@@ -26,6 +27,10 @@ public class Repository {
     public Repository(@Value("${PSCALE_USER}") String pscaleUser, @Value("${PSCALE_USER_PASSWORD}") String pscaleUserPassword) {
     this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
+
+    // Prepared Statements
+    private static final String GET_LAST_USER_ID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
+    private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
 
     private static final String GET_USER = "SELECT id, name, email, password, boards FROM users WHERE email=? && password=?";
     private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
@@ -163,32 +168,22 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        String boards = "";
-        try (PreparedStatement userStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_ID)) {
-            userStatement.setInt(1, userId);
-            ResultSet resultSet = userStatement.executeQuery();
-            while (resultSet.next()) {
-                if (resultSet.getString("boards") != null) {
-                    boards = resultSet.getString("boards");
-                }
-            }
+
+        //#3 give user access to the board id
+        if (lastBoardId != -1) {
             boards = boards + ";" + (lastBoardId + 1);
             if (boards.charAt(0) == ';') {
                 boards = boards.substring(1, boards.length());
             }
-            
-            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);) {    
-            updateStatement.setString(1, boards);
-            updateStatement.setInt(2, userId);
-            updateStatement.execute();
+            // update user data with new board id
+            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
+                updateStatement.setString(1, boards);
+                updateStatement.setInt(2, userId);
+                updateStatement.execute();
             } catch (SQLException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
         }
         return lastBoardId;
     }
@@ -228,85 +223,15 @@ public class Repository {
         }
     }
 
-//todo card saves 
-/* 
-    public int insertNewCard(Card card) {
-        int lastBoardId = 0;
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LATEST_BOARD_ID)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                lastBoardId = resultSet.getInt("id");
-            }
+    public void editBoard(String name, int boardId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_BOARD)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, boardId);
+            preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_CARD)) {
-            userInsertionStatement.setInt(1, lastBoardId + 1);
-            userInsertionStatement.setString(2, card.getTitle());
-            userInsertionStatement.setString(3, card.getDescription());
-            
-            userInsertionStatement.execute();
-            System.out.println(userInsertionStatement.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        String boards = "";
-        try (PreparedStatement userStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_ID)) {
-            userStatement.setInt(1, userId);
-            ResultSet resultSet = userStatement.executeQuery();
-            while (resultSet.next()) {
-                if (resultSet.getString("boards") != null) {
-                    boards = resultSet.getString("boards");
-                }
-            }
-            boards = boards + ";" + (lastBoardId + 1);
-            if (boards.charAt(0) == ';') {
-                boards = boards.substring(1, boards.length());
-            }
-            
-            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS);) {    
-            updateStatement.setString(1, boards);
-            updateStatement.setInt(2, userId);
-            updateStatement.execute();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        return lastBoardId;
-    }
-
-*/
-    public ArrayList<Board> getBoards(ArrayList<Integer> ids) {
-        //result list - what we return at the end
-        ArrayList<Board> result = new ArrayList<Board>();
-
-        //looping all ids in parameter list
-        for (int id: ids) {
-            //Getting 1 board from id
-            try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
-                preparedStatement.setInt(1, id);
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                //getting columns from boardId
-                ArrayList<Column> columns = getColumns(id);
-
-                //adding board to result list
-                while (resultSet.next()) {
-                    result.add(new Board(resultSet.getString("name"), columns, id));
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-        return result;
     }
 
     //delete board
