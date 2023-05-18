@@ -27,13 +27,17 @@
 
     <!--Page Content-->
     <div class="page-content">
+        <div class="new-box">
+            <!-- Content of the new box -->
+        </div>
+        <div class="box-container">
         <div class="left-box">
             <h2>Your Boards</h2>
             <tr th:each="board : ${boards}">
                 <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
                 <div class="board-box">
                     <div class="board-box-content">
-                        <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button>View</button></a>
+                        <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button class="button-69">View</button></a>
 
                         <!-- edit -->
                         <div class="popup center">
@@ -62,16 +66,14 @@
                             </div>
                         </div>
                         <div class="bottom-left">
-                            <button class="button-59 open-popup-btn" type="submit">Edit</button>
+                            <button class="button-69 open-popup-btn" type="submit">Edit</button>
                         </div>
-
-
 
                         <form th:action="@{/deleteBoard}" method="post">
                             <input type="hidden" name="boardId" th:value="${board.getId()}"/>
-                            <button type="submit">Delete</button>
+                            <button class="button-69" type="submit">Delete</button>
                         </form>
-                        <button>Share</button>
+                        <button class="button-69">Share</button>
                     </div>
                 </div>
             </tr>
@@ -119,6 +121,7 @@
                 </a>
             </div>
         </div>
+        </div>
     </div>
 </div>
 
@@ -139,24 +142,22 @@
     }
 
     document.addEventListener("DOMContentLoaded", function() {
-        var openPopupBtns = document.querySelectorAll(".open-popup-btn");
-        var dismissPopupBtns = document.querySelectorAll(".dismiss-popup-btn");
-        var popups = document.querySelectorAll(".popup");
+    var openPopupBtns = document.querySelectorAll(".open-popup-btn");
+    var dismissPopupBtns = document.querySelectorAll(".dismiss-popup-btn");
+    var popups = document.querySelectorAll(".popup");
 
-        openPopupBtns.forEach(function(openPopupBtn, index) {
-            openPopupBtn.addEventListener("click", function() {
-                openPopupBtn.style.display = "none";
-                popups[index].classList.add("active");
-            });
-        });
-
-        dismissPopupBtns.forEach(function(dismissPopupBtn, index) {
-            dismissPopupBtn.addEventListener("click", function() {
-                openPopupBtns[index].style.display = "block";
-                popups[index].classList.remove("active");
-            });
+    openPopupBtns.forEach(function(openPopupBtn, index) {
+        openPopupBtn.addEventListener("click", function() {
+            popups[index].classList.add("active");
         });
     });
+
+    dismissPopupBtns.forEach(function(dismissPopupBtn, index) {
+        dismissPopupBtn.addEventListener("click", function() {
+            popups[index].classList.remove("active");
+        });
+    });
+});
 </script>
 </body>
 </html>
