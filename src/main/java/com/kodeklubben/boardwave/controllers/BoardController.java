@@ -34,43 +34,70 @@ public class BoardController {
         return "loginPage";
     }
 
+    // '@GetMapping("/credentials")' is an annotation that binds the following method to HTTP GET requests on the "/credentials" endpoint.
     @GetMapping("/credentials")
     public Boolean submitLogin(@RequestParam String id, Model model){
+        // The id parameter consists of two parts separated by a semicolon: the email and the password.
+        // They are extracted here by splitting the id string.
         String email = id.split(";")[0];
         String password = id.split(";")[1];
+        // The method 'getIDFromAuthentication' is called on the 'repository' with the provided email and password as parameters.
+        // This method checks the credentials and returns the user ID if the credentials are valid, and -1 otherwise.
         int userID = repository.getIDFromAuthentication(email, password);
+        // If the userID isn't -1, that means the login credentials were valid.
         if (userID != -1){
+            // The user information is retrieved from the repository/database using the userID.
             user = repository.getUserFromId(userID);
+            // The 'userLoggedIn' variable is updated with the currently logged in user.
             userLoggedIn = user;
-            //add users board to model
+            // The user's information is added to the model, which will be passed to the view.
             model.addAttribute("user", user);
+            // The details of the user who just logged in are printed to the console.
             System.out.println("i /credentitals: " + user.toString()); //works
+            // If the user is successfully logged in, the method returns true.
             return true;
         }
+        // If the user ID is -1 (indicating invalid credentials), the method returns false.
         return false;
     }
 
+    // The '@PostMapping("/login")' annotation is specifying that this method should be invoked to handle POST HTTP requests made to the '/login' endpoint.
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user, Model model) {
+        // A method call 'submitLogin' is being executed with user's email and password as a parameter.
+        // This method validates the user's credentials. The result of the login attempt is stored in 'success'.
         boolean success = submitLogin(user.getEmail() + ";" + user.getPassword(), model);
+        // If the login is successful (i.e., 'success' is true)...
         if (success) {
-            //user exists and found
+            // An ArrayList 'boardIds' is created to store the board IDs of the user.
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            // The system logs the currently logged-in user.
             System.out.println(userLoggedIn);
+            // If the user has any boards...
             if (!userLoggedIn.getBoards().isEmpty()){
+                // Their IDs are extracted by splitting the string using ';' as the delimiter.
                 String[] ids = userLoggedIn.getBoards().split(";");
+                // Each ID is converted from String to Integer and added to the 'boardIds' list.
                 for (int i = 0; i < ids.length; i++) {
                     boardIds.add(Integer.parseInt(ids[i]));
                 }
+                // Boards corresponding to the 'boardIds' are retrieved from a repository (likely a database).
                 ArrayList<Board> boards = repository.getBoards(boardIds);
+                // The 'boards' are added to the 'model' to be made available for the view (the front-end).
                 model.addAttribute("boards", boards);
             } else {
+                // If the user doesn't have any boards, an empty list is added to the 'model'.
                 model.addAttribute("boards", new ArrayList<Board>());
             }
+            // An empty 'Board' object is added to the 'model' for creating new boards.
             model.addAttribute("board", new Board("", new ArrayList<>(), -1));
+            // The method returns a String representing the name of the view that should be rendered.
+            // In this case, it's the user's home page.
             return "userHomePage";
         } else {
+            // If the login was not successful, an error attribute is added to the 'model'.
             model.addAttribute("error", true);
+            // The method returns the result of a 'loginPage' method, likely redirecting back to the login page.
             return loginPage(model);
         }
     }
