@@ -55,7 +55,6 @@ body {
     background: linear-gradient(175deg, rgba(34, 34, 34, 1) 0%, rgba(51, 51, 51, 1) 100%);
     margin-top: 15px;
     padding-top: 1.68vh;
-    padding-bottom: 1.2vh;
     border-radius: 50px;
     width: 84vw;
     font-size: 24px;
@@ -104,10 +103,6 @@ body {
 
 .logo2 {
     height: auto; width: 500px; margin-top: 50px; margin-bottom: -50px;
-}
-
-.logo1:hover {
-    height: auto; width: 185px; margin-bottom: -12px; transform: scale(1.01);
 }
 
 .logo2:hover {

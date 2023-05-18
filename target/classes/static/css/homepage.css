@@ -131,18 +131,11 @@ li {
     border-radius: 40px;
     color: #333;
     padding: 20px;
+    max-height: 50vh;
     display: grid;
     grid-template:
     "top-row top-row top-row" auto
     "bottom-left gap bottom-right" auto / 1fr 10px 1fr;
-}
-
-.new-box {
-    background: rgb(255, 255, 255);
-    color: black;
-    padding: 25px;
-    border-radius: 40px;
-    margin-bottom: 50px;
 }
 
 .box-container {
@@ -158,14 +151,12 @@ li {
 
 .bottom-left {
     grid-area: bottom-left;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .bottom-right {
     grid-area: bottom-right;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
@@ -229,6 +220,8 @@ span {
 .board-box-content {
     display: flex;
     margin: 1.5vh;
+    justify-content: center;
+    align-items: center;
 }
 
 .button-59 {
@@ -339,13 +332,15 @@ span {
     text-align: center;
     opacity: 0;
     transition: opacity 300ms ease-in-out, top 1000ms ease-in-out, transform 1000ms ease-in-out;
-  }
+    pointer-events: none; /* Add this line */
+}
 .popup.active {
     border-style: solid;
-    opacity:1;
-    top:50%;
-    transform:translate(-50%,-50%) scale(1);
-    transition: transform 300ms cubic-bezier(0.18,0.89,0.43,1.19);
+    opacity: 1;
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 300ms cubic-bezier(0.18, 0.89, 0.43, 1.19);
+    pointer-events: auto; /* Add this line */
 }
 .popup .icon {
     text-align:center;

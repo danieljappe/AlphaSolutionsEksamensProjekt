@@ -27,19 +27,15 @@
 
     <!--Page Content-->
     <div class="page-content">
-        <div class="new-box">
-            <!-- Content of the new box -->
-        </div>
-        <div class="box-container">
         <div class="left-box">
             <h2>Your Boards</h2>
             <tr th:each="board : ${boards}">
                 <button type="button" class="collapsible" th:text="${board.getTitle()}"></button>
                 <div class="board-box">
                     <div class="board-box-content">
+                        <!-- View -->
                         <a th:href="@{/boardPage={id}(id=${board.getId()})}"><button class="button-69">View</button></a>
-
-                        <!-- edit -->
+                        <!-- Edit -->
                         <div class="popup center">
                             <div class="icon">
                                 <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
@@ -68,11 +64,12 @@
                         <div class="bottom-left">
                             <button class="button-69 open-popup-btn" type="submit">Edit</button>
                         </div>
-
+                        <!-- Delete -->
                         <form th:action="@{/deleteBoard}" method="post">
                             <input type="hidden" name="boardId" th:value="${board.getId()}"/>
                             <button class="button-69" type="submit">Delete</button>
                         </form>
+                        <!-- Share -->
                         <button class="button-69">Share</button>
                     </div>
                 </div>
@@ -120,7 +117,6 @@
                     <button class="button-59" type="submit">Dont press this button</button>
                 </a>
             </div>
-        </div>
         </div>
     </div>
 </div>
