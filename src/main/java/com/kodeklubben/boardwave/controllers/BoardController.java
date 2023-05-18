@@ -26,6 +26,11 @@ public class BoardController {
         return "index";
     }
 
+    @GetMapping("/error")
+    public String errorPage() {
+        return "error";
+    }
+
     // Login
     @GetMapping("/login-page")
     public String loginPage(Model model) {
@@ -110,17 +115,25 @@ public class BoardController {
         return "registerPage";
     }
 
+    // The '@PostMapping("/register-page")' annotation binds this method to HTTP POST requests to the "/register-page" endpoint.
     @PostMapping("/register-page")
     public String createUser(@ModelAttribute("user") User user, Model model){
+        // Check if the provided email already exists in the database.
         boolean emailExists = repository.emailExists(user.getEmail());
+        // If the email does not already exist, then create a new user.
         if (!emailExists) {
+            // Insert the new user's details into the database.
             repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
+            // Log in the newly registered user.
             user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
+            // Update the 'userLoggedIn' variable to reflect the currently logged in user.
             userLoggedIn = user;
+            // Print the user's details to the console.
             System.out.println(user);
+            // Check if the user was successfully logged in.
             if (user.getId() != -1) {
-                //user exists and found
-                if (!userLoggedIn.getBoards().isEmpty()){
+                // If the user has any boards, retrieve them and add them to the model.
+                if (!userLoggedIn.getBoards().isEmpty() && !userLoggedIn.getBoards().equals("null")){
                     ArrayList<Integer> boardIds = new ArrayList<Integer>();
                     String[] ids = userLoggedIn.getBoards().split(";");
                     for (int i = 0; i < ids.length; i++) {
@@ -129,19 +142,25 @@ public class BoardController {
                     ArrayList<Board> boards = repository.getBoards(boardIds);
                     model.addAttribute("boards", boards);
                 } else {
+                    // If the user does not have any boards, add an empty list to the model.
                     model.addAttribute("boards", new ArrayList<Board>());
                 }
+                // Add an empty 'Board' object to the model.
                 model.addAttribute("board", new Board("", new ArrayList<>(), -1));
+                // Return the name of the view to be displayed - in this case, the user's home page.
                 return "userHomePage";
             } else {
+                // If there was an error during login, add an error attribute to the model and redirect to the registration page.
                 model.addAttribute("error", true);
                 return registerPage(model);
             }
         } else {
+            // If the email already exists, add an error message to the model and redirect to the registration page.
             model.addAttribute("EmailError", true);
             return registerPage(model);
         }
     }
+
 
     @PostMapping("/userHomePage")
     public String submitCreateBoard(@ModelAttribute("board") Board board, Model model) {
@@ -189,9 +208,7 @@ public class BoardController {
     @PostMapping("/editBoard")
     public String editBoard(@ModelAttribute Board board, @RequestParam("name") String name, @RequestParam("boardId") int boardId, Model model) {
         repository.editBoard(name, boardId);
-        if (userLoggedIn == null) {
-            userLoggedIn = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
-        }
+        userLoggedIn = user;
         if (!userLoggedIn.getBoards().isEmpty() || !userLoggedIn.getBoards().equals("null")){
             ArrayList<Integer> boardIds = new ArrayList<Integer>();
             String[] ids = userLoggedIn.getBoards().split(";");
@@ -209,16 +226,9 @@ public class BoardController {
 
     @PostMapping("/deleteBoard")
     public String deleteBoard(@ModelAttribute Board board, @RequestParam("boardId") int boardId, Model model) {
-        System.out.println("user boards før sql-kommando" + user.getBoards());
-        repository.deleteBoard(boardId);
-        System.out.println("Board.getId() = " + boardId);
-        //todo: figure out if both users needed
-        System.out.println("user boards efter sql-kommando" + user.getBoards());
+        repository.deleteBoard(boardId, user.getBoards(), user.getId());
         user.removeBoard(boardId);
-        System.out.println("userLoggedIn boards efter sql-kommando " + userLoggedIn.getBoards());
         userLoggedIn.removeBoard(boardId);
-        System.out.println("er user null? " + (user == null));
-        System.out.println("er userLoggedIn null? " + (userLoggedIn == null));
         if (userLoggedIn == null) {
             userLoggedIn = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
         }
@@ -251,20 +261,9 @@ public class BoardController {
         return "contactPage";
     }
 
-    // Contact
     @GetMapping("/about-page")
     public String aboutPage() {
         return "aboutPage";
-    }
-
-    @GetMapping("/error-page")
-    public String errorPage() {
-        return "errorPage";
-    }
-
-    @GetMapping("/error")
-    public String error() {
-        return errorPage();
     }
 
     @PostMapping("/boards")

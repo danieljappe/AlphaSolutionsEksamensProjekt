@@ -51,6 +51,14 @@ public class User {
         }
     }
 
+    public void addBoard(int id) {
+        if (this.boards.isEmpty()) {
+            this.boards = "" + id;
+        } else {
+            this.boards = this.boards + ";" + id;
+        }
+    }
+
     public void setBoards(String boards) {
         this.boards = boards;
     }

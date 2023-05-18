@@ -26,6 +26,7 @@ public class Repository {
         this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
 
+
     // Prepared Statements
     private static final String GET_LAST_USER_ID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
@@ -233,10 +234,12 @@ public class Repository {
 
         //#3 give user access to the board id
         if (lastBoardId != -1) {
+            System.out.println("før: " + boards);
             boards = boards + ";" + (lastBoardId + 1);
             if (boards.charAt(0) == ';') {
                 boards = boards.substring(1, boards.length());
             }
+            System.out.println("efter: " + boards);
             // update user data with new board id
             try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
                 updateStatement.setString(1, boards);
@@ -247,7 +250,7 @@ public class Repository {
                 throw new RuntimeException(e);
             }
         }
-        return lastBoardId;
+        return lastBoardId + 1;
     }
 
     public void editBoard(String name, int boardId) {
@@ -261,10 +264,18 @@ public class Repository {
         }
     }
 
-    public void deleteBoard(int boardId) {
+    public void deleteBoard(int boardId, String boards, int userId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_BOARD)) {
             preparedStatement.setInt(1, boardId);
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
+            updateStatement.setString(1, boards);
+            updateStatement.setInt(2, userId);
+            updateStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
