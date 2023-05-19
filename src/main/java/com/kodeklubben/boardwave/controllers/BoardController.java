@@ -90,6 +90,7 @@ public class BoardController {
                 }
                 // Boards corresponding to the 'boardIds' are retrieved from a repository (likely a database).
                 ArrayList<Board> boards = repository.getBoards(boardIds);
+                userLoggedIn.addBoardList(boards);
                 // The 'boards' are added to the 'model' to be made available for the view (the front-end).
                 model.addAttribute("boards", boards);
             } else {
@@ -142,6 +143,7 @@ public class BoardController {
                         boardIds.add(Integer.parseInt(ids[i]));
                     }
                     ArrayList<Board> boards = repository.getBoards(boardIds);
+                    userLoggedIn.addBoardList(boards);
                     model.addAttribute("boards", boards);
                 } else {
                     // If the user does not have any boards, add an empty list to the model.
@@ -178,6 +180,7 @@ public class BoardController {
                 boardIds.add(Integer.parseInt(ids[i]));
             }
             ArrayList<Board> boards = repository.getBoards(boardIds);
+            userLoggedIn.addBoardList(boards);
             model.addAttribute("boards", boards);
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
@@ -196,8 +199,10 @@ public class BoardController {
                 boardIds.add(Integer.parseInt(ids[i]));
             }
             ArrayList<Board> boards = repository.getBoards(boardIds);
+            userLoggedIn.addBoardList(boards);
 
             model.addAttribute("boards", boards);
+            userLoggedIn.addBoardList(boards);
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
         }
@@ -218,6 +223,7 @@ public class BoardController {
                 boardIds.add(Integer.parseInt(ids[i]));
             }
             ArrayList<Board> boards = repository.getBoards(boardIds);
+            userLoggedIn.addBoardList(boards);
             model.addAttribute("boards", boards);
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
@@ -241,6 +247,7 @@ public class BoardController {
                 boardIds.add(Integer.parseInt(ids[i]));
             }
             ArrayList<Board> boards = repository.getBoards(boardIds);
+            userLoggedIn.addBoardList(boards);
             model.addAttribute("boards", boards);
         } else {
             model.addAttribute("boards", new ArrayList<Board>());

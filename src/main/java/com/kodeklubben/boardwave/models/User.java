@@ -1,11 +1,14 @@
 package com.kodeklubben.boardwave.models;
 
+import java.util.ArrayList;
+
 public class User {
     private int id;
     private String name;
     private String password;
     private String email;
     private String boards;
+    private ArrayList<Board> boardList;
 
 
     public User(String name, String password, String email, int id, String boards) {
@@ -14,10 +17,26 @@ public class User {
         this.email = email;
         this.id = id;
         this.boards = boards;
+        this.boardList = new ArrayList<>();
     }
 
     public User() {
     }
+
+    public void addBoardList(ArrayList<Board> boards) {
+        this.boardList.clear();
+        this.boardList.addAll(boards);
+    }
+
+    public Board getBoardFromId(int id) {
+        for (Board board: this.boardList) {
+            if (board.getId() == id) {
+                return board;
+            }
+        }
+        return null;
+    }
+
 
     public int getId() {
         return id;

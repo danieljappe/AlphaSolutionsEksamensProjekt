@@ -28,7 +28,7 @@
     <!--Page Content-->
     <h1>Board Page</h1>
     
-    <h2>Welcome, <span th:text="${user}"></span>!</h2>
+    <h2>Welcome, <span th:text="${user.getName()}"></span>!</h2>
     
     <h3>Board Details</h3>
     <p>Name: <span th:text="${board.getTitle()}"></span></p>

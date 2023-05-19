@@ -27,6 +27,7 @@ public class Repository {
     }
 
 
+
     // Prepared Statements
     private static final String GET_LAST_USER_ID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
@@ -37,6 +38,7 @@ public class Repository {
     private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
     private static final String GET_COLUMNS = "SELECT id, name FROM columns WHERE boardID=?";
     private static final String GET_CARDS = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=?";
+    private static final String GET_CARDS_FROM_COLUMN_ID = "SELECT id, title, description, minutesEstimated, hourlyRate, columnId FROM cards WHERE boardId=? AND columnId=?";
 
     private static final String GET_USER_FROM_LOGIN = "SELECT id FROM users WHERE email=? && password=?";
     private static final String GET_USER_ID_FROM_EMAIL = "SELECT id FROM users WHERE email=?";
@@ -300,10 +302,11 @@ public class Repository {
     }
 
     //card data---------------------------------------------------------------------------------------------------------
-    public ArrayList<Card> getCards(int boardId) {
-        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_CARDS)) {
+    public ArrayList<Card> getCards(int boardId, int columnId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_CARDS_FROM_COLUMN_ID)) {
             //running query to get cards for a board id
             preparedStatement.setInt(1, boardId);
+            preparedStatement.setInt(2, columnId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             //getting cards from query
@@ -382,7 +385,7 @@ public class Repository {
             ResultSet resultSet = preparedStatement.executeQuery();
             ArrayList<Column> columns = new ArrayList<Column>();
             while (resultSet.next()) {
-                columns.add(new Column(resultSet.getString("name"), getCards(boardId), resultSet.getInt("id")));
+                columns.add(new Column(resultSet.getString("name"), getCards(boardId, resultSet.getInt("id")), resultSet.getInt("id")));
             }
             return columns;
         } catch (SQLException e) {

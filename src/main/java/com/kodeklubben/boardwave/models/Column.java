@@ -45,6 +45,10 @@ public class Column {
         return title;
     }
 
+    public void addCard(Card card) {
+        this.cards.add(card);
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
