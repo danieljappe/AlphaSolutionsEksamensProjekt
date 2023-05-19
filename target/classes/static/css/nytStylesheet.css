@@ -1,0 +1,196 @@
+b, h1, h2, h3, a, th, td, p{
+    color: black;
+    font-family: "Helvetica", serif;
+    text-decoration: none;
+}
+
+body {
+    background: rgb(231, 231, 231);
+    margin: 0;
+    border: 0;
+    outline: 0;
+    top: 0;
+}
+
+.page-content {
+    text-align: center;
+    margin: 0 auto;
+    border: 0;
+    outline: 0;
+}
+
+.container {
+    min-height: 100vw;
+    margin-right: 8vw;
+    margin-left: 8vw;
+    padding: 24px 25px 24px 0px;
+    align-content: center;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    background-color: white;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-radius: 50px;
+    width: 84vw;
+    font-size: 24px;
+    display: inline-block;
+    text-align: center;
+    left: 50%;
+}
+
+
+.nav-bar-right {
+    padding-top: 6px;
+    float: right;
+    display: inline-flex;
+}
+
+.nav-bar-item {
+    display: inline-flex;
+    float: left;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.nav-bar-center {
+    display: inline-flex;
+    text-align: center;
+    margin: auto;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+/* Homepage grid*/
+
+li {
+    text-align: left;
+    font-size: 22px;
+    padding: 5px;
+}
+
+.page-content {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 50px;
+}
+
+.left-box {
+    background: rgb(255, 255, 255);
+    color: black;
+    padding: 25px;
+    border-radius: 40px;
+}
+
+.right-box {
+    background: rgb(255, 255, 255);
+    border-radius: 40px;
+    color: #333;
+    padding: 20px;
+    max-height: 50vh;
+    display: grid;
+    grid-template:
+    "top-row top-row top-row" auto
+    "bottom-left gap bottom-right" auto / 1fr 10px 1fr;
+}
+
+.box-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 50px;
+}
+
+.top-row {
+    grid-area: top-row;
+    text-align: center;
+}
+
+.bottom-left {
+    grid-area: bottom-left;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-right {
+    grid-area: bottom-right;
+    align-items: center;
+    justify-content: center;
+}
+
+.gap {
+    grid-area: gap;
+}
+
+span {
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    font-weight: bold;
+    outline: none;
+    font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active, .collapsible:hover {
+    background-color: #ccc;
+}
+
+.active, .collapsible:active {
+    border-top-left-radius: 20px 20px;
+    border-top-right-radius: 20px 20px;
+    margin-top: 5px;
+}
+
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    font-size: 13px;
+    color: white;
+    float: right;
+    margin-left: 5px;
+}
+
+.collapsible.active:after {
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.board-box {
+    display: none;
+    overflow: hidden;
+    background-color: #d9d9d9;
+    border-bottom-left-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
+    margin-bottom: 10px;
+}
+
+.board-box-content {
+    display: flex;
+    margin: 1.5vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.center {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+}
