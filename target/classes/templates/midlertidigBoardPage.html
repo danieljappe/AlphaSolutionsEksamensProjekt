@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <meta name="viewport" content="initial-scale=1, width=device-width"/>
-    <link rel="stylesheet" href="css/homepage.css" type="text/css"/>
+    <link rel="stylesheet" href="css/nytStylesheet.css" type="text/css"/>
     <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
 </head>
 <body>
@@ -28,14 +28,65 @@
     <!--Page Content-->
     <h1>Board Page</h1>
     
-    <h2>Welcome, <span th:text="${user}"></span>!</h2>
+    <h2>Welcome, <span th:text="${user.getName()}"></span>!</h2>
     
     <h3>Board Details</h3>
-    <p>Name: <span th:text="${board.getTitle}"></span></p>
+    <p>Name: <span th:text="${board.getTitle()}"></span></p>
     <p>Columns:</p>
     <ul>
-        <li th:each="column : ${board.columns}" th:text="${column.name}"></li>
+        <li th:each="column : ${board.columns}">
+            <span th:text="${column.title}"></span>
+            <ul>
+                <li th:each="card : ${column.cards}">
+                    <span th:text="${card.title}"></span>
+                    <span th:text="${card.description}"></span>
+                    <span th:text="${card.minutesEstimated}"></span>
+                    <span th:text="${card.hourlyRate}"></span>
+                </li>
+            </ul>
+        </li>
     </ul>
+
+    <div>
+        <h1>INSERT COLUMN</h1>
+            <form th:action="@{/addNewColumnToBoard}" th:object="${column}" method="post">
+                <div>
+                    <input type="hidden" name="id" th:value="-1">
+                    <input type="hidden" name="boardId" th:value="${board.getId()}">
+
+                    <label>Title:</label><br>
+                    <input type="text" th:field="${column.title}" />
+
+                    <input type="submit" value="Add Todo" />
+                </div>
+            </form>
+    </div>
+
+    <div>
+        <h1>INSERT CARD</h1>
+        <form th:action="@{/addNewCardToColumn}" th:object="${card}" method="post">
+            <div class="body">
+                <input type="hidden" name="id" th:value="*{id}">
+                <input type="hidden" name="columnId" th:value="3"> <!--Change 3 to column.getId() when under column hierachy-->
+                <input type="hidden" name="boardId" th:value="${board.getId()}">
+
+                <label>title:</label><br>
+                <input type="text" th:field="${card.title}" />
+
+                <label>description:</label><br>
+                <input type="text" th:field="${card.description}" />
+
+                <label>minutesEstimated:</label><br>
+                <input type="number" th:field="${card.minutesEstimated}" />
+
+                <label>hourlyRate:</label><br>
+                <input type="number" th:field="${card.hourlyRate}" />
+
+                <input type="submit" value="Add Todo" />
+            </div>
+        </form>
+    </div>
+
 </div>
 
 </body>

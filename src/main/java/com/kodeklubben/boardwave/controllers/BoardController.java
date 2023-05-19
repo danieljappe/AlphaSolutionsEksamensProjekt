@@ -1,5 +1,7 @@
 package com.kodeklubben.boardwave.controllers;
 import com.kodeklubben.boardwave.models.Board;
+import com.kodeklubben.boardwave.models.Card;
+import com.kodeklubben.boardwave.models.Column;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
 
@@ -28,7 +30,7 @@ public class BoardController {
 
     @GetMapping("/error")
     public String errorPage() {
-        return "error";
+        return "error111";
     }
 
     // Login
@@ -247,14 +249,6 @@ public class BoardController {
         return "userHomePage";
     }
 
-    @GetMapping("/boardPage={id}")
-    public String boardPage(@PathVariable("id") int id, Model model) {
-        Board board = repository.getBoard(id);
-        model.addAttribute("board", board);
-        model.addAttribute("user", userLoggedIn);
-        return "midlertidigBoardPage";
-    }
-
     // Contact
     @GetMapping("/contact-page")
     public String contactPage() {
@@ -276,4 +270,56 @@ public class BoardController {
     public String dontPress(){
         return "dontPress";
     }
+
+    //-----------------Boards------------------//
+
+    @GetMapping("/boardPage={id}")
+    public String boardPage(@PathVariable("id") int id, Model model) {
+        Board board = repository.getBoard(id);
+        ArrayList<Column> columns = board.getColumns();
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+        return "midlertidigBoardPage";
+    }
+
+    @PostMapping("/addNewColumnToBoard")
+    public String boardPageAddColumn(@ModelAttribute("column") Column column, Model model) {
+        int columnId = repository.insertNewColumn(column.getTitle(), column.getBoardId());
+        System.out.println("BoardID = " + column.getBoardId());
+        System.out.println("ColumnID = " + columnId);
+        column.setId(columnId);
+        userLoggedIn.getBoardFromId(column.getBoardId()).addColumn(column);
+        Board board = userLoggedIn.getBoardFromId(column.getBoardId());
+
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+
+        return "midlertidigBoardPage";
+    }
+
+    @PostMapping("/addNewCardToColumn")
+    public String trelloPageAddCard(@ModelAttribute("card") Card card, Model model) {
+        int cardId = repository.insertNewCard(card.getTitle(), card.getDescription(), card.getMinutesEstimated(), card.getHourlyRate(), card.getColumnId(), card.getBoardId());
+        card.setId(cardId);
+        Board board = userLoggedIn.getBoardFromId(card.getBoardId());
+        System.out.println("BoardID = " + board.getId());
+        System.out.println("ColumnID = " + card.getColumnId());
+        System.out.println("column title = " + board.getColumnFromId(card.getColumnId()).getTitle());
+        for (Card c: board.getColumnFromId(card.getColumnId()).getCards()) {
+            System.out.println(c.getTitle());
+        }
+        Column column = board.getColumnFromId(card.getColumnId());
+        column.addCard(card);
+
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+        return "midlertidigBoardPage";
+    }
+
 }

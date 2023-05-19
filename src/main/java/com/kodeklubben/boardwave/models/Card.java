@@ -7,6 +7,8 @@ public class Card {
     private String description;
     private int minutesEstimated;
     private double hourlyRate;
+    private int columnId;
+    private int boardId;
 
     public Card() {
     }
@@ -17,6 +19,45 @@ public class Card {
         this.minutesEstimated = minutesEstimated;
         this.hourlyRate = hourlyRate;
         this.id = id;
+    }
+
+    public Card(String title, String description, int minutesEstimated, double hourlyRate, int id, int columnId, int boardId) {
+        this.title = title;
+        this.description = description;
+        this.minutesEstimated = minutesEstimated;
+        this.hourlyRate = hourlyRate;
+        this.id = id;
+        this.columnId = columnId;
+        this.boardId = boardId;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", minutesEstimated=" + minutesEstimated +
+                ", hourlyRate=" + hourlyRate +
+                ", columnId=" + columnId +
+                ", boardId=" + boardId +
+                '}';
+    }
+
+    public int getColumnId() {
+        return columnId;
+    }
+
+    public int getBoardId() {
+        return boardId;
+    }
+
+    public void setColumnId(int columnId) {
+        this.columnId = columnId;
+    }
+
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
     }
 
     public int getId() {

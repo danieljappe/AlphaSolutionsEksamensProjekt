@@ -20,6 +20,14 @@ public class Board {
         }
     }
 
+    public Column getColumnFromId(int id) {
+        for (Column column: this.columns) {
+            if (column.getId() == id) {
+                return column;
+            }
+        }
+        return null;
+    }
 
     public int getId() {
         return id;
@@ -43,6 +51,10 @@ public class Board {
 
     public void setColumns(ArrayList<Column> columns) {
         this.columns = columns;
+    }
+
+    public void addColumn(Column column) {
+        this.columns.add(column);
     }
 
 }

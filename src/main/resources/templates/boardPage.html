@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Trello Board</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
+    <link rel="stylesheet" href="css/trello.css" />
+    <link rel="stylesheet" href="css/homepage.css" />
+    <script src="js/dragTodoTrello.js" defer></script>
+</head>
+
+<body>
+<div class="nav-bar">
+    <div class="nav-bar-item">
+        <a href="./">
+            <img src="/images/boardwavelogo.png" alt="logo"
+                 style="height: auto; width: 185px; margin-bottom: -12px">
+        </a>
+    </div>
+    <div class="nav-bar-right">
+        <div><a class="nav-bar-item" href="/about-page">About</a></div>
+        <div><a class="nav-bar-item" href="/contact-page" >Contact</a></div>
+    </div>
+</div>
+
+<!--Create-->
+<div class="modal todo_form">
+    <div class="header">
+        <div class="title add_Title">Add Todo</div>
+        <button class="btn close-modal">&times;</button>
+    </div>
+    <form th:action="@{/addNewCardToColumn={id}}" th:object="${card}" method="post">
+        <div class="body">
+            <input type="hidden" name="cardID" th:value="*{id}">
+            <input type="hidden" name="columnID" th:value="*{columnId}">
+            <input type="hidden" name="boardID" th:value="${board.getId()}">
+
+            <label for="todo_title">title:</label><br>
+            <input type="text" id="todo_title" class="todo_title" th:field="*{title}" />
+
+            <label for="todo_description">description:</label><br>
+            <input type="text" id="todo_description" class="todo_description" th:field="*{description}" />
+
+            <label for="todo_minutesEstimated">minutesEstimated:</label><br>
+            <input type="number" id="todo_minutesEstimated" class="todo_minutesEstimated" th:field="*{minutesEstimated}" />
+
+            <label for="todo_hourlyRate">hourlyRate:</label><br>
+            <input type="number" id="todo_hourlyRate" class="todo_hourlyRate" th:field="*{hourlyRate}" />
+
+            <input type="submit" value="Add Todo" class="todo_submit" />
+        </div>
+    </form>
+</div>
+
+<!-- Display -->
+<div class="todo-container">
+    <table>
+        <tr th:each="column : ${board.getColumns()}">
+            <td class="status">
+                <h1 th:text="${column.getTitle()}">Title</h1>
+            </td>
+            <!--<form th:action="@{/addNewCardToBoard}" th:object="${card}" method="post">
+                <div class="body">
+                    <input type="hidden" name="cardID" th:value="*{id}">
+                    <input type="hidden" name="columnID" th:value="${column.getId()}">
+                    <input type="hidden" name="boardID" th:value="${board.getId()}">
+
+                    <label for="todo_title">title:</label><br>
+                    <input type="text" id="todo_title" class="todo_title" th:field="*{title}" />
+
+                    <label for="todo_description">description:</label><br>
+                    <input type="text" id="todo_description" class="todo_description" th:field="*{description}" />
+
+                    <label for="todo_minutesEstimated">minutesEstimated:</label><br>
+                    <input type="number" id="todo_minutesEstimated" class="todo_minutesEstimated" th:field="*{minutesEstimated}" />
+
+                    <label for="todo_hourlyRate">hourlyRate:</label><br>
+                    <input type="number" id="todo_hourlyRate" class="todo_hourlyRate" th:field="*{hourlyRate}" />
+
+                    <input type="submit" value="Add Todo" class="todo_submit" />
+                </div>
+            </form>-->
+            <table>
+                <tr th:each="column : ${board.getColumns()}">
+                    <td>
+                        <table>
+                            <tr th:each="card : ${column.getCards()}">
+                                <td class="status">
+                                    <h1 th:text="${card.getTitle()}">Title</h1>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+</div>
+
+
+
+<!--<div class="todo-container">
+    <div class="status no_status">
+        <h1>Todo</h1>
+        <button class="add_btn" data-target-modal=".todo_form">+ Add Todo</button>
+        <div th:each="card: ${cards}">
+            <div class="todo" draggable="true">
+                <span th:utext="${card.title}"></span>
+                <span class="close">x</span>
+            </div>
+        </div>
+    </div>
+    <div class="status">
+        <h1>Doing</h1>
+    </div>
+    <div class="status">
+        <h1>Blocked</h1>
+    </div>
+    <div class="status">
+        <h1>Done</h1>
+    </div>
+</div>
+<!-- modal -->
+<div class="modal todo_modal">
+    <div class="header">
+        <div class="title">
+            <h3 class="todo_title" th:text="${card.getTitle()}"></h3>
+        </div>
+        <button class="btn close-modal">&times;</button>
+    </div>
+    <div class="body">
+        <p><strong>Description:</strong> <span class="todo_description"></span></p>
+        <p><strong>Minutes Estimated:</strong> <span class="todo_minutesEstimated"></span></p>
+        <p><strong>Hourly Rate:</strong> <span class="todo_hourlyRate"></span></p>
+    </div>
+</div>
+
+</body>
+</html>
+

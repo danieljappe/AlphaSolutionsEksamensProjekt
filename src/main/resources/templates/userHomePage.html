@@ -20,7 +20,7 @@
         <div class="nav-bar-right">
             <div><a class="nav-bar-item" href="/about-page">About</a></div>
             <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
-            <div><a class="nav-bar-item" href="/trello-page">Trello</a></div>
+            <div><a class="nav-bar-item" href="/board-page">Trello</a></div>
         </div>
     </div>
 
@@ -40,7 +40,7 @@
                                 <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
                             </div>
                             <div class="title">
-                                Edit board
+                                Rename board
                             </div>
                             <div class="description">
                                 <form th:action="@{/editBoard}" method="post">
@@ -49,7 +49,7 @@
                                     <input type="hidden" name="boardId" th:value="${board.id}">
                                     <div class="dismiss-btn">
                                         <button class="submit-popup-btn" type="submit" value="Submit">
-                                            Edit
+                                            Rename
                                         </button>
                                     </div>
                                 </form>

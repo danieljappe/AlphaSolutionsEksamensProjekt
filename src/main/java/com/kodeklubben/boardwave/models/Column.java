@@ -1,16 +1,36 @@
 package com.kodeklubben.boardwave.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Column {
     private int id;
     private String title;
     private ArrayList<Card> cards;
+    private int boardId;
+
+    public Column() {
+    }
 
     public Column(String title, ArrayList<Card> cards, int id) {
         this.title = title;
         this.cards = cards;
         this.id = id;
+    }
+
+    public Column(String title, ArrayList<Card> cards, int id, int boardId) {
+        this.title = title;
+        this.cards = cards;
+        this.id = id;
+        this.boardId = boardId;
+    }
+
+    public int getBoardId() {
+        return boardId;
+    }
+
+    public void setBoardId(int boardId) {
+        this.boardId = boardId;
     }
 
     public int getId() {

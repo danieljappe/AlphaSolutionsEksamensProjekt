@@ -30,6 +30,8 @@ public class Repository {
     // Prepared Statements
     private static final String GET_LAST_USER_ID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
+    private static final String GET_LAST_CARD_ID = "SELECT id FROM cards ORDER BY id DESC LIMIT 1";
+    private static final String GET_LAST_COLUMN_ID = "SELECT id FROM columns ORDER BY id DESC LIMIT 1";
 
     private static final String GET_USER = "SELECT id, name, email, password, boards FROM users WHERE email=? && password=?";
     private static final String GET_BOARD = "SELECT id, name  FROM boards WHERE id=?";
@@ -54,7 +56,8 @@ public class Repository {
 
     private static final String INSERT_NEW_USER = "INSERT INTO users(id, name, email, password, boards) VALUES (?, ?, ?, ?, ?)";
     private static final String INSERT_NEW_BOARD = "INSERT INTO boards(id, name) VALUES (?, ?)";
-
+    private static final String INSERT_NEW_COLUMN = "INSERT INTO columns(id, name, boardId) VALUES (?, ?, ?)";
+    private static final String INSERT_NEW_CARD = "INSERT INTO cards(id, title, description, minutesEstimated, hourlyRate, columnId, boardId) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     //user data---------------------------------------------------------------------------------------------------------
     public int getIDFromAuthentication(String email, String password) {
@@ -315,6 +318,38 @@ public class Repository {
         }
     }
 
+    public int insertNewCard(String title, String description, int minutesEstimated, double hourlyRate, int columnId, int boardId) {
+        int lastCardId = -1;
+
+        //#1 get latest card id, -1 = no result
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LAST_CARD_ID)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                lastCardId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        //#2 insert new card with a chosen name
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_CARD)) {
+            userInsertionStatement.setInt(1, lastCardId + 1);
+            userInsertionStatement.setString(2, title);
+            userInsertionStatement.setString(3, description);
+            userInsertionStatement.setInt(4, minutesEstimated);
+            userInsertionStatement.setDouble(5, hourlyRate);
+            userInsertionStatement.setInt(6, columnId);
+            userInsertionStatement.setInt(7, boardId);
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return lastCardId + 1;
+    }
+    
     public void editCard(String title, String description, int minutesEstimated, double hourlyRate, int columnId, int cardId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_CARD)) {
             preparedStatement.setString(1, title);
@@ -354,6 +389,34 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public int insertNewColumn(String name, int boardId) {
+        int lastColumnId = -1;
+
+        //#1 get latest column id, -1 = no result
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_LAST_COLUMN_ID)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                lastColumnId = resultSet.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        //#2 insert new column with a chosen name
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_COLUMN)) {
+            userInsertionStatement.setInt(1, lastColumnId + 1);
+            userInsertionStatement.setString(2, name);
+            userInsertionStatement.setInt(3, boardId);
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+        return lastColumnId + 1;
     }
 
     public void editColumn(String newName, int cardId) {
