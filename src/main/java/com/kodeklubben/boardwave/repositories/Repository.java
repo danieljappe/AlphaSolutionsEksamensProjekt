@@ -13,7 +13,7 @@ import java.util.ArrayList;
 @org.springframework.stereotype.Repository
 public class Repository {
 
-    @Value("${PSCALE_USER}")
+    /*@Value("${PSCALE_USER}")
 
     private String pscaleUser;
 
@@ -24,9 +24,12 @@ public class Repository {
 
     public Repository(@Value("${PSCALE_USER}") String pscaleUser, @Value("${PSCALE_USER_PASSWORD}") String pscaleUserPassword) {
         this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
-    }
+    }*/
 
-    
+    public Repository() {
+
+    }
+    DatabaseConnectionManager dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", "yfik085is0kme8iquifq", "pscale_pw_UoXhWnaXJLXQVWAr6U8Jkwm3h1UWIS5opHc9fx30fJ4");
 
 
 
@@ -399,8 +402,7 @@ public class Repository {
             return columns;
         } catch (SQLException e) {
             e.printStackTrace();
-            return new ArrayList<Column>();
-        }
+            return new ArrayList<Column>();}
     }
 
     public int insertNewColumn(String name, int boardId) {

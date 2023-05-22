@@ -85,6 +85,7 @@
                                 </tr>
                             </thead>
                             <tbody>
+
                             <tr th:each="card: ${column.getCards()}">
                                 <td th:text="${card.getTitle()}">Card Name</td>
                                 <td th:text="${card.minutesEstimated}"></td>
