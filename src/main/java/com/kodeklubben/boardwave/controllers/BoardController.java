@@ -30,7 +30,7 @@ public class BoardController {
 
     @GetMapping("/error")
     public String errorPage() {
-        return "error111";
+        return "error";
     }
 
     // Login
@@ -267,6 +267,11 @@ public class BoardController {
         return "aboutPage";
     }
 
+    @GetMapping("/board-page")
+    public String boardPage() {
+        return "boardPage";
+    }
+
     @PostMapping("/boards")
     public String createBoard() {
 
@@ -315,10 +320,8 @@ public class BoardController {
         Board board = userLoggedIn.getBoardFromId(card.getBoardId());
         System.out.println("BoardID = " + board.getId());
         System.out.println("ColumnID = " + card.getColumnId());
-        System.out.println("column title = " + board.getColumnFromId(card.getColumnId()).getTitle());
-        for (Card c: board.getColumnFromId(card.getColumnId()).getCards()) {
-            System.out.println(c.getTitle());
-        }
+        System.out.println("column title = " + board.getColumnFromId(card.getColumnId()));
+
         Column column = board.getColumnFromId(card.getColumnId());
         column.addCard(card);
 
