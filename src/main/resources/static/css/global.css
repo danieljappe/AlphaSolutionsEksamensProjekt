@@ -106,4 +106,8 @@ body {
     background-color: rgba(0, 83, 255, 0.1);
 }
 
+.embeddedMap {
+    width: 80%;
+}
+
 
