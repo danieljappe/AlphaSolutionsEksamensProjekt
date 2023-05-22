@@ -10,6 +10,15 @@ body {
     border: 0;
     outline: 0;
     top: 0;
+    overflow: hidden;
+}
+
+#background-wave  {
+    background-image: url("../images/wave.svg");
+    height: 150vh;
+    background-size: 130vw;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .page-content {
@@ -136,6 +145,14 @@ li {
     grid-template:
     "top-row top-row top-row" auto
     "bottom-left gap bottom-right" auto / 1fr 10px 1fr;
+}
+
+#right-box-wave{
+    background-image: url("../images/wave.svg");
+    height: 18vh;
+    background-size: 71vw auto;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .box-container {

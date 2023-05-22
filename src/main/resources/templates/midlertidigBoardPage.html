@@ -65,11 +65,11 @@
         </div>
     </div>
 
-    <div style="overflow-x: auto">
+    <div style="overflow-x: auto; overflow-y: auto; max-height: 500px">
         <table class="table">
-            <thead style="text-align: center">
+            <thead style="text-align: center;">
                 <tc th:each="column: ${board.getColumns()}">
-                    <th th:text="${column.getTitle()}"></th>
+                    <th style="background-color: rgba(119, 119, 119, 0.2);" th:text="${column.getTitle()}"></th>
                 </tc>
             </thead>
             <tbody>
@@ -78,11 +78,11 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th style="width: 4vw">Title</th>
-                                        <th>Minutes Estimated</th>
-                                        <th>Hourly Rate</th>
-                                        <th>More</th>
-                                        <th>Move</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2); width: 4vw">Title</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);">Minutes Estimated</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);">Hourly Rate</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);">More</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);">Move</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -11,6 +11,7 @@ body {
     border: 0;
     outline: 0;
     top: 0;
+    overflow: hidden;
 }
 
 .page-content {
@@ -104,6 +105,10 @@ body {
     margin: auto;
     padding-bottom: 20px;
     background-color: rgba(0, 83, 255, 0.1);
+}
+
+.embeddedMap {
+    width: 80%;
 }
 
 

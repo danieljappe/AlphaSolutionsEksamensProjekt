@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="css/homepage.css" type="text/css"/>
     <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
 </head>
-<body>
+<body id="background-wave">
 <div class="container">
 
     <!--Navigation bar-->
@@ -69,12 +69,13 @@
                             <button class="button-69" type="submit">Delete</button>
                         </form>
                         <!-- Share -->
-                        <button class="button-69">Share</button>
+                        <button class="button-69" onclick="copyToClipboard()">Share</button>
+                        <p id="boardId" th:text="${board.id}" style="display: none"></p>
                     </div>
                 </div>
             </tr>
         </div>
-        <div class="right-box">
+        <div class="right-box" id="right-box-wave">
             <div class="top-row">
                 <h2 th:text="'Welcome Back ' + ${user.getName()}"></h2>
                 <p>This is your personal homepage, where you currently only can see your boards on the left. More to
@@ -153,6 +154,27 @@
         });
     });
 });
+
+    // Copy to clipboard
+    function copyToClipboard() {
+        var boardId = document.getElementById('boardId').innerText;
+        var url = "www.boardwave.onrender.com/boardPage=" + encodeURIComponent(boardId);
+
+        // Create a temporary input element
+        var input = document.createElement('input');
+        input.setAttribute('value', url);
+        document.body.appendChild(input);
+
+        // Select and copy the value
+        input.select();
+        document.execCommand('copy');
+
+        // Remove the temporary input element
+        document.body.removeChild(input);
+
+        // Alert the user that the URL has been copied (optional)
+        alert('URL copied to clipboard!');
+    }
 </script>
 </body>
 </html>

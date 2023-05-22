@@ -1,3 +1,8 @@
+html {
+    scrollbar-width: thin;
+    scrollbar-color: #777 #555;
+}
+
 b, h1, h2, h3, a, th, td, p{
     color: black;
     font-family: "Helvetica", serif;
@@ -10,24 +15,29 @@ body {
     border: 0;
     outline: 0;
     top: 0;
+    overflow: hidden;
+    background-image: url("../images/wave.svg");
+    height: 160vh;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .page-content {
-    text-align: center;
-    margin: 0 auto;
-    border: 0;
-    outline: 0;
+text-align: center;
+margin: 0 auto;
+border: 0;
+outline: 0;
 }
 
 .container {
-    min-height: 100vw;
-    margin-right: 8vw;
-    margin-left: 8vw;
-    padding: 24px 25px 24px 0px;
-    align-content: center;
-    border: 0;
-    outline: 0;
-    vertical-align: baseline;
+min-height: 100vw;
+margin-right: 8vw;
+margin-left: 8vw;
+padding: 24px 25px 24px 0px;
+align-content: center;
+border: 0;
+outline: 0;
+vertical-align: baseline;
 }
 
 /* Navigation Bar */
@@ -391,6 +401,7 @@ span {
 .table {
     width: 100%;
     border-collapse: collapse;
+    background-color: rgba(119, 119, 119, 0.2);
 }
 .table th,
 .table td {
