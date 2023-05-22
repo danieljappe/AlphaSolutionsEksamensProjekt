@@ -60,4 +60,19 @@ public class Column {
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
+
+    //remove card from column by card id
+    public void deleteCard(int cardId) {
+        try {
+            for (Card card : this.cards) {
+                if (card.getId() == cardId) {
+                    this.cards.remove(card);
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

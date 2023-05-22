@@ -332,4 +332,38 @@ public class BoardController {
         return "midlertidigBoardPage";
     }
 
+    @PostMapping("/deleteCard")
+    public String removeCard(@RequestParam("cardId") int cardId, @RequestParam("boardId") int boardId, Model model) {
+        // Get the board
+        Board board = userLoggedIn.getBoardFromId(boardId);
+        if (board == null) {
+            // Handle error: no board found with the provided id
+            return "error";
+        }
+
+        // Get the column containing the card
+        Column column = board.getColumnFromCardId(cardId);
+        if (column == null) {
+            // Handle error: no column found containing a card with the provided id
+            return "error";
+        }
+
+        // Remove the card
+        column.deleteCard(cardId);
+
+        // Remove card from database
+        repository.deleteCard(cardId);
+
+        // Refresh model attributes
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+
+        // Redirect back to the board page
+        return "midlertidigBoardPage";
+    }
+
+
+
 }

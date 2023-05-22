@@ -270,6 +270,7 @@ public class Repository {
     }
 
     public void deleteBoard(int boardId, String boards, int userId) {
+        //delete board from boards table
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_BOARD)) {
             preparedStatement.setInt(1, boardId);
             preparedStatement.execute();
@@ -277,6 +278,7 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+        //delete board from user table
         try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
             updateStatement.setString(1, boards);
             updateStatement.setInt(2, userId);
@@ -285,6 +287,7 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+        //delete columns from column table
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_COLUMNS_FROM_BOARD_ID)) {
             preparedStatement.setInt(1, boardId);
             preparedStatement.execute();
@@ -292,6 +295,7 @@ public class Repository {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+        //delete cards from card table
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(DELETE_CARDS_FROM_BOARD_ID)) {
             preparedStatement.setInt(1, boardId);
             preparedStatement.execute();
