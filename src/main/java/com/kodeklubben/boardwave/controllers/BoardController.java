@@ -24,8 +24,43 @@ public class BoardController {
 
     // Landing page
     @GetMapping("/")
-    public String landingPage(){
-        return "index";
+    public String landingPage(Model model){
+        boolean success = submitLogin("danieljappe@gmail.com" + ";" + "minhemmeligeemail123", model);
+        // If the login is successful (i.e., 'success' is true)...
+        if (success) {
+            // An ArrayList 'boardIds' is created to store the board IDs of the user.
+            ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            // The system logs the currently logged-in user.
+            System.out.println(userLoggedIn);
+            // If the user has any boards...
+            if (!userLoggedIn.getBoards().isEmpty()){
+                // Their IDs are extracted by splitting the string using ';' as the delimiter.
+                String[] ids = userLoggedIn.getBoards().split(";");
+                // Each ID is converted from String to Integer and added to the 'boardIds' list.
+                for (int i = 0; i < ids.length; i++) {
+                    boardIds.add(Integer.parseInt(ids[i]));
+                }
+                // Boards corresponding to the 'boardIds' are retrieved from a repository (likely a database).
+                ArrayList<Board> boards = repository.getBoards(boardIds);
+                userLoggedIn.addBoardList(boards);
+                // The 'boards' are added to the 'model' to be made available for the view (the front-end).
+                model.addAttribute("boards", boards);
+            } else {
+                // If the user doesn't have any boards, an empty list is added to the 'model'.
+                model.addAttribute("boards", new ArrayList<Board>());
+            }
+            // An empty 'Board' object is added to the 'model' for creating new boards.
+            model.addAttribute("board", new Board("", new ArrayList<>(), -1));
+            // The method returns a String representing the name of the view that should be rendered.
+            // In this case, it's the user's home page.
+            return "userHomePage";
+        } else {
+            // If the login was not successful, an error attribute is added to the 'model'.
+            model.addAttribute("error", true);
+            // The method returns the result of a 'loginPage' method, likely redirecting back to the login page.
+            return loginPage(model);
+        }
+        //return "index";
     }
 
     @GetMapping("/error")
@@ -234,9 +269,9 @@ public class BoardController {
 
     @PostMapping("/deleteBoard")
     public String deleteBoard(@ModelAttribute Board board, @RequestParam("boardId") int boardId, Model model) {
-        repository.deleteBoard(boardId, user.getBoards(), user.getId());
         user.removeBoard(boardId);
         userLoggedIn.removeBoard(boardId);
+        repository.deleteBoard(boardId, user.getBoards(), user.getId());
         if (userLoggedIn == null) {
             userLoggedIn = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
         }
@@ -299,6 +334,8 @@ public class BoardController {
     @PostMapping("/addNewColumnToBoard")
     public String boardPageAddColumn(@ModelAttribute("column") Column column, Model model) {
         int columnId = repository.insertNewColumn(column.getTitle(), column.getBoardId());
+        System.out.println("column id efter oprettelse: " + column.getId());
+        System.out.println("column id erstattes med: " + columnId);
         System.out.println("BoardID = " + column.getBoardId());
         System.out.println("ColumnID = " + columnId);
         column.setId(columnId);

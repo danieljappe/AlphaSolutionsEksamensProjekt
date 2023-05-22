@@ -26,6 +26,8 @@ public class Repository {
         this.dcm = new DatabaseConnectionManager("aws.connect.psdb.cloud", pscaleUser, pscaleUserPassword);
     }
 
+    
+
 
 
     // Prepared Statements
@@ -321,7 +323,7 @@ public class Repository {
             return cards;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return new ArrayList<Card>();
         }
     }
 
@@ -394,7 +396,7 @@ public class Repository {
             return columns;
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            return new ArrayList<Column>();
         }
     }
 

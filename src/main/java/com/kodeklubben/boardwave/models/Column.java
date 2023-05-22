@@ -46,7 +46,12 @@ public class Column {
     }
 
     public void addCard(Card card) {
-        this.cards.add(card);
+        try {
+            this.cards.add(card);
+        } catch (Exception e) {
+            this.cards = new ArrayList<Card>();
+            this.cards.add(card);
+        }
     }
 
     public void setTitle(String title) {
@@ -54,7 +59,7 @@ public class Column {
     }
 
     public ArrayList<Card> getCards() {
-        return cards;
+        return this.cards;
     }
 
     public void setCards(ArrayList<Card> cards) {
