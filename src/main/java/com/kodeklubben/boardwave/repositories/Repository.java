@@ -63,6 +63,9 @@ public class Repository {
     private static final String INSERT_NEW_COLUMN = "INSERT INTO columns(id, name, boardId) VALUES (?, ?, ?)";
     private static final String INSERT_NEW_CARD = "INSERT INTO cards(id, title, description, minutesEstimated, hourlyRate, columnId, boardId) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
+    private static final String MOVE_CARD_TO_COLUMN = "UPDATE cards SET columnId=? WHERE id=?";
+
+
     //user data---------------------------------------------------------------------------------------------------------
     public int getIDFromAuthentication(String email, String password) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_USER_FROM_LOGIN)) {
@@ -457,5 +460,18 @@ public class Repository {
             throw new RuntimeException(e);
         }
     }
+
+    //movecardtocolumn
+    public void moveCardToColumn(int cardId, int columnId) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(MOVE_CARD_TO_COLUMN)) {
+            preparedStatement.setInt(1, columnId);
+            preparedStatement.setInt(2, cardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

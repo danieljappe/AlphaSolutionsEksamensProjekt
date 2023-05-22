@@ -401,6 +401,51 @@ public class BoardController {
         return "midlertidigBoardPage";
     }
 
+    @PostMapping("/moveCard")
+    public String moveCard(@RequestParam int cardId, @RequestParam int columnId, @RequestParam int boardId, Model model) {
+        System.out.println("boardId: " + boardId);
+        System.out.println("columnId: " + columnId);
+        System.out.println("cardId: " + cardId);
+        //move card in database
+        repository.moveCardToColumn(cardId, columnId);
+
+        //get new board
+        Board board = repository.getBoard(boardId);
+
+        // Assuming you have userLoggedIn available here
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+
+        // Additional code to update model and return view...
+        return "midlertidigBoardPage";
+    }
+
+    @PostMapping("/deleteColumn")
+    public String removeColumn(@RequestParam("columnId") int columnId, @RequestParam("boardId") int boardId, Model model) {
+        // Get the board
+        Board board = userLoggedIn.getBoardFromId(boardId);
+        if (board == null) {
+            // Handle error: no board found with the provided id
+            return "error";
+        }
+
+        // Remove the column
+        board.removeColumn(columnId);
+
+        // Remove column from database
+        repository.deleteColumn(columnId);
+
+        // Refresh model attributes
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+
+        // Redirect back to the board page
+        return "midlertidigBoardPage";
+    }
 
 
 }
