@@ -67,4 +67,14 @@ public class Board {
         }
         return null;
     }
+
+    // Remove the column
+    public void removeColumn(int columnId) {
+        for (Column column: this.columns) {
+            if (column.getId() == columnId) {
+                this.columns.remove(column);
+                break;
+            }
+        }
+    }
 }
