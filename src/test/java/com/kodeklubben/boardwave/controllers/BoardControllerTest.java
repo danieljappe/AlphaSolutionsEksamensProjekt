@@ -15,8 +15,9 @@ import java.util.ArrayList;
 
 class BoardControllerTest {
 
-
-    private Repository repository = new Repository();
+    @Autowired
+    private Repository repository;
+    //private Repository repository = new Repository(); // planetscaleløsning
 
 
     @Test
@@ -57,7 +58,7 @@ class BoardControllerTest {
                 // If the user has any boards, retrieve them and add them to the model.
                 if (!user.getBoards().isEmpty() && !user.getBoards().equals("null")){
                     ArrayList<Integer> boardIds = new ArrayList<Integer>();
-                    String[] ids = userLoggedIn.getBoards().split(";");
+                    String[] ids = user.getBoards().split(";");
                     for (int i = 0; i < ids.length; i++) {
                         boardIds.add(Integer.parseInt(ids[i]));
                     }
@@ -99,12 +100,26 @@ class BoardControllerTest {
     }
 
     @Test
-    void moveCard() {
-        // Your test implementation for moveCard
+    void deleteBoard() {
+        //test data
+        User user = new User("tester", "123", "tester@tester.com", 5, "116");
+        Board board = new Board("board", new ArrayList<Column>(), 116);
+        user.removeBoard(board.getId());
+        repository.deleteBoard(board.getId(), user.getBoards(), user.getId());
+
+        if (!user.getBoards().isEmpty() || !user.getBoards().equals("null")){
+            Board boardCheck = repository.getBoard(board.getId());
+            if (boardCheck != null) {
+                System.out.println("board exists after removal");
+                fail();
+            } else {
+                System.out.println("board has been removed successfully");
+                System.out.println("User boards (should be empty): " + user.getBoards());
+                assertTrue(user.getBoards().isEmpty());
+            }
+        } else {
+            assertTrue(true);
+        }
     }
 
-    @Test
-    void removeColumn() {
-
-    }
 }

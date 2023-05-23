@@ -226,7 +226,7 @@ public class BoardController {
         }
         model.addAttribute("user", userLoggedIn);
         return "userHomePage";
-}
+    }
 
 
     @RequestMapping("/userHomePage")
@@ -245,7 +245,7 @@ public class BoardController {
         } else {
             model.addAttribute("boards", new ArrayList<Board>());
         }
-        
+
         model.addAttribute("userModel", user);
         model.addAttribute("board", board);
         return "userHomePage";
@@ -355,7 +355,7 @@ public class BoardController {
     }
 
     @PostMapping("/addNewCardToColumn")
-    public String trelloPageAddCard(@ModelAttribute("card") Card card, Model model) {
+    public String AddCard(@ModelAttribute("card") Card card, Model model) {
         int cardId = repository.insertNewCard(card.getTitle(), card.getDescription(), card.getMinutesEstimated(), card.getHourlyRate(), card.getColumnId(), card.getBoardId());
         card.setId(cardId);
         Board board = userLoggedIn.getBoardFromId(card.getBoardId());
@@ -471,7 +471,9 @@ public class BoardController {
         card.setDescription(description);
 
         // Update card in database
-        repository.updateCard(card);
+        //todo
+
+        //repository.updateCard(card);
 
         // Refresh model attributes
         model.addAttribute("board", board);
