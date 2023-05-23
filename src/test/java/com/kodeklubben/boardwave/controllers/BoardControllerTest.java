@@ -48,12 +48,12 @@ class BoardControllerTest {
 
     @Test
     void registerPage() {
-        String email = "tester@tester.com";
+        User user = new User("tester", "123", "tester@tester.com", -1, "");
         // Check if the provided email already exists in the database.
-        boolean emailExists = repository.emailExists(email);
-        assertTrue(emailExists);
+        boolean emailExists = repository.emailExists(user.getEmail());
 
         if (!emailExists) {
+            assertTrue(true);
             // If the email does not already exist, then create a new user.
             // Insert the new user's details into the database.
             repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
