@@ -93,27 +93,46 @@
                                         <td th:text="${card.hourlyRate}" style="text-align: center"></td>
                                         <td>
                                             <div class="popup center">
-                                                <div class="icon">
+                                                <!--<div class="icon">
                                                     <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
-                                                </div>
-                                                <div class="popup-title">
+                                                </div>-->
+                                                <div class="popup-title" style="margin-bottom: -45px">
                                                     <h1 th:text="${card.getTitle()}"></h1>
                                                 </div>
-                                                <div class="popup-title">
-                                                    <h3 th:text="${card.getMinutesEstimated()}"></h3>
+                                                <div class="popup-title" style="display: flex; justify-content: space-between;margin-left: 2vw;margin-right: 2vw;margin-bottom: -10px;">
+                                                    <div>
+                                                        <h4 style="margin-bottom: -5px;">Minutes Estimaed: </h4>
+                                                        <h3 th:text="${card.getMinutesEstimated()}" style="display: inline-block; margin-bottom: -10px;"></h3>
+                                                    </div>
+                                                    <div>
+                                                        <h4 style="margin-bottom: -5px;">Hourly Rate: </h4>
+                                                        <h3 th:text="${card.getHourlyRate()}" style="display: inline-block; margin-bottom: -10px;"></h3>
+                                                    </div>
                                                 </div>
-                                                <div class="popup-title">
-                                                    <h3 th:text="${card.getHourlyRate()}"></h3>
-                                                </div>
-
                                                 <div class="description">
-                                                    <p th:text="${card.description}"></p>
+                                                    <div>
+                                                        <h4 style="margin-bottom: -5px; margin-top: -10px">Description: </h4>
+                                                        <p th:text="${card.getDescription()}"></p>
+                                                    </div>
                                                 </div>
-                                                <form th:action="@{/deleteCard}" method="post">
-                                                    <input type="hidden" name="cardId" th:value="${card.getId()}">
-                                                    <input type="hidden" name="boardId" th:value="${board.getId()}">
-                                                    <input type="submit" value="Remove">
-                                                </form>
+                                                <div style="display: flex; align-items: center; margin-right: 2vw">
+                                                    <div>
+                                                        <form th:action="@{/addDescription}" method="post">
+                                                            <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                            <label>Update description: </label><br>
+                                                            <input type="text" th:field="${card.description}"/>
+                                                            <input type="submit" value="Add Description">
+                                                        </form>
+                                                    </div>
+                                                    <div style="display: flex;align-items: center;">
+                                                        <form th:action="@{/deleteCard}" method="post">
+                                                            <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                            <input type="submit" value="Remove">
+                                                        </form>
+                                                    </div>
+                                                </div>
                                                 <div class="dismiss-btn">
                                                     <button class="dismiss-popup-btn">
                                                         Dismiss

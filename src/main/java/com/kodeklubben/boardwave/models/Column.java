@@ -80,4 +80,12 @@ public class Column {
         }
     }
 
+    public Card getCardFromId(int cardId) {
+        for (Card card : this.cards) {
+            if (card.getId() == cardId) {
+                return card;
+            }
+        }
+        return null;
+    }
 }

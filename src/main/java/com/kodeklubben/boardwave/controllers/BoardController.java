@@ -447,5 +447,37 @@ public class BoardController {
         return "midlertidigBoardPage";
     }
 
+    @PostMapping("/addDescription")
+    public String addDescription(@RequestParam("cardId") int cardId, @RequestParam("description") String description, @RequestParam("boardId") int boardId, Model model) {
+        // Get the board
+        Board board = userLoggedIn.getBoardFromId(boardId);
+        if (board == null) {
+            // Handle error: no board found with the provided id
+            return "error";
+        }
+
+        // Get the card
+        Card card = board.getCardFromId(cardId);
+        if (card == null) {
+            // Handle error: no card found with the provided id
+            return "error";
+        }
+
+        // Update the card
+        card.setDescription(description);
+
+        // Update card in database
+        repository.updateCard(card);
+
+        // Refresh model attributes
+        model.addAttribute("board", board);
+        model.addAttribute("user", userLoggedIn);
+        model.addAttribute("card", new Card("", "", -1, -1, -1));
+        model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
+
+        // Redirect back to the board page
+        return "midlertidigBoardPage";
+    }
+
 
 }

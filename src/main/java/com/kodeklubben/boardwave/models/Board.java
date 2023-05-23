@@ -77,4 +77,15 @@ public class Board {
             }
         }
     }
+
+    public Card getCardFromId(int cardId) {
+        for (Column column: this.columns) {
+            for (Card card: column.getCards()) {
+                if (card.getId() == cardId) {
+                    return card;
+                }
+            }
+        }
+        return null;
+    }
 }
