@@ -53,8 +53,8 @@ class BoardControllerTest {
         boolean emailExists = repository.emailExists(email);
         assertTrue(emailExists);
 
-        // If the email does not already exist, then create a new user.
         if (!emailExists) {
+            // If the email does not already exist, then create a new user.
             // Insert the new user's details into the database.
             repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
             // Log in the newly registered user.
@@ -90,7 +90,7 @@ class BoardControllerTest {
             }
         } else {
             // If the email already exists, add an error message to the model and redirect to the registration page.
-            s
+            System.out.println("email exists: " + email);
             assertTrue(true);
         }
     }
