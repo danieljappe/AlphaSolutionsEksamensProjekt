@@ -78,6 +78,7 @@ public class User {
         }
     }
 
+    
     public void setBoards(String boards) {
         this.boards = boards;
     }

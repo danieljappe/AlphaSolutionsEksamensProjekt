@@ -22,6 +22,10 @@ public class BoardController {
     @Autowired
     private Repository repository;
 
+    //for testclass
+    public BoardController(Repository repository) {
+    }
+
     // Landing page
     @GetMapping("/")
     public String landingPage(Model model){
