@@ -174,7 +174,7 @@ public class Repository {
 
     //board data--------------------------------------------------------------------------------------------------------
     public Board getBoard(int boardId) {
-        Board result = new Board(); //result list - to be returned at the end
+        Board result = null; //result list - to be returned at the end
 
         //Getting 1 board from id
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
@@ -247,12 +247,10 @@ public class Repository {
 
         //#3 give user access to the board id
         if (lastBoardId != -1) {
-            System.out.println("før: " + boards);
             boards = boards + ";" + (lastBoardId + 1);
             if (boards.charAt(0) == ';') {
                 boards = boards.substring(1, boards.length());
             }
-            System.out.println("efter: " + boards);
             // update user data with new board id
             try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
                 updateStatement.setString(1, boards);

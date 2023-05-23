@@ -5,18 +5,10 @@ import com.kodeklubben.boardwave.models.Card;
 import com.kodeklubben.boardwave.models.Column;
 import com.kodeklubben.boardwave.models.User;
 import com.kodeklubben.boardwave.repositories.Repository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
-
 import java.util.ArrayList;
 
 
@@ -48,61 +40,62 @@ class BoardControllerTest {
 
     @Test
     void registerPage() {
+        //test data - represent register data
         User user = new User("tester", "123", "tester@tester.com", -1, "");
+
         // Check if the provided email already exists in the database.
         boolean emailExists = repository.emailExists(user.getEmail());
 
         if (!emailExists) {
             assertTrue(true);
             // If the email does not already exist, then create a new user.
-            // Insert the new user's details into the database.
-            repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
+            int userId = repository.insertNewUser(user.getName(), user.getEmail(), user.getPassword());
             // Log in the newly registered user.
             user = repository.loginWithEmailAndPassword(user.getEmail(), user.getPassword());
             // Update the 'userLoggedIn' variable to reflect the currently logged in user.
-            userLoggedIn = user;
-            // Print the user's details to the console.
-            System.out.println(user);
-            // Check if the user was successfully logged in.
-            if (user.getId() != -1) {
+            if (userId != -1) {
                 // If the user has any boards, retrieve them and add them to the model.
-                if (!userLoggedIn.getBoards().isEmpty() && !userLoggedIn.getBoards().equals("null")){
+                if (!user.getBoards().isEmpty() && !user.getBoards().equals("null")){
                     ArrayList<Integer> boardIds = new ArrayList<Integer>();
                     String[] ids = userLoggedIn.getBoards().split(";");
                     for (int i = 0; i < ids.length; i++) {
                         boardIds.add(Integer.parseInt(ids[i]));
                     }
                     ArrayList<Board> boards = repository.getBoards(boardIds);
-                    userLoggedIn.addBoardList(boards);
-                    model.addAttribute("boards", boards);
+                    user.addBoardList(boards);
+                    System.out.println("user boards: " + user.getBoards());
+                    assertFalse(user.getBoards().isEmpty());
                 } else {
-                    // If the user does not have any boards, add an empty list to the model.
-                    model.addAttribute("boards", new ArrayList<Board>());
+                    System.out.println("There are no boards");
+                    assertTrue(true);
                 }
-                // Add an empty 'Board' object to the model.
-                model.addAttribute("board", new Board("", new ArrayList<>(), -1));
-                // Return the name of the view to be displayed - in this case, the user's home page.
-                return "userHomePage";
             } else {
-                // If there was an error during login, add an error attribute to the model and redirect to the registration page.
-                model.addAttribute("error", true);
-                return registerPage(model);
+                // user was not created properly.
+                System.out.println("User was not created properly");
+                assertTrue(true);
             }
         } else {
             // If the email already exists, add an error message to the model and redirect to the registration page.
-            System.out.println("email exists: " + email);
+            System.out.println("email exists: " + user.getEmail());
             assertTrue(true);
         }
     }
 
     @Test
-    void createUser() {
-        // Your test implementation for createUser
-    }
+    void addBoard() {
+        //test data
+        // boolean removeAfter = true = tester deleteBoard
+        // boolean removeAfter = false = ikke tester deleteBoard
+        User user = new User("tester", "123", "tester@tester.com", 5, "");
+        Board board = new Board("", new ArrayList<Column>(), -1);
 
-    @Test
-    void removeCard() {
-        // Your test implementation for removeCard
+        //insert method
+        int newBoardId = repository.insertNewBoard(board.getTitle(), user.getId(), user.getBoards());
+        board.setId(newBoardId);
+        user.addBoard(newBoardId);
+
+        System.out.println("user boards: " + user.getBoards());
+        assertFalse(user.getBoards().isEmpty());
     }
 
     @Test

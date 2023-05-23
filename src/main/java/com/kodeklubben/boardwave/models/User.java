@@ -63,7 +63,9 @@ public class User {
             }
         }
         //eksempel: 28;29;30;31;46;47;58;59
-        if (index == 0) {
+        if (boards.length == 1) {
+            this.boards = "";
+        } else if (index == 0) {
             this.boards.replaceFirst(id + ";", "");
         } else if (index > -1) {
             this.boards.replaceFirst(";" + id, "");
