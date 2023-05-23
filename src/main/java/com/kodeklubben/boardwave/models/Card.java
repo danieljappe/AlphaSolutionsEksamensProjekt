@@ -6,14 +6,14 @@ public class Card {
     private String title;
     private String description;
     private int minutesEstimated;
-    private double hourlyRate;
+    private float hourlyRate;
     private int columnId;
     private int boardId;
 
     public Card() {
     }
 
-    public Card(String title, String description, int minutesEstimated, double hourlyRate, int id) {
+    public Card(String title, String description, int minutesEstimated, float hourlyRate, int id) {
         this.title = title;
         this.description = description;
         this.minutesEstimated = minutesEstimated;
@@ -21,7 +21,7 @@ public class Card {
         this.id = id;
     }
 
-    public Card(String title, String description, int minutesEstimated, double hourlyRate, int id, int columnId, int boardId) {
+    public Card(String title, String description, int minutesEstimated, float hourlyRate, int id, int columnId, int boardId) {
         this.title = title;
         this.description = description;
         this.minutesEstimated = minutesEstimated;
@@ -92,11 +92,11 @@ public class Card {
         this.minutesEstimated = minutesEstimated;
     }
 
-    public double getHourlyRate() {
+    public float getHourlyRate() {
         return hourlyRate;
     }
 
-    public void setHourlyRate(double hourlyRate) {
+    public void setHourlyRate(float hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
 }
