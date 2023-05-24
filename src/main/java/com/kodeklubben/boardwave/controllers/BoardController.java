@@ -228,7 +228,6 @@ public class BoardController {
         return "userHomePage";
     }
 
-
     @RequestMapping("/userHomePage")
     public String userHomePage(@ModelAttribute Board board, Model model){
         if (!userLoggedIn.getBoards().isEmpty()){
@@ -247,6 +246,29 @@ public class BoardController {
         }
 
         model.addAttribute("userModel", user);
+        model.addAttribute("board", board);
+        return "userHomePage";
+    }
+
+    @RequestMapping("/returnToHome")
+    public String returnToHome(@ModelAttribute Board board, Model model) {
+
+        if (!userLoggedIn.getBoards().isEmpty()){
+            ArrayList<Integer> boardIds = new ArrayList<Integer>();
+            String[] ids = userLoggedIn.getBoards().split(";");
+            for (int i = 0; i < ids.length; i++) {
+                boardIds.add(Integer.parseInt(ids[i]));
+            }
+            ArrayList<Board> boards = repository.getBoards(boardIds);
+            userLoggedIn.addBoardList(boards);
+
+            model.addAttribute("boards", boards);
+            userLoggedIn.addBoardList(boards);
+        } else {
+            model.addAttribute("boards", new ArrayList<Board>());
+        }
+
+        model.addAttribute("user", user);
         model.addAttribute("board", board);
         return "userHomePage";
     }
@@ -273,6 +295,7 @@ public class BoardController {
 
     @PostMapping("/deleteBoard")
     public String deleteBoard(@ModelAttribute Board board, @RequestParam("boardId") int boardId, Model model) {
+        System.out.println("user board" + user.getBoards());
         user.removeBoard(boardId);
         userLoggedIn.removeBoard(boardId);
         repository.deleteBoard(boardId, user.getBoards(), user.getId());
@@ -590,5 +613,4 @@ public class BoardController {
         // Redirect back to the board page
         return "midlertidigBoardPage";
     }
-
 }

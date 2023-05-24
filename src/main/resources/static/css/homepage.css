@@ -14,9 +14,9 @@ body {
 }
 
 #background-wave  {
-    background-image: url("../images/wave.svg");
-    height: 150vh;
-    background-size: 130vw;
+    background-image: url("../images/ocean-waves.png");
+    height: 117vh;
+    background-size: 102vw 84vh;
     background-position: center;
     background-repeat: no-repeat;
 }

@@ -7,6 +7,35 @@ public class Board {
     String title;
     ArrayList<Column> columns;
 
+    public float totalCost() {
+        try {
+            float totalCost = 0;
+            for (Column column: this.columns) {
+                totalCost += column.totalCost();
+            }
+            return totalCost;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int totalMinutes() {
+        try {
+            int totalMinutes = 0;
+            for (Column column: this.columns) {
+                totalMinutes += column.totalMinutes();
+            }
+            return totalMinutes;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public float totalMinutesInHours() {
+        return (float) this.totalMinutes() / 60;
+    }
+
+
     public Board(){
     }
 

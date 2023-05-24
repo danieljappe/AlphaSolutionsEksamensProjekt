@@ -99,4 +99,12 @@ public class Card {
     public void setHourlyRate(float hourlyRate) {
         this.hourlyRate = hourlyRate;
     }
+
+    public float totalCost() {
+        try {
+            return (float) this.minutesEstimated / 60 * this.hourlyRate;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
 }

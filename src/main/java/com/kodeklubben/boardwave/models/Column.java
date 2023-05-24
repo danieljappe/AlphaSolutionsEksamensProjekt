@@ -9,6 +9,31 @@ public class Column {
     private ArrayList<Card> cards;
     private int boardId;
 
+    public float totalCost() {
+        try {
+            float totalCost = 0;
+            for (Card card : this.cards) {
+                totalCost += card.totalCost();
+            }
+            return totalCost;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    public int totalMinutes() {
+
+        try {
+            int totalMinutes = 0;
+            for (Card card : this.cards) {
+                totalMinutes += card.getMinutesEstimated();
+            }
+            return totalMinutes;
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
     public Column() {
     }
 
