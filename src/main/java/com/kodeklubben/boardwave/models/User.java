@@ -47,28 +47,36 @@ public class User {
     }
 
     public String getBoards() {
-        if (this.boards == null) {
-            return "";
+        try {
+            if (this.boards == null) {
+                return "";
+            }
+            return this.boards;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return this.boards;
     }
 
     public void removeBoard(int id) {
-        String[] boards = this.boards.split(";");
-        int index = -1;
-        for (int i = 0; i < boards.length; i++) {
-            if (Integer.parseInt(boards[i]) == id) {
-                index = i;
-                break;
+        try {
+            ArrayList<String> boardsIds = new ArrayList<String>();
+            for (String s: this.boards.split(";")) {
+                if (Integer.parseInt(s) != id) {
+                    boardsIds.add(s);
+                }
             }
-        }
-        //eksempel: 28;29;30;31;46;47;58;59
-        if (boards.length == 1) {
             this.boards = "";
-        } else if (index == 0) {
-            this.boards.replaceFirst(id + ";", "");
-        } else if (index > -1) {
-            this.boards.replaceFirst(";" + id, "");
+            for (int i = 0; i < boardsIds.size(); i++) {
+                if (i == 0) {
+                    this.boards = "" + boardsIds.get(i);
+                } else {
+                    this.boards = this.boards + ";" + boardsIds.get(i);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

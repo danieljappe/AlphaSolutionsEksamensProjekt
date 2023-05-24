@@ -37,6 +37,7 @@ public class Board {
 
 
     public Board(){
+
     }
 
     public Board(String title, ArrayList<Column> columns, int id) {

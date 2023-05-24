@@ -16,8 +16,61 @@ import java.util.ArrayList;
 class BoardControllerTest {
 
     @Autowired
-    private Repository repository;
-    //private Repository repository = new Repository(); // planetscaleløsning
+    //private Repository repository;
+    private Repository repository = new Repository(); // planetscaleløsning
+
+    @Test
+    void calculateBoardCosts() {
+        Board board = new Board("Board", new ArrayList<Column>(), -1);
+
+        Column column1 = new Column("column1", new ArrayList<Card>(), 0);
+        Column column2 = new Column("column2", new ArrayList<Card>(), 0);
+
+        Card card1 = new Card("card1", "this is card1", 50, 100, 0, 0, -1);
+        //Card card2 = new Card("card2", "this is card2", 60, 100, 0, 0, -1);
+        //Card card3 = new Card("card3", "this is card3", 240, 100, 0, 0, -1);
+        //Card card4 = new Card("card4", "this is card4", 120, 100, 0, 0, -1);
+        //Card card5 = new Card("card5", "this is card5", 70, 100, 0, 0, -1);
+
+        column1.addCard(card1);
+        //column1.addCard(card2);
+        //column1.addCard(card3);
+        //column1.addCard(card4);
+        board.addColumn(column1);
+
+        //column2.addCard(card5);
+        board.addColumn(column2);
+
+        assertEquals(83.333, board.totalCost());
+    }
+
+    @Test
+    void createTestData() {
+        User user = new User("name", "password", "email@email.com", 0, "board");
+        Board board = new Board("boardTitle", new ArrayList<Column>(), 0);
+        Column column = new Column("columnTitle", new ArrayList<Card>(), 0);
+        Card card = new Card("card", "This is first card", 0, 0, 0, 0, 0);
+        repository.insertBoard(board);
+        repository.insertUser(user);
+        repository.insertColumn(column);
+        repository.insertCard(card);
+    }
+
+    @Test
+    void removeBoardFromUser() {
+        User user = new User("name", "password", "email@email.com", 0, "1;2;3");
+        user.removeBoard(3);
+        assertEquals("1;2", user.getBoards());
+
+        user = new User("name", "password", "email@email.com", 0, "1;2;3");
+        user.removeBoard(2);
+        assertEquals("1;3", user.getBoards());
+
+        user = new User("name", "password", "email@email.com", 0, "1;2;3");
+        user.removeBoard(1);
+        assertEquals("2;3", user.getBoards());
+    }
+
 
 
     @Test
