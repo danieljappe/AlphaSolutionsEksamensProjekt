@@ -64,7 +64,7 @@ Hvis du skal oprette et card under et board, og starter fra forsiden af, så kan
 3. Tryk på `Create a new board`, og skriv navnet for det nye board. ![createBoard](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/ac541092-f5bd-4697-81eb-ce276e844041)
 4. Tryk på `View` under menuen med boards. ![View](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/24fb1d11-9088-4333-89f8-4eaa89b35d7c)
 5. Tryk på `Add column` i toppen. ![addColumn](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/69924a4b-2ae0-4740-9b0e-eac51be545c4)
-6. Tryk på `Add card` i toppen. ![addCard](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/5eb7f612-1b82-452e-b0f5-0fa7a07afe1a)
+6. Tryk på `Add card` under en kolonne. ![addCard](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/5eb7f612-1b82-452e-b0f5-0fa7a07afe1a)
 7. Kortet er nu oprettet, og hvis man ønsker at redigere det, så kan man trykke `More` på kortet. ![more](https://github.com/danieljappe/AlphaSolutionsEksamensProjekt/assets/113135538/93fe711a-81b0-4ada-8217-c526cdceaa39)
 
 ## Endpoints
