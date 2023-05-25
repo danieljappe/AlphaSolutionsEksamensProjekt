@@ -52,7 +52,7 @@ Du kan prøve projektet af på følgende link: [Tryk her](https://boardwave.onre
 
 Hvis du vil køre det selv, anbefaler vi at bruge codespace.
 
-Hvis man ønsker at bruge sin egen database, skal man lave sin egen PlanetScale account og erstatte gældende username og password under `src/main/java/com.kodeklubben.boardwave/repositories/Repository.java` og `src/main/resources/application.properties`.
+Hvis man ønsker at bruge sin egen database, skal man lave sin egen PlanetScale account og erstatte gældende username og password under `src/main/java/com.kodeklubben.boardwave/repositories/Repository.java` og `src/main/resources/application.properties`. Derefter, siden vi ikke bruger Foreign Keys, skal man køre `createTestData()` under `src/test/java/com.kodeklubben.boardwave/BoardControllerTest.java`, der opretter værdier med id lig med 0.
 
 # Hvordan bruges programmet?
 Vi anbefaler at bruge vores GUI, da det er mest intuitivt. 
