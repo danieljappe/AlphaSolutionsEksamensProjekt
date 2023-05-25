@@ -5,6 +5,7 @@ import com.kodeklubben.boardwave.models.Column;
 import com.kodeklubben.boardwave.models.Card;
 import com.kodeklubben.boardwave.services.DatabaseConnectionManager;
 import org.springframework.beans.factory.annotation.Value;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,7 +30,6 @@ public class Repository {
 
 
 
-
     // Prepared Statements
     private static final String GET_LAST_USER_ID = "SELECT id FROM users ORDER BY id DESC LIMIT 1";
     private static final String GET_LAST_BOARD_ID = "SELECT id FROM boards ORDER BY id DESC LIMIT 1";
@@ -49,6 +49,10 @@ public class Repository {
     private static final String UPDATE_USER_BOARDS = "UPDATE users SET boards=? WHERE id=?";
     private static final String UPDATE_BOARD = "UPDATE boards SET name=? WHERE id=?";
     private static final String UPDATE_CARD = "UPDATE title, description, minutesEstimated, hourlyRate, columnId SET title=?, description=?, minutesEstimated=?, hourlyRate=?, columnId? FROM cards WHERE id=?";
+    private static final String ADD_CARD_DESCRIPTION = "UPDATE cards SET description=? WHERE id=?";
+    private static final String ADD_CARD_MINUTES_ESTIMATED = "UPDATE cards SET minutesEstimated=? WHERE id=?";
+    private static final String ADD_CARD_HOURLY_RATE = "UPDATE cards SET hourlyRate=? WHERE id=?";
+    private static final String EDIT_CARD_TITLE = "UPDATE cards SET title=? WHERE id=?";
     private static final String UPDATE_COLUMN = "UPDATE Name SET Name=? FROM columns WHERE id=?";
 
     private static final String DELETE_BOARD = "DELETE FROM boards WHERE id=?";
@@ -171,7 +175,7 @@ public class Repository {
 
     //board data--------------------------------------------------------------------------------------------------------
     public Board getBoard(int boardId) {
-        Board result = null; //result list - to be returned at the end
+        Board result = new Board(); //result list - to be returned at the end
 
         //Getting 1 board from id
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
@@ -196,7 +200,7 @@ public class Repository {
         ArrayList<Board> result = new ArrayList<Board>(); //result list - what we return at the end
 
         //looping all ids in parameter list
-        for (int id: ids) {
+        for (int id : ids) {
             //Getting each board from id
             try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(GET_BOARD)) {
                 preparedStatement.setInt(1, id);
@@ -244,12 +248,14 @@ public class Repository {
 
         //#3 give user access to the board id
         if (lastBoardId != -1) {
+            System.out.println("før: " + boards);
             boards = boards + ";" + (lastBoardId + 1);
             if (boards.charAt(0) == ';') {
                 boards = boards.substring(1, boards.length());
             }
+            System.out.println("efter: " + boards);
             // update user data with new board id
-            try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
+            try (PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
                 updateStatement.setString(1, boards);
                 updateStatement.setInt(2, userId);
                 updateStatement.execute();
@@ -282,7 +288,7 @@ public class Repository {
             throw new RuntimeException(e);
         }
         //delete board from user table
-        try(PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
+        try (PreparedStatement updateStatement = dcm.getConnection().prepareStatement(UPDATE_USER_BOARDS)) {
             updateStatement.setString(1, boards);
             updateStatement.setInt(2, userId);
             updateStatement.execute();
@@ -319,7 +325,7 @@ public class Repository {
             //getting cards from query
             ArrayList<Card> cards = new ArrayList<Card>();
             while (resultSet.next()) {
-                cards.add(new Card(resultSet.getString("title"), resultSet.getString("description"), resultSet.getInt("minutesEstimated"), resultSet.getFloat("hourlyRate"),  resultSet.getInt("id")));
+                cards.add(new Card(resultSet.getString("title"), resultSet.getString("description"), resultSet.getInt("minutesEstimated"), resultSet.getFloat("hourlyRate"), resultSet.getInt("id")));
             }
             return cards;
         } catch (SQLException e) {
@@ -359,7 +365,7 @@ public class Repository {
         }
         return lastCardId + 1;
     }
-    
+
     public void editCard(String title, String description, int minutesEstimated, double hourlyRate, int columnId, int cardId) {
         try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(UPDATE_CARD)) {
             preparedStatement.setString(1, title);
@@ -397,7 +403,8 @@ public class Repository {
             return columns;
         } catch (SQLException e) {
             e.printStackTrace();
-            return new ArrayList<Column>();}
+            return new ArrayList<Column>();
+        }
     }
 
     public int insertNewColumn(String name, int boardId) {
@@ -464,6 +471,107 @@ public class Repository {
             preparedStatement.setInt(1, columnId);
             preparedStatement.setInt(2, cardId);
             preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void updateDescription(Card card) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(ADD_CARD_DESCRIPTION)) {
+            preparedStatement.setString(1, card.getDescription());
+            preparedStatement.setInt(2, card.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateMinutesEstimated(Card card) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(ADD_CARD_MINUTES_ESTIMATED)) {
+            preparedStatement.setInt(1, card.getMinutesEstimated());
+            preparedStatement.setInt(2, card.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateHourlyRate(Card card) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(ADD_CARD_HOURLY_RATE)) {
+            preparedStatement.setDouble(1, card.getHourlyRate());
+            preparedStatement.setInt(2, card.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void editCardTitle(int cardId, String newTitle) {
+        try (PreparedStatement preparedStatement = dcm.getConnection().prepareStatement(EDIT_CARD_TITLE)) {
+            preparedStatement.setString(1, newTitle);
+            preparedStatement.setInt(2, cardId);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertUser(User user) {
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_USER)) {
+            userInsertionStatement.setInt(1, user.getId());
+            userInsertionStatement.setString(2, user.getName());
+            userInsertionStatement.setString(3, user.getEmail());
+            userInsertionStatement.setString(4, user.getPassword());
+            userInsertionStatement.setString(5, ""); //list of boards is empty in beginning
+            userInsertionStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertColumn(Column column) {
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_COLUMN)) {
+            userInsertionStatement.setInt(1, column.getId());
+            userInsertionStatement.setString(2, column.getTitle());
+            userInsertionStatement.setInt(3, column.getBoardId());
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertBoard(Board board) {
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_BOARD)) {
+            userInsertionStatement.setInt(1, board.getId());
+            userInsertionStatement.setString(2, board.getTitle());
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertCard(Card card) {
+        try (PreparedStatement userInsertionStatement = dcm.getConnection().prepareStatement(INSERT_NEW_CARD)) {
+            userInsertionStatement.setInt(1, card.getId());
+            userInsertionStatement.setString(2, card.getTitle());
+            userInsertionStatement.setString(3, card.getDescription());
+            userInsertionStatement.setInt(4, card.getMinutesEstimated());
+            userInsertionStatement.setDouble(5, card.getHourlyRate());
+            userInsertionStatement.setInt(6, card.getColumnId());
+            userInsertionStatement.setInt(7, card.getBoardId());
+            userInsertionStatement.execute();
+            System.out.println(userInsertionStatement.toString());
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

@@ -28,7 +28,9 @@ public class BoardController {
 
     // Landing page
     @GetMapping("/")
-    public String landingPage(){
+    public String landingPage(Model model){
+        User userTemplate = new User("", "", "", -1, "");
+        model.addAttribute("userTemplate", userTemplate);
         return "index";
     }
 
@@ -42,7 +44,7 @@ public class BoardController {
     public String loginPage(Model model) {
         User userTemplate = new User("", "", "", -1, "");
         model.addAttribute("userTemplate", userTemplate);
-        return "loginPage";
+        return "loginAndRegister";
     }
 
     // '@GetMapping("/credentials")' is an annotation that binds the following method to HTTP GET requests on the "/credentials" endpoint.
@@ -114,14 +116,6 @@ public class BoardController {
         }
     }
 
-    // Register
-    @GetMapping("/register-page")
-    public String registerPage(Model model) {
-        User userTemplate = new User("", "", "", -1, "");
-        model.addAttribute("userTemplate", userTemplate);
-        return "registerPage";
-    }
-
     // The '@PostMapping("/register-page")' annotation binds this method to HTTP POST requests to the "/register-page" endpoint.
     @PostMapping("/register-page")
     public String createUser(@ModelAttribute("user") User user, Model model){
@@ -160,12 +154,12 @@ public class BoardController {
             } else {
                 // If there was an error during login, add an error attribute to the model and redirect to the registration page.
                 model.addAttribute("error", true);
-                return registerPage(model);
+                return loginPage(model);
             }
         } else {
             // If the email already exists, add an error message to the model and redirect to the registration page.
             model.addAttribute("EmailError", true);
-            return registerPage(model);
+            return loginPage(model);
         }
     }
 
@@ -296,7 +290,7 @@ public class BoardController {
 
     @GetMapping("/board-page")
     public String boardPage() {
-        return "boardPage";
+        return "jsBoardPage";
     }
 
     @PostMapping("/boards")
@@ -310,9 +304,8 @@ public class BoardController {
         return "dontPress";
     }
 
+
     //-----------------Boards------------------//
-
-
 
     @GetMapping("/boardPage={id}")
     public String boardPage(@PathVariable("id") int id, Model model) {
@@ -323,7 +316,7 @@ public class BoardController {
             model.addAttribute("user", new User("Guest", "", "", -1, ""));
             model.addAttribute("card", new Card("", "", -1, -1, -1));
             model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
-            return "midlertidigBoardPage";
+            return "boardPage";
         } else {
             Board board = repository.getBoard(id);
             ArrayList<Column> columns = board.getColumns();
@@ -331,7 +324,7 @@ public class BoardController {
             model.addAttribute("user", userLoggedIn);
             model.addAttribute("card", new Card("", "", -1, -1, -1));
             model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
-            return "midlertidigBoardPage";
+            return "boardPage";
         }
     }
 
@@ -351,7 +344,7 @@ public class BoardController {
         model.addAttribute("card", new Card("", "", -1, -1, -1));
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/addNewCardToColumn")
@@ -370,7 +363,7 @@ public class BoardController {
         model.addAttribute("user", userLoggedIn);
         model.addAttribute("card", new Card("", "", -1, -1, -1));
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/renameCardTitle")
@@ -408,7 +401,7 @@ public class BoardController {
         model.addAttribute("card", new Card("", "", -1, -1, -1));
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/deleteCard")
@@ -440,7 +433,7 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Redirect back to the board page
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/moveCard")
@@ -461,7 +454,7 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Additional code to update model and return view...
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/deleteColumn")
@@ -486,7 +479,7 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Redirect back to the board page
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/addDescription")
@@ -520,7 +513,7 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Redirect back to the board page
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/addMinutesEstimated")
@@ -554,7 +547,7 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Redirect back to the board page
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 
     @PostMapping("/addHourlyRate")
@@ -588,6 +581,6 @@ public class BoardController {
         model.addAttribute("column", new Column("", new ArrayList<Card>(), -1));
 
         // Redirect back to the board page
-        return "midlertidigBoardPage";
+        return "boardPage";
     }
 }

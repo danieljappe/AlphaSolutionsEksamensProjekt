@@ -88,13 +88,7 @@ body {
     float: left;
     padding-left: 24px;
     padding-right: 24px;
-}
-.nav-bar-logo {
-    display: inline-flex;
-    float: left;
-    padding-left: 24px;
-    padding-right: 24px;
-    transform: scale(1.1);
+    margin-top: -0.5vh;
 }
 
 .logo1 {

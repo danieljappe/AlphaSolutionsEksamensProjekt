@@ -1,90 +1,279 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
-    <title>Trello Board</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <meta name="viewport" content="initial-scale=1, width=device-width"/>
+    <link rel="stylesheet" href="css/boardPage.css" type="text/css"/>
     <link rel="icon" type="image/x-icon" href="../images/wave-favicon.png">
-    <link rel="stylesheet" href="css/trello.css" />
-    <link rel="stylesheet" href="css/global.css" />
-    <script src="js/dragTodoTrello.js" defer></script>
 </head>
-
 <body>
+<div class="container">
 
-<div class="nav-bar" id="top">
-    <div class="nav-bar-item">
-        <a href="./">
-            <img src="/images/boardwavelogo.png" alt="logo"
-                 style="height: auto; width: 185px; margin-bottom: -12px">
-        </a>
-    </div>
-    <div class="nav-bar-right">
-        <div><a class="nav-bar-item" href="/about-page">About</a></div>
-        <div><a class="nav-bar-item" href="/contact-page" >Contact</a></div>
-
-    </div>
-</div>
-
-<div class="modal" id="todo_form">
-    <div class="header">
-        <div class="title" id="add_Title">Add Todo</div>
-        <button class="btn close-modal">&times;</button>
-    </div>
-    <form th:action="@{/addNewCardToColumn}" th:object="${card}"method="post">
-        <div class="body">
-
-            <label for="todo_title">title:</label><br>
-            <input type="text" class="todo_title" th:field="*{title}" />
-
-            <label for="todo_description">description:</label><br>
-            <input type="text" class="todo_description" th:field="*{description}" />
-
-            <label for="todo_minutesEstimated">minutesEstimated:</label><br>
-            <input type="number" class="todo_minutesEstimated" th:field="*{minutesEstimated}" />
-
-            <label for="todo_hourlyRate">hourlyRate:</label><br>
-            <input type="number" class="todo_hourlyRate" th:field="*{hourlyRate}" />
-
-            <input type="submit" value="Add Todo" id="todo_submit" />
+    <!--Navigation bar-->
+    <div class="nav-bar">
+        <div class="nav-bar-item">
+            <a href="./">
+                <img src="../images/boardwavelogo.png" alt="logo"
+                     style="height: auto; width: 185px; margin-bottom: -12px">
+            </a>
         </div>
-    </form>
-</div>
-</div>
-<!-- todo -->
-<div class="todo-container">
-    <div class="status" id="no_status">
-        <h1>Todo</h1>
-        <button id="add_btn" data-target-modal="#todo_form">+ Add Todo</button>
-        <div th:each="card: ${cards}">
-            <div class="todo" draggable="true">
-                <span th:utext="${card.title}"></span>
-                <span class="close">x</span>
+        <div class="nav-bar-item">
+            <form method="post" th:action="@{/returnToHome}">
+                <button class="button-59" type="submit">Home</button>
+            </form>
+        </div>
+        <div class="nav-bar-right">
+            <div><a class="nav-bar-item" href="/about-page">About</a></div>
+            <div><a class="nav-bar-item" href="/contact-page">Contact</a></div>
+            <div><a class="nav-bar-item" href="/trello-page">Trello</a></div>
+        </div>
+    </div>
+
+    <!--Page Content-->
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="left-box">
+                <div>
+                    <h2>Welcome, <span style="color: #6fa4ec;" class="username" th:text="${user.getName()}"></span> to:</h2>
+                    <h1 th:text="${board.getTitle()}" style="color: #6fa4ec"></h1>
+                </div>
+                <div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Total Time Estimated:</th>
+                                <th>Total Cost:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <tr>
+                                    <td th:text="${board.totalMinutesInHours()} + ' hours'" style="text-align: center"></td>
+                                    <td th:text="${board.totalCost()}" style="text-align: center"></td>
+                                </tr>
+                                    <td th:text="${board.totalMinutes()} + ' minutes'" style="text-align: center"></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="grid-item">
+            <div class="right-box">
+                <div class="box">
+                    <h1>Insert column</h1>
+                    <form th:action="@{/addNewColumnToBoard}" th:object="${column}" method="post">
+                        <div>
+                            <input type="hidden" name="id" th:value="-1">
+                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                            <label>Title:</label>
+                            <input type="text" th:field="${column.title}" />
+
+                            <input type="submit" value="Add Todo" />
+                        </div>
+                    </form>
+                </div>
+                <div class="box">
+                    <h1>Remove column</h1>
+                    <form th:action="@{/deleteColumn}" method="post">
+                        <input type="hidden" name="cardId" th:value="${card.getId()}">
+                        <input type="hidden" name="boardId" th:value="${board.getId()}">
+                        <label for="columns1">Delete column:</label>
+                        <select id="columns1" name="columnId">
+                            <option th:each="column : ${board.getColumns()}" th:value="${column.getId()}" th:text="${column.getTitle()}"></option>
+                        </select>
+                        <input type="submit" value="Remove">
+                    </form>
+
+                </div>
             </div>
         </div>
     </div>
-    <div class="status">
-        <h1>Doing</h1>
+
+    <div style="overflow-x: auto; overflow-y: auto; max-height: 500px">
+        <table class="table">
+            <thead style="text-align: center;">
+                <tc th:each="column: ${board.getColumns()}">
+                    <th style="background-color: rgba(119, 119, 119, 0.2);" th:text="${column.getTitle()}"></th>
+                </tc>
+            </thead>
+            <tbody>
+                <tc th:each="column: ${board.getColumns()}">
+                        <td>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2); width: 4vw;vertical-align: inherit;">Title</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);vertical-align: inherit;width: 1vw">Minutes Estimated</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);vertical-align: inherit;">Hourly Rate</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);vertical-align: inherit;width: 7.2vw">Move</th>
+                                        <th style="background-color: rgba(119, 119, 119, 0.2);vertical-align: inherit;">More</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr th:each="card: ${column.getCards()}">
+                                        <td th:text="${card.getTitle()}" style="text-align: center;vertical-align: inherit;"></td>
+                                        <td th:text="${card.minutesEstimated}" style="text-align: center;vertical-align: inherit;"></td>
+                                        <td th:text="${card.hourlyRate}" style="text-align: center;vertical-align: inherit;"></td>
+                                        <td>
+                                            <form th:action="@{/moveCard}" method="post">
+                                                <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                <label for="columns">Move to column:</label>
+                                                <select id="columns" name="columnId">
+                                                    <option th:each="column : ${board.getColumns()}" th:value="${column.getId()}" th:text="${column.getTitle()}"></option>
+                                                </select>
+                                                <input type="submit" value="Move">
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <div class="popup center" id="popup-background">
+                                                <!--<div class="icon">
+                                                    <img src="../images/surfing-logo.png" alt="wave" style="height: auto; width: 100px">
+                                                </div>-->
+                                                <div class="popup-title" style="margin-bottom: -50px; margin-top: -10px">
+                                                    <h1 th:text="${card.getTitle()}"></h1>
+                                                </div>
+                                                <div class="popup-title" style="display: flex; justify-content: space-between;margin-left: 1.5vw;margin-right: 2vw;margin-bottom: -10px;">
+                                                    <div>
+                                                        <h4 style="margin-bottom: 10px">Minutes Estimated: </h4>
+                                                        <form th:action="@{/addMinutesEstimated}" method="post">
+                                                            <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                            <input type="hidden" name="columnId" th:value="${column.getId()}">
+                                                            <input type="number" id="minutes" name="minutesEstimated" th:value="${card.minutesEstimated}" style="display: inline-block; margin-bottom: 5px;width: 45px">
+                                                            <input type="submit" value="Update">
+                                                        </form>
+                                                    </div>
+                                                    <div>
+                                                        <h4 style="margin-bottom: 10px;">Hourly Rate: </h4>
+                                                        <form th:action="@{/addHourlyRate}" method="post">
+                                                            <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                            <input type="hidden" name="columnId" th:value="${column.getId()}">
+                                                            <input type="number" id="rate" name="hourlyRate" th:value="${card.hourlyRate}" step="any" style="display: inline-block; margin-bottom: 5px;width: 45px">
+                                                            <input type="submit" value="Update">
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="description">
+                                                    <div style="max-width: 375px">
+                                                        <h4 style="margin-bottom: -5px; margin-top: -10px">Description: </h4>
+                                                        <p th:text="${card.getDescription()}"></p>
+                                                    </div>
+                                                </div>
+                                                <div style="display: flex; align-items: center; margin-right: 1vw">
+                                                    <div style="margin-right: 40px; margin-left: 10px">
+                                                        <form th:action="@{/addDescription}" method="post">
+                                                            <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                            <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                            <h4 style="margin-bottom: -20px; margin-top: -10px">Update description: </h4><br>
+                                                            <textarea style="margin: 5px; height: 60px;resize: none; overflow: hidden" name="description" th:text="${card.description}" placeholder="max 255 characters"></textarea>
+                                                            <input type="submit" value="Add Description">
+                                                        </form>
+                                                    </div>
+                                                    <div>
+                                                        <div style="display: flex;align-items: center;margin-right: 10px;">
+                                                            <form th:action="@{/renameCardTitle}" method="post">
+                                                                <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                                <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                                <h4 style="width: 106px;margin-bottom: -20px; margin-top: -10px;margin-left: 28px">Rename card: </h4><br>
+                                                                <input style="margin: 5px; width: 145px; text-align: center" type="text" name="newTitle" th:value="${card.title}"/>
+                                                                <input type="submit" value="Rename Card">
+                                                            </form>
+                                                        </div>
+                                                        <div style="display: flex;align-items: center;margin-top: 5px;margin-left: 37px">
+                                                            <form th:action="@{/deleteCard}" method="post">
+                                                                <input type="hidden" name="cardId" th:value="${card.getId()}">
+                                                                <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                                <input type="submit" value="Delete Card">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="dismiss-btn">
+                                                    <button class="dismiss-popup-btn">
+                                                        Dismiss
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <button class="button-59 open-popup-btn" type="submit">More</button>
+                                        </td>
+
+                                    </tr>
+                                </tbody>
+                                    <tr>
+                                        <td colspan="5">
+                                            <form th:action="@{/addNewCardToColumn}" th:object="${card}" method="post">
+                                                <div style="display: flex; align-items: center; justify-content: center; padding: 10px;">
+                                                    <input type="hidden" name="columnId" th:value="${column.getId()}">
+                                                    <input type="hidden" name="boardId" th:value="${board.getId()}">
+                                                    <label>Add card: </label><br>
+                                                    <input type="text" th:field="${card.title}" />
+                                                    <input type="submit" value="Add Todo" />
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>
+
+                            </table>
+
+                        </td>
+                </tc>
+
+            </tbody>
+        </table>
     </div>
-    <div class="status">
-        <h1>Blocked</h1>
-    </div>
-    <div class="status">
-        <h1>Done</h1>
-    </div>
+
+    <!--<div>
+        <h1>INSERT CARD</h1>
+        <form th:action="@{/addNewCardToColumn}" th:object="${card}" method="post">
+            <div class="body">
+                <input type="hidden" name="id" th:value="*{id}">
+                <input type="hidden" name="columnId" th:value="3"> &lt;!&ndash;Change 3 to column.getId() when under column hierachy&ndash;&gt;
+                <input type="hidden" name="boardId" th:value="${board.getId()}">
+
+                <label>title:</label><br>
+                <input type="text" th:field="${card.title}" />
+
+                <label>description:</label><br>
+                <input type="text" th:field="${card.description}" />
+
+                <label>minutesEstimated:</label><br>
+                <input type="number" th:field="${card.minutesEstimated}" />
+
+                <label>hourlyRate:</label><br>
+                <input type="number" th:field="${card.hourlyRate}" />
+
+                <input type="submit" value="Add Todo" />
+            </div>
+        </form>
+    </div>-->
+
 </div>
-<!-- modal -->
-<div class="modal" id="todo_modal">
-    <div class="header">
-        <div class="title" id="todo_title"> <h3 th:text="${card.getTitle()}"> </h3></div>
-        <button class="btn close-modal">&times;</button>
-    </div>
-    <div class="body">
-        <p><strong>Description:</strong> <span id="todo_description"></span></p>
-        <p><strong>Minutes Estimated:</strong> <span id="todo_minutesEstimated"></span></p>
-        <p><strong>Hourly Rate:</strong> <span id="todo_hourlyRate"></span></p>
-    </div>
-</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var openPopupBtns = document.querySelectorAll(".open-popup-btn");
+        var dismissPopupBtns = document.querySelectorAll(".dismiss-popup-btn");
+        var popups = document.querySelectorAll(".popup");
+
+        openPopupBtns.forEach(function(openPopupBtn, index) {
+            openPopupBtn.addEventListener("click", function() {
+                popups[index].classList.add("active");
+            });
+        });
+
+        dismissPopupBtns.forEach(function(dismissPopupBtn, index) {
+            dismissPopupBtn.addEventListener("click", function() {
+                popups[index].classList.remove("active");
+            });
+        });
+    });
+</script>
 
 </body>
 </html>
