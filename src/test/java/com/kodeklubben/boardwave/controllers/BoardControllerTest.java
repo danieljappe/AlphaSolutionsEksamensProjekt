@@ -16,8 +16,7 @@ import java.util.ArrayList;
 class BoardControllerTest {
 
     @Autowired
-    //private Repository repository;
-    private Repository repository = new Repository(); // planetscaleløsning
+    private Repository repository; // planetscaleløsning
 
     @Test
     void calculateBoardCosts() {
