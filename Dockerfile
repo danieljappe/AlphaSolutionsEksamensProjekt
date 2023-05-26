@@ -6,20 +6,19 @@ COPY pom.xml /pom.xml
 COPY mvnw /mvnw
 COPY .mvn /.mvn
 RUN set -ex; \
-     ./mvnw -f /pom.xml -Dspring.profiles.active=${PROFILE} clean package; \
-     mkdir /app || true; \
-     mv /target/*.jar /app/; \
-     rm -rf /target; \
-     rm -rf /src; \
-     rm -rf /pom.xml; \
-     rm -rf /mvnw; \
-     rm -rf /.mvn;
+  ./mvnw -f /pom.xml -Dspring.profiles.active=${PROFILE} -Dmaven.test.skip=true clean package; \
+  mkdir /app || true; \
+  mv /target/*.jar /app/; \
+  rm -rf /target; \
+  rm -rf /src; \
+  rm -rf /pom.xml; \
+  rm -rf /mvnw; \
+  rm -rf /.mvn;
 
 EXPOSE ${PORT}
 
 CMD set -eux; \
-    java -jar -Dspring.profiles.active=${PROFILE} /app/*.jar;
-
+java -jar -Dspring.profiles.active=${PROFILE} /app/*.jar;
 
 # Build like this:
 # docker build  -f Dockerfile -t java-app .
